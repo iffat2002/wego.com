@@ -6,6 +6,7 @@ import { Container} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Header from "../components/Header";
 import Hero from "../components/Hero"
+import CountryCurrencyFlags from "../components/CountryCurrencyFlags";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function Home() {
       >
         <main className={styles.main}>
         <Hero />
+        {/* <CountryCurrencyFlags /> */}
         </main>
      
       </div>

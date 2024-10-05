@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ['latin'] })
 // Create a theme instance.
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
     customGreen: {
       main: '#44b50c',
       dark: '#188920',
@@ -53,6 +53,9 @@ theme.components = {
             boxShadow: 'none', 
             backgroundColor: "rgba(29, 29, 29, .8)",
           },
+          '&:active' :{
+            boxShadow: 'none',
+          }
       },
     },
   },
