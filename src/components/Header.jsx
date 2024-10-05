@@ -309,7 +309,8 @@ console.log(selectedCurrency, selectedFlag)
     aria-label="menu"
     onClick={toggleDrawer(true)}
     sx={{
-      display: { xs: 'block', md: 'none' }, // Show on mobile, hide on desktop
+      display: { xs: 'block', md: 'none' }, 
+      color:theme.palette.background.paper, top:'10px', left:'0px'
     }}
   >
     <MenuIcon />
@@ -321,7 +322,23 @@ console.log(selectedCurrency, selectedFlag)
         onClose={toggleDrawer(false)}
         sx={{width:"80%", "& .MuiPaper-root": {width:"80%"}}}
       >
-        <Box   sx={{width:"100%",background:theme.palette.background.paper}}>hello</Box>
+        <Box   sx={{width:"100%",background:theme.palette.background.paper}}>
+        <Box  sx={{ display:"flex",alignItems: "center", padding:"15px 20px" }}>
+     
+     <Link
+       href="/"
+       sx={{
+         backgroundImage: "url('/logo.webp')",
+   
+         backgroundRepeat: "no-repeat",
+         backgroundSize: "100px 81px",
+         height: "40px",
+         width: "100px",
+       }}
+     ></Link>
+   </Box>
+   <Divider aria-hidden="true" />
+        </Box>
       </Drawer>
       </div>
   </>
