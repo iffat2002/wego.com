@@ -1,4 +1,5 @@
 import * as React from 'react';
+import '../components/i18n'
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';

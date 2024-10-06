@@ -9,7 +9,9 @@ const CountryCurrencyFlags = ({onStateChange}) => {
   const [selected, setSelected] = useState([]);
   const updateState = (selected) => {
     onStateChange(selected); // Notify parent about the state change
+
 };
+
   const theme = useTheme();
 
   useEffect(() => {
@@ -24,21 +26,25 @@ const CountryCurrencyFlags = ({onStateChange}) => {
         const countryObj = CurrencyData.find((country) => country.country === code.countryName);
         const countryName = code.countryName;
         const currencyCode = code.currency;
+       
         const currencyFullName = countryObj ? countryObj.currency : '';
+        const lan =  countryObj ? countryObj.language :'';
         return {
           countryName,
           currencyCode,
           currencyFullName,
+          lan
         };
       });
 
     // Store the data in the state
     setCountries(countryCurrencyArray);
   }, []);
-  console.log("country name", selected)
+
   //  console.log("currency name", currencyCode)
 
-
+const [lan, setlan] = useState("")
+console.log("language code", lan)
   return (
     <Box
       sx={{
@@ -62,7 +68,7 @@ const CountryCurrencyFlags = ({onStateChange}) => {
       }}
     >
       {countries.map((item, index) => (
-        <Box  onClick={()=>updateState(item.currencyCode)} 
+        <Box  onClick={()=>{updateState(item)}} 
           key={index}
           sx={{
             width: "150px",
@@ -74,6 +80,7 @@ const CountryCurrencyFlags = ({onStateChange}) => {
             padding: "0px 11px",
             cursor: "pointer",
           }}
+
        
         >
           <CurrencyFlag

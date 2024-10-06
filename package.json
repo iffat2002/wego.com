@@ -16,12 +16,14 @@
     "@mui/icons-material": "^6.1.2",
     "@mui/material": "^6.1.0",
     "@mui/material-nextjs": "^6.1.0",
+    "i18next": "^23.15.2",
     "iso-3166-1": "^2.1.1",
     "iso-country-currency": "^0.7.2",
     "next": "14.2.11",
     "react": "^18",
     "react-currency-flags": "^0.1.2",
     "react-dom": "^18",
+    "react-i18next": "^15.0.2",
     "react-material-ui-carousel": "^3.4.2"
   }
 }
