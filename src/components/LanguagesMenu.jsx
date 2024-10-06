@@ -30,8 +30,8 @@ const languages = [
   { code: "TW", name: "繁體中文" },
 ];
 
-const LanguagesMenu = ({ onStateChange }) => {
-  const [selected, setSelected] = useState([]);
+const LanguagesMenu = ({ onStateChange, lang }) => {
+  
 
   const updateLang = (selected) => {
     onStateChange(selected);
@@ -43,7 +43,7 @@ const LanguagesMenu = ({ onStateChange }) => {
   return (
     <Box
       sx={{
-        height: "400px",
+        height: "430px",
         width: "100%",
         display: "flex",
         flexWrap: "wrap",
@@ -62,7 +62,9 @@ const LanguagesMenu = ({ onStateChange }) => {
         padding: "11px 0px",
       }}
     >
-      {languages.map((item, index) => (
+      {languages
+      .sort((a, b) => (a.code === lang ? -1 : 1)) 
+      .map((item, index) => (
         <Box
           onClick={() => {
             updateLang(item.code);
@@ -73,10 +75,11 @@ const LanguagesMenu = ({ onStateChange }) => {
             height: "44px",
             display: "flex",
             alignItems: "center",
-          
             "&:hover": { backgroundColor: "#f4f4f4" },
             padding: "0px 11px",
             cursor: "pointer",
+            color: item.code === lang ? theme.palette.customGreen.main : 'inherit',
+                fontWeight: item.code === lang ? '500' : 'inherit',
           }}
         >
           <div style={{ marginRight: "10px", fontWeight:"600"}}>{item.code}</div>

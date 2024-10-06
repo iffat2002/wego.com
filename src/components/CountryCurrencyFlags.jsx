@@ -4,12 +4,11 @@ import isoCountryCurrency from "iso-country-currency";
 import { Tooltip, Paper, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import CurrencyData from "./CurrencyData"
-const CountryCurrencyFlags = ({onStateChange}) => {
+const CountryCurrencyFlags = ({onStateChange, flag}) => {
   const [countries, setCountries] = useState([]);
   const [selected, setSelected] = useState([]);
   const updateState = (selected) => {
     onStateChange(selected); // Notify parent about the state change
-
 };
 
   const theme = useTheme();
@@ -67,7 +66,9 @@ console.log("language code", lan)
         padding: "11px 0px",
       }}
     >
-      {countries.map((item, index) => (
+      {countries
+      .sort((a, b) => (a.currencyCode === flag ? -1 : 1)) 
+      .map((item, index) => (
         <Box  onClick={()=>{updateState(item)}} 
           key={index}
           sx={{
@@ -96,6 +97,8 @@ console.log("language code", lan)
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: "96px", // Adjust this width as needed
+                color: item.currencyCode === flag ? theme.palette.customGreen.main : 'inherit',
+                fontWeight: item.currencyCode === flag ? '500' : 'inherit',
               }}
             >
               {item.countryName}

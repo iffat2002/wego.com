@@ -4,7 +4,7 @@ import isoCountryCurrency from "iso-country-currency";
 import { Tooltip, Paper, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import CurrencyData from "./CurrencyData"
-const CurrencyMenu = ({onStateChange}) => {
+const CurrencyMenu = ({onStateChange, currency}) => {
   const [countries, setCountries] = useState([]);
   const [selected, setSelected] = useState([]);
   const updateState = (selected) => {
@@ -60,7 +60,9 @@ const CurrencyMenu = ({onStateChange}) => {
         padding: "11px 0px",
       }}
     >
-      {countries.map((item, index) => (
+      {countries
+      .sort((a, b) => (a.currencyCode === currency ? -1 : 1)) 
+      .map((item, index) => (
         <Box  onClick={()=>updateState(item.currencyCode)} 
           key={index}
           sx={{
@@ -72,6 +74,9 @@ const CurrencyMenu = ({onStateChange}) => {
             "&:hover": { backgroundColor: "#f4f4f4" },
             padding: "0px 11px",
             cursor: "pointer",
+
+            color: item.currencyCode === currency ? theme.palette.customGreen.main : 'inherit',
+            fontWeight: item.currencyCode === currency ? '600' : 'inherit',
           }}
        
         >

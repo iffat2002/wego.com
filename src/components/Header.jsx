@@ -29,7 +29,11 @@ const Header = () => {
  
 //mobile toggle drawer
 const [drawerOpen, setDrawerOpen] = useState(false);
-
+const drawerItems = [
+  {img: "/flight.svg", title:"Search Flights"},
+  { img:"/hotels.svg", title:"Search Hotels"},
+  {img:"wegopro.svg", title:"Business Travel", subtitle:"WegoPro", tag:"New"}
+]
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -156,6 +160,10 @@ const updateLang =(selected) =>{
               display: "flex",
               alignItems: "center",
               justifyContent: "normal",
+              '& .MuiButton-icon':{
+                marginLeft:'0px !important',
+                marginRight: '5px !important'
+              }
             }}
             aria-describedby={countryId}
             onClick={handleCountryClick}
@@ -203,7 +211,7 @@ const updateLang =(selected) =>{
                   >
                     Country/Region
                   </Typography>
-                  <CountryCurrencyFlags onStateChange={handleChildStateChange} />
+                  <CountryCurrencyFlags onStateChange={handleChildStateChange} flag={selectedFlag} />
                 </Paper>
               </Fade>
             )}
@@ -221,7 +229,7 @@ const updateLang =(selected) =>{
 
             }
             endIcon={
-              <ArrowDropDownIcon sx={{ width: "28px", height: "28px" }} />
+              <ArrowDropDownIcon sx={{ width: "28px", height: "28px",transform: openLanPopper ? "rotate(180deg)" : "rotate(0deg)", }} />
             }
             sx={{
               backgroundColor: theme.palette.customTransparent.gray,
@@ -231,6 +239,10 @@ const updateLang =(selected) =>{
               display: "flex",
               alignItems: "center",
               justifyContent: "normal",
+              '& .MuiButton-icon':{
+                marginLeft:'0px !important',
+                marginRight: '5px !important'
+              }
             }}
           ></Button>
            <Popper onClick={()=>setOpenLanPopper(false)}
@@ -258,7 +270,7 @@ const updateLang =(selected) =>{
                 <Paper
                   elevation={3}
                   sx={{
-                    padding: "24px 0px 30px 24px",
+                    padding: "24px 0px 0px 24px",
                     borderRadius: "16px",
                     overflow: "hidden",
                     height: "100%",
@@ -276,7 +288,7 @@ const updateLang =(selected) =>{
                   >
                     Language
                   </Typography>
-                  <LanguagesMenu onStateChange={updateLang}/>
+                  <LanguagesMenu onStateChange={updateLang} lang={lan}/>
                 </Paper>
               </Fade>
             )}
@@ -303,6 +315,11 @@ const updateLang =(selected) =>{
               borderRadius: "0 100px 100px 0",
               borderWidth: "1px 1px 1px 0px",
               justifyContent: "normal",
+              margin:'0px',
+              '& .MuiButton-icon':{
+                marginLeft:'0px !important',
+                marginRight: '5px !important'
+              }
             }}
           ></Button>
 
@@ -349,7 +366,7 @@ const updateLang =(selected) =>{
                   >
                     Currency
                   </Typography>
-                  <CurrencyMenu onStateChange={handleCurrencyChange}/>
+                  <CurrencyMenu onStateChange={handleCurrencyChange} currency={selectedCurrency}/>
                 </Paper>
               </Fade>
             )}
@@ -406,24 +423,36 @@ const updateLang =(selected) =>{
         anchor="left"
         open={drawerOpen}
         onClose={toggleDrawer(false)}
-        sx={{width:"80%", "& .MuiPaper-root": {width:"80%"}}}
+        sx={{width:"75%", "& .MuiPaper-root": {width:"75%"}}}
       >
         <Box   sx={{width:"100%",background:theme.palette.background.paper}}>
-        <Box  sx={{ display:"flex",alignItems: "center", padding:"15px 20px" }}>
+        <Box  sx={{ display:"flex",alignItems: "center", padding:"9px",backgroundColor: '#fafafa' }}>
 
      <Link
        href="/"
        sx={{
-         backgroundImage: "url('/logo.webp')",
-
-         backgroundRepeat: "no-repeat",
-         backgroundSize: "100px 81px",
+         backgroundImage: "url('/wego-logo.webp')",
+         backgroundSize: "contain",
          height: "40px",
          width: "100px",
        }}
      ></Link>
    </Box>
-   <Divider aria-hidden="true" />
+   <Divider aria-hidden="true" sx={{border: '1px solid #d8d6dc'}}/>
+   <Box sx={{  margin:"7px 0px"}}>
+   {drawerItems.map((item, index) => (
+        <Stack direction="row" key={index} sx={{height:"48px", alignItems:"center",paddingLeft:"18px",marginTop:"5px"}} >
+          <img src={item.img} width="28px" height="28px" alt={item.title} style={{marginRight:"20px"}}/>
+          <Stack >
+          {item.subtitle && <Typography variant="p" sx={{fontWeight:"600"}}>{item.subtitle}</Typography>}
+            <Typography variant="p">{item.title}</Typography>
+           
+          </Stack>
+          {item.tag && <p style={{padding:"1px 8px", background:"#ff9800", borderRadius:"4px", color:"white", fontWeight:"500",position:"absolute",right:"10px",     fontSize: '0.75rem',}}>{item.tag}</p>}
+        </Stack>
+      ))}
+</Box>
+<Divider aria-hidden="true" />
         </Box>
       </Drawer>
       </div>
