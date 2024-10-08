@@ -24,6 +24,8 @@
     "react-currency-flags": "^0.1.2",
     "react-dom": "^18",
     "react-i18next": "^15.0.2",
-    "react-material-ui-carousel": "^3.4.2"
+    "react-material-ui-carousel": "^3.4.2",
+    "react-swipeable-views": "^0.14.0",
+    "styled-components": "^6.1.13"
   }
 }

@@ -2,11 +2,11 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
-import { Container} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import Header from "../components/Header";
-import Hero from "../components/Hero"
-import CountryCurrencyFlags from "../components/CountryCurrencyFlags";
+import { Container } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Header from "../components/Header/Header";
+import Hero from "../components/Hero";
+import CountryCurrencyFlags from "../components/Header/CountryCurrencyFlags";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,10 +33,9 @@ export default function Home() {
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
         <main className={styles.main}>
-        <Hero />
-        {/* <CountryCurrencyFlags /> */}
+          <Hero />
+          {/* <CountryCurrencyFlags /> */}
         </main>
-     
       </div>
     </>
   );

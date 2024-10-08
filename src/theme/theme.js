@@ -38,7 +38,10 @@ const theme = createTheme({
       fontFamily: inter.style.fontFamily, 
     },
   },
-  
+  tabpanel: {
+    background:"white"
+
+  }
 });
 
 

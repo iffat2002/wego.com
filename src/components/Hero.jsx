@@ -1,14 +1,15 @@
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
   Typography,
   useTheme,
+  Stack,
   Container,
 } from "@mui/material";
-import Header from "./Header";
+import Header from "./Header/Header";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import HeroTabs from "./HeroTabs";
 
 const slides = [
   {
@@ -39,10 +40,6 @@ const Hero = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
-  const handlePrev = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
   const handleDotClick = (index) => {
     setCurrentSlide(index);
   };
@@ -64,77 +61,56 @@ const Hero = () => {
       >
         <Header />
       </Box>
-      <Box
-        display="flex"
-        sx={{
-          transition: "transform 0.5s ease",
-          transform: `translateX(-${currentSlide * (100 / slides.length)}%)`, 
-          width: `${slides.length * 100}%`,
-        }}
-      >
-        {slides.map((slide) => (
+     
+      <Box position="relative" overflow="hidden" height="544px" sx={{
+  borderRadius: "0 0 100% 100%",
+  margin: "0 -20%",
+  padding: "0 20%",
+  backgroundColor: "black", // Background color to minimize flash
+}}>
+  {slides.map((slide, index) => (
+    <Box
+    key={slide.id}
+    position="absolute"
+    top={0}
+    left={0}
+    width="100%"
+    height="100%"
+    sx={{
+      backgroundImage: `url(${slide.image})`,
+      backgroundPosition: "center 15%", // Adjust this to control positioning (e.g., "top", "bottom", "left", "right")
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover", // Use cover to fill the area
+      opacity: currentSlide === index ? 1 : 0,
+      transition: "opacity 0.7s ease",
+    }}
+  >
+       <Stack sx={{ justifyContent:"center", alignItems:"center", height:"100%"}}>
+       <Typography variant="h4" color="white" sx={{textShadow: '0 4px 8px rgba(0,0,0,.5)',fontSize:"36px", fontWeight:"500"}}>Discover the real value of travel</Typography>
+       <Box display="flex" justifyContent="center" mt={2}>
+        {slides.map((slide, index) => (
           <Box
             key={slide.id}
-            width="100%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            sx={{
-              borderRadius: "0 0 100% 100%",
-              height: "544px",
-              margin: "0 -20%",
-              overflow: "hidden",
-              padding: "0 20%",
-            }}
-          >
-            <Box sx={{ backgroundImage: `url(${slide.image})`, width:"100%", height:"100%", backgroundPosition: 'center 30%',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    display: 'flex',
-    height: '100%',
-    justifyContent: 'center',
-    padding: '0 32px',
-    transition: 'background-image 1s ease-in-out'}}></Box>
-          </Box>
-        ))}
-      </Box>
-      <IconButton
-        onClick={handlePrev}
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: theme.spacing(1),
-          zIndex: 1,
-        }}
-      >
-        <ArrowBack />
-      </IconButton>
-      <IconButton
-        onClick={handleNext}
-        style={{
-          position: "absolute",
-          top: "50%",
-          right: theme.spacing(1),
-          zIndex: 1,
-        }}
-      >
-        <ArrowForward />
-      </IconButton>
-
-      <Box display="flex" justifyContent="center" mt={2}>
-        {slides.map((_, index) => (
-          <Box
-            key={index}
             onClick={() => handleDotClick(index)}
-            bgcolor={currentSlide === index ? "primary.main" : "grey.400"}
+            bgcolor={currentSlide === index ? "white" : "transparent"}
+            b
             borderRadius="50%"
-            width={10}
-            height={10}
+            width={12}
+            height={12}
             mx={0.5}
-            sx={{ cursor: "pointer", transition: "background-color 0.3s" }}
+            sx={{ cursor: "pointer", transition: "background-color 0.3s", border:"2px solid white" }}
           />
         ))}
       </Box>
+      <HeroTabs />
+        </Stack>
+    </Box>
+  ))}
+</Box>
+     
+       
+
+     
     </Box>
   );
 };
