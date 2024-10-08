@@ -63,7 +63,7 @@ export default function HeroTabs() {
             textDecoration: "none",
             "& .MuiTab-root": {
               color: "white",
-              textTransform:"none !important",
+              textTransform: "none !important",
             },
 
             "& .Mui-selected": {
@@ -85,7 +85,7 @@ export default function HeroTabs() {
               sx={{
                 backdropFilter: "blur(8px)",
                 backgroundColor: "rgba(0, 0, 0, .24)",
-                borderRadius:"8px 0 0 0"
+                borderRadius: "8px 0 0 0",
               }}
               {...a11yProps(0)}
             />
@@ -95,7 +95,7 @@ export default function HeroTabs() {
                 backdropFilter: "blur(8px)",
                 backgroundColor: "rgba(0, 0, 0, .24)",
                 marginRight: "4px",
-                borderRadius:"0px 8px 0 0"
+                borderRadius: "0px 8px 0 0",
               }}
               {...a11yProps(1)}
             />
