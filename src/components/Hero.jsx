@@ -10,7 +10,7 @@ import {
 import Header from "./Header/Header";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import HeroTabs from "./HeroTabs";
-
+import styles from "@/styles/Home.module.css";
 const slides = [
   {
     id: 1,
@@ -50,7 +50,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <Box position="relative" width="100%" overflow="hidden">
+    <Box  width="100%"  >
       <Box
         position="absolute"
         top={0}
@@ -61,58 +61,85 @@ const Hero = () => {
       >
         <Header />
       </Box>
-     
-      <Box position="relative" overflow="hidden" height="544px" sx={{
-  borderRadius: "0 0 100% 100%",
-  margin: "0 -20%",
-  padding: "0 20%",
-  backgroundColor: "black", // Background color to minimize flash
-}}>
-  {slides.map((slide, index) => (
-    <Box
-    key={slide.id}
-    position="absolute"
-    top={0}
-    left={0}
-    width="100%"
-    height="100%"
-    sx={{
-      backgroundImage: `url(${slide.image})`,
-      backgroundPosition: "center 15%", // Adjust this to control positioning (e.g., "top", "bottom", "left", "right")
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover", // Use cover to fill the area
-      opacity: currentSlide === index ? 1 : 0,
-      transition: "opacity 0.7s ease",
-    }}
-  >
-       <Stack sx={{ justifyContent:"center", alignItems:"center", height:"100%"}}>
-       <Typography variant="h4" color="white" sx={{textShadow: '0 4px 8px rgba(0,0,0,.5)',fontSize:"36px", fontWeight:"500"}}>Discover the real value of travel</Typography>
-       <Box display="flex" justifyContent="center" mt={2}>
+
+      <Box
+        position="relative"
+        overflow="hidden"
+        height="544px"
+        sx={{
+          borderRadius: "0 0 100% 100%",
+          margin: "0 -20%",
+          padding: "0 20%",
+          backgroundColor: "black", // Background color to minimize flash
+        }}
+      >
         {slides.map((slide, index) => (
           <Box
             key={slide.id}
-            onClick={() => handleDotClick(index)}
-            bgcolor={currentSlide === index ? "white" : "transparent"}
-            b
-            borderRadius="50%"
-            width={12}
-            height={12}
-            mx={0.5}
-            sx={{ cursor: "pointer", transition: "background-color 0.3s", border:"2px solid white" }}
-          />
-        ))}
-      </Box>
-      <HeroTabs />
-        </Stack>
-    </Box>
-  ))}
-</Box>
-     
-       
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            height="100%"
+            sx={{
+              backgroundImage: `url(${slide.image})`,
+              backgroundPosition: "center 15%", // Adjust this to control positioning (e.g., "top", "bottom", "left", "right")
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover", // Use cover to fill the area
+              opacity: currentSlide === index ? 1 : 0,
+              transition: "opacity 0.7s ease",
+            
+            }}
+          >
+            <Stack
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <Typography
+                variant="h4"
+                color="white"
+                sx={{
+                  textShadow: "0 4px 8px rgba(0,0,0,.5)",
+                  fontSize: "36px",
+                  fontWeight: "500",
+                }}
+              >
+                Discover the real value of travel
+              </Typography>
+              <Box display="flex" justifyContent="center" mt={2}>
+                {slides.map((slide, index) => (
+                  <Box
+                    key={slide.id}
+                    onClick={() => handleDotClick(index)}
+                    bgcolor={currentSlide === index ? "white" : "transparent"}
+                    b
+                    borderRadius="50%"
+                    width={12}
+                    height={12}
+                    mx={0.5}
+                    sx={{
+                      cursor: "pointer",
+                      transition: "background-color 0.3s",
+                      border: "2px solid white",
+                    }}
+                  />
+                ))}
+              </Box>
 
-     
+              
+            </Stack>
+          </Box>
+        ))}
+        
+      </Box>
+      <Box sx={{marginTop:"-15%"}}>
+      <HeroTabs />
+      </Box>
     </Box>
   );
-};
+}; 
 
 export default Hero;
