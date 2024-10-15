@@ -7,10 +7,13 @@ import {
   Autocomplete,
   Popper,
   Paper,
+  InputAdornment,
+  IconButton,
+  SvgIcon
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
-
+import CancelIcon from '@mui/icons-material/Cancel';
 const FlightsTab = () => {
   const theme = useTheme();
   const btns = ["One-way", "Round-trip", "Multi-city"];
@@ -47,6 +50,12 @@ const FlightsTab = () => {
   };
   const canBeOpenFrom = openFromPopper && Boolean(anchorElFrom);
   const FromId = canBeOpenFrom ? "From-popper" : undefined;
+
+
+  const [textValue, setTextValue] = useState("Lahore, Pakistan (LHE)"); // State to manage text input
+  const handleTextChange = (event) => {
+    setTextValue(event.target.value); // Update state when text is changed
+  };
 
   return (
     <Box>
@@ -87,38 +96,76 @@ const FlightsTab = () => {
             sx={{
               // width: "365px",
               // border: "1px solid lightgray",
-              borderRadius: "4px",
             }}
             // onClick={handleCalender}
           >
-            <Paper elevation={0} sx={{ width: from ? "500px" : "300px", p:2, boxShadow: from ? "0 0 24px 2px rgba(0,0,0,.08)":'none' }}>
+            <Paper elevation={0} sx={{ width: from ? "560px" : "403px", p: 2 , minHeight:"64px",boxShadow: from ? "0 0 24px 2px rgba(0,0,0,.08)":'none', borderRadius:"16px", transition: 'width 0.3s ease,  box-shadow 0.3s ease',}}>
               <TextField
                 onClick={handleFromClick}
                 variant="standard"
                 placement="bottom-start"
                 size="small"
                 label="From"
-                //value={formatDate(dateValue[0])}
+                value={textValue}
+                onChange={handleTextChange} 
                 InputLabelProps={{
                   shrink: true,
+                }}
+                InputProps={{
+                  endAdornment: from && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        //onClick={handleClear}
+                        edge="end"
+                      >
+                         <SvgIcon>
+                        <svg viewBox="0 0 24 24" class="P4rKBkFmrKv8JqDfjjOS"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+                        </SvgIcon>
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
                 sx={{
                   border: "1px solid lightgray",
                   width: "100%",
-                  padding: "6px 8px 0px 8px",
+                  padding: '27px 40px 11px 16px',
+                  
+                  border: from ? '1px solid #44b50c' : '1px solid #dfdfdf',
+                  borderRadius:"8px",
                   cursor: "pointer",
                   "& .MuiInput-underline:before": {
                     borderBottom: "none",
                   },
+                  "& .MuiInputBase-root":{
+                       marginTop:"0px"
+                  },
+                  
                   "& .MuiInputBase-input": {
                     fontWeight: "600",
+                    paddingBottom:"0px",
+                    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+
                   },
                   "& .MuiInput-underline:hover:before": {
                     borderBottom: "none !important",
                   },
                   "& .MuiFormLabel-root": {
-                    padding: "8px",
+                    paddingLeft: "20px",
+                    paddingTop:"14px"
                   },
+                  "& .MuiInputLabel-root.Mui-focused":{
+                     color:"rgba(0, 0, 0, 0.6)"
+                  },
+                 
+                  "& .MuiInput-root::after":{
+                    borderBottom:"none",
+                   
+            
+                  },
+                 
+                 
+
                 }}
               />
               {from && 
@@ -127,9 +174,11 @@ const FlightsTab = () => {
               id={FromId}
               sx={{
                 width: "100%",
-                background:"pink",
-                height: "200px",
-                boxShadow: "0 0 24px 2px rgba(0,0,0,.08)",
+                boxShadow:"none",
+               
+                paddingTop:"20px",
+                
+                padding:"20px 8px 0px"
               
               }}
               open={openFromPopper}
@@ -139,37 +188,36 @@ const FlightsTab = () => {
             >
              
                     <Typography
-                      variant="h7"
+                   
                       sx={{
                         fontWeight: "600",
-                        fontSize: "15px",
+                        fontSize: "16px",
                         color: "#1d1d1d",
                         marginBottom: "10px",
                       }}
                     >
                       Popular cities
                     </Typography>
-                    <Box
+                   <Box 
       sx={{
-        height: "490px",
-        width: "100%",
+      
+   
         display: "flex",
         flexWrap: "wrap",
-        padding: "11px 0px",
+    
       }}
-    >
+    > 
                   {cities.map((city, index) => (
         <Box 
-        //  onClick={()=>updateState(item.currencyCode)} 
+        onClick={()=>setTextValue(city.fullName)}
           key={city.id}
           sx={{
-            width: "150px",
-            height: "44px",
+            height: '44px',
+            width: '25%',
             display: "flex",
             alignItems: "center",
-            marginRight: "30px",
-            "&:hover": { backgroundColor: "#f4f4f4" },
-            padding: "0px 11px",
+            "&:hover": { backgroundColor: "#e7fddc", color:"#188920" },
+          
             cursor: "pointer",
 
             // color: item.currencyCode === currency ? theme.palette.customGreen.main : 'inherit',
@@ -177,10 +225,14 @@ const FlightsTab = () => {
           }}
        
         >
-          <div
-            style={{ marginRight: "10px", fontWeight:"600"}}
+          <Typography variant="p"  sx={{    fontSize: '16px',
+    lineHeight: '24px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    padding: "0 8px",
+    whiteSpace: 'nowrap'}}
           >{city.title}
-          </div>
+          </Typography>
           </Box>
                   ))}
                   </Box>
