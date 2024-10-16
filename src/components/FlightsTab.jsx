@@ -18,6 +18,7 @@ const FlightsTab = () => {
   const theme = useTheme();
   const btns = ["One-way", "Round-trip", "Multi-city"];
   const [from, setfrom] = useState(false);
+  const [to, setTo] = useState(false)
   const [activeBtn, setActiveBtn] = useState("One-way");
   const BtnClick = (e) => {
     setActiveBtn(e);
@@ -47,6 +48,11 @@ const FlightsTab = () => {
     setAnchorElFrom(event.currentTarget);
     setOpenFromPopper((prev) => !prev);
     setfrom(true);
+  };
+  const handleToClick = (event) => {
+    // setAnchorElFrom(event.currentTarget);
+    // setOpenFromPopper((prev) => !prev);
+    setTo(true);
   };
   const canBeOpenFrom = openFromPopper && Boolean(anchorElFrom);
   const FromId = canBeOpenFrom ? "From-popper" : undefined;
@@ -99,7 +105,9 @@ const FlightsTab = () => {
             }}
             // onClick={handleCalender}
           >
-            <Paper elevation={0} sx={{ width: from ? "560px" : "403px", p: 2 , minHeight:"64px",boxShadow: from ? "0 0 24px 2px rgba(0,0,0,.08)":'none', borderRadius:"16px", transition: 'width 0.3s ease,  box-shadow 0.3s ease',}}>
+             <Stack direction="row" position="relative">
+            <Box sx={{width:"50%", p: 2 , minHeight:"64px", padding:'0px'}}>
+            <Paper elevation={0} sx={{width: from ? "60%": "auto", position: from ? "absolute": "relative", zIndex:'2', p: 2 , minHeight:"64px",boxShadow: from ? "0 0 24px 2px rgba(0,0,0,.08)":'none', borderRadius:"16px", transition: 'width 0.3s ease,  box-shadow 0.3s ease',}}>   
               <TextField
                 onClick={handleFromClick}
                 variant="standard"
@@ -115,11 +123,12 @@ const FlightsTab = () => {
                   endAdornment: from && (
                     <InputAdornment position="end">
                       <IconButton
-                        //onClick={handleClear}
+                        onClick={()=> setTextValue("")}
                         edge="end"
+                        sx={{padding:"1px", borderRadius:"100px", background:"#767676", width:"22px",position:"absolute", top:"-3px", "&:hover":{backgroundColor: "black"}}}
                       >
                          <SvgIcon>
-                        <svg viewBox="0 0 24 24" class="P4rKBkFmrKv8JqDfjjOS"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+                        <svg viewBox="0 0 24 24" width="18" fill="#fff" class="P4rKBkFmrKv8JqDfjjOS"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
                         </SvgIcon>
                       </IconButton>
                     </InputAdornment>
@@ -168,6 +177,7 @@ const FlightsTab = () => {
 
                 }}
               />
+              
               {from && 
               <Paper
               onClick={() => setfrom(false)}
@@ -175,7 +185,6 @@ const FlightsTab = () => {
               sx={{
                 width: "100%",
                 boxShadow:"none",
-               
                 paddingTop:"20px",
                 
                 padding:"20px 8px 0px"
@@ -235,52 +244,172 @@ const FlightsTab = () => {
           </Typography>
           </Box>
                   ))}
-                  </Box>
+                
+                  </Box> 
+                   
             </Paper>}
             </Paper>
-            
+            </Box>
+            <Button sx={{alignItems: 'center',
+    backgroundColor:"transparent",
+    border: "none",
+    borderRadius: "50%",
+    cursor: "pointer",
+    display: "flex",
+    height: "36px",
+    justifyContent: "center",
+    outline: "none",
+    position: "absolute",
+    transition:" transform .15s ease-out",
+    width: "36px",
+    zIndex: "1",}}>hello</Button>
+            <Box sx={{width:"50%", p: 2 , minHeight:"64px",padding:'0px'}}>
+            <Paper elevation={0} sx={{width: to ? "60%": "auto", position: to ? "absolute": "relative",  p: 2 , minHeight:"64px",boxShadow: to ? "0 0 24px 2px rgba(0,0,0,.08)":'none', borderRadius:"16px", transition: 'width 0.3s ease,  box-shadow 0.3s ease',}}>   
+              <TextField
+                onClick={handleToClick}
+                variant="standard"
+                placement="bottom-start"
+                size="small"
+                label="To"
+                value={textValue}
+                onChange={handleTextChange} 
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  endAdornment: to && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={()=> setTextValue("")}
+                        edge="end"
+                        sx={{padding:"1px", borderRadius:"100px", background:"#767676", width:"22px",position:"absolute", top:"-3px", "&:hover":{backgroundColor: "black"}}}
+                      >
+                         <SvgIcon>
+                        <svg viewBox="0 0 24 24" width="18" fill="#fff" class="P4rKBkFmrKv8JqDfjjOS"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+                        </SvgIcon>
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  border: "1px solid lightgray",
+                  width: "100%",
+                  padding: '27px 40px 11px 16px',
+                  
+                  border: to ? '1px solid #44b50c' : '1px solid #dfdfdf',
+                  borderRadius:"8px",
+                  cursor: "pointer",
+                  "& .MuiInput-underline:before": {
+                    borderBottom: "none",
+                  },
+                  "& .MuiInputBase-root":{
+                       marginTop:"0px"
+                  },
+                  
+                  "& .MuiInputBase-input": {
+                    fontWeight: "600",
+                    paddingBottom:"0px",
+                    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
 
-            {/* <Typography
-            variant="body1"
-            sx={{
-              width: "100px",
-              display: "inline-block",
-              padding: "8px",
-              textAlign: "justify",
-              paddingTop: "15px",
-            }}
-          >
-           arrow
-            {/* {dateValue[0] && dateValue[1]
-              ? `${calculateNights(dateValue[0], dateValue[1])} nights`
-              : "0 nights"} */}
-            {/* </Typography>
-          <TextField
-            variant="standard"
-            size="small"
-            label="To"
-          //  value={formatDate(dateValue[1])}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            sx={{
-              width: "120px",
-              padding: "6px 8px 0px 8px",
-              cursor: "pointer",
-              "& .MuiInput-underline:before": {
-                borderBottom: "none",
-              },
-              "& .MuiInputBase-input": {
-                fontWeight: "600",
-              },
-              "& .MuiInput-underline:hover:before": {
-                borderBottom: "none !important",
-              },
-              "& .MuiFormLabel-root": {
-                padding: "8px",
-              },
-            }}
-          /> */}
+                  },
+                  "& .MuiInput-underline:hover:before": {
+                    borderBottom: "none !important",
+                  },
+                  "& .MuiFormLabel-root": {
+                    paddingLeft: "20px",
+                    paddingTop:"14px"
+                  },
+                  "& .MuiInputLabel-root.Mui-focused":{
+                     color:"rgba(0, 0, 0, 0.6)"
+                  },
+                 
+                  "& .MuiInput-root::after":{
+                    borderBottom:"none",
+                   
+            
+                  },
+                 
+                 
+
+                }}
+              />
+              
+              {to && 
+              <Paper
+              onClick={() => setfrom(false)}
+              id={toId}
+              sx={{
+                width: "100%",
+                boxShadow:"none",
+                paddingTop:"20px",
+                
+                padding:"20px 8px 0px"
+              
+              }}
+              // open={openFromPopper}
+              // anchorEl={anchorElFrom}
+              transition
+           
+            >
+             
+                    <Typography
+                   
+                      sx={{
+                        fontWeight: "600",
+                        fontSize: "16px",
+                        color: "#1d1d1d",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      Popular cities
+                    </Typography>
+                   <Box 
+      sx={{
+      
+   
+        display: "flex",
+        flexWrap: "wrap",
+    
+      }}
+    > 
+                  {cities.map((city, index) => (
+        <Box 
+        onClick={()=>setTextValue(city.fullName)}
+          key={city.id}
+          sx={{
+            height: '44px',
+            width: '25%',
+            display: "flex",
+            alignItems: "center",
+            "&:hover": { backgroundColor: "#e7fddc", color:"#188920" },
+          
+            cursor: "pointer",
+
+            // color: item.currencyCode === currency ? theme.palette.customGreen.main : 'inherit',
+            // fontWeight: item.currencyCode === currency ? '600' : 'inherit',
+          }}
+       
+        >
+          <Typography variant="p"  sx={{    fontSize: '16px',
+    lineHeight: '24px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    padding: "0 8px",
+    whiteSpace: 'nowrap'}}
+          >{city.title}
+          </Typography>
+          </Box>
+                  ))}
+                
+                  </Box> 
+                   
+            </Paper>}
+            </Paper>
+            </Box>
+            </Stack>
+
+           
           </Box>
         </Box>
       )}
