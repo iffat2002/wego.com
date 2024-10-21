@@ -23,6 +23,24 @@ const FlightsTab = () => {
   const BtnClick = (e) => {
     setActiveBtn(e);
   };
+  const destinations = [
+    { id: 1, fullName: "Jeddah, Saudi Arabia (JED)", title: "Jeddah" },
+  { id: 2, fullName: "Riyadh, Saudi Arabia (RUH)", title: "Riyadh" },
+  { id: 3, fullName: "Dubai, United Arab Emirates (DXB)", title: "Dubai" },
+  { id: 4, fullName: "Dammam, Saudi Arabia (DMM)", title: "Dammam" },
+  { id: 5, fullName: "Al Madinah, Saudi Arabia (MED)", title: "Al Madinah" },
+  { id: 6, fullName: "Muscat, Oman (MCT)", title: "Muscat" },
+  { id: 7, fullName: "Manama, Bahrain (BAH)", title: "Manama" },
+  { id: 8, fullName: "Sharjah, United Arab Emirates (SHJ)", title: "Sharjah" },
+  { id: 9, fullName: "Abu Dhabi, United Arab Emirates (AUH)", title: "Abu Dhabi" },
+  { id: 10, fullName: "Doha, Qatar (DOH)", title: "Doha" },
+  { id: 11, fullName: "Kuwait, Kuwait (KWI)", title: "Kuwait" },
+  { id: 12, fullName: "Buraydah Al-Qassim, Saudi Arabia (ELQ)", title: "Buraydah Al-Qassim" },
+  { id: 13, fullName: "Baku, Azerbaijan (GYD)", title: "Baku" },
+  { id: 14, fullName: "Kuala Lumpur, Malaysia (KUL)", title: "Kuala Lumpur" },
+  { id: 15, fullName: "Abha, Saudi Arabia (AHB)", title: "Abha" },
+  { id: 16, fullName: "Bangkok, Thailand (BKK)", title: "Bangkok" },
+  ]
   const cities = [
     { id: 1, fullName: "Lahore, Pakistan (LHE)", title: "Lahore" },
     { id: 2, fullName: "Islamabad, Pakistan (ISB)", title: "Islamabad" },
@@ -52,25 +70,35 @@ const FlightsTab = () => {
 
   const [openFromPopper, setOpenFromPopper] = useState(false);
   const [anchorElFrom, setAnchorElFrom] = useState(null);
+
+  const [openToPopper, setOpenToPopper] = useState(false);
+  const [anchorElTo, setAnchorElTo] = useState(null);
   const handleFromClick = (event) => {
     setAnchorElFrom(event.currentTarget);
     setOpenFromPopper((prev) => !prev);
     setfrom(true);
   };
   const handleToClick = (event) => {
-    // setAnchorElFrom(event.currentTarget);
-    // setOpenFromPopper((prev) => !prev);
+    setAnchorElTo(event.currentTarget);
+    setOpenToPopper((prev) => !prev);
     setTo(true);
   };
+ 
   const canBeOpenFrom = openFromPopper && Boolean(anchorElFrom);
   const FromId = canBeOpenFrom ? "From-popper" : undefined;
+  const canBeOpenTo = openToPopper && Boolean(anchorElTo);
+  const ToId = canBeOpenTo ? "To-popper" : undefined;
 
   const [textValue, setTextValue] = useState("Lahore, Pakistan (LHE)"); // State to manage text input
   const handleTextChange = (event) => {
     setTextValue(event.target.value); // Update state when text is changed
   };
-
+const [destination ,setDestination] = useState("")
+const handleDestinationChange = (event) => {
+  setDestination(event.target.value); // Update state when text is changed
+};
   return (
+
     <Box>
       <Stack direction="row" height="40px" gap="7px">
         {btns.map((btn) => (
@@ -121,20 +149,20 @@ const FlightsTab = () => {
                   p: 2,
                   minHeight: "64px",
                   padding: "0px",
-                 
+                  position:"relative"
                 }}
               >
                 <Paper
                   elevation={0}
                   sx={{
-                    width: from ? "60%" : "auto",
+                    width: from ? "130%" : "100%",
                     position: from ? "absolute" : "relative",
                     zIndex:"2",
-                    p: 0,
+                    p: from ? 2 : 0,  
                     minHeight: "64px",
                     boxShadow: from ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
                     borderRadius: "16px",
-                    transition: "width 0.3s ease,  box-shadow 0.3s ease",
+                    transition: from ? "width 0.3s ease" : "",
                   }}
                 >
                   <Box
@@ -235,7 +263,7 @@ const FlightsTab = () => {
                         height: "40px",
                         position: "absolute",
                         right: "-24px",
-                        width: "40px",
+                        width: from ? "0px" : "40px",
                       }}
                     ></Box>
                   </Box>
@@ -310,6 +338,7 @@ const FlightsTab = () => {
                   )}
                 </Paper>
               </Box>
+             
               <Box
                 sx={{
                   alignItems: "center",
@@ -325,7 +354,9 @@ const FlightsTab = () => {
                   position: "absolute",
                   transition: " transform .15s ease-out",
                   width: "36px",
-                  zIndex: "1",
+                  zIndex:"3",
+                  display: from ? "none" : "flex",
+
                 }}
               >
                 
@@ -336,6 +367,7 @@ const FlightsTab = () => {
                   </SvgIcon>
                 
               </Box>
+
               <Box
                 sx={{
                   width: "50%",
@@ -348,13 +380,13 @@ const FlightsTab = () => {
                 <Paper
                   elevation={0}
                   sx={{
-                    width: to ? "60%" : "auto",
+                    width: to ? "130%" : "100%",
                     position: to ? "absolute" : "relative",
-                    p: 0,
+                    p: from ? 0 : 2 ,
                     minHeight: "64px",
                     boxShadow: to ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
                     borderRadius: "16px",
-                    transition: "width 0.3s ease,  box-shadow 0.3s ease",
+                    transition: "width 0.3s ease"
                   }}
                 >
                   <Box
@@ -372,8 +404,8 @@ const FlightsTab = () => {
                       placement="bottom-start"
                       size="small"
                       label="To"
-                      value={textValue}
-                      onChange={handleTextChange}
+                      value={destination}
+                      onChange={handleDestinationChange}
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -381,7 +413,7 @@ const FlightsTab = () => {
                         endAdornment: to && (
                           <InputAdornment position="end">
                             <IconButton
-                              onClick={() => setTextValue("")}
+                              onClick={() => setDestination("")}
                               edge="end"
                               sx={{
                                 padding: "1px",
@@ -460,8 +492,8 @@ const FlightsTab = () => {
                   </Box>
                   {to && (
                     <Paper
-                      onClick={() => setfrom(false)}
-                      id={toId}
+                      onClick={() => setTo(false)}
+                      id={ToId}
                       sx={{
                         width: "100%",
                         boxShadow: "none",
@@ -469,8 +501,8 @@ const FlightsTab = () => {
 
                         padding: "20px 8px 0px",
                       }}
-                      // open={openFromPopper}
-                      // anchorEl={anchorElFrom}
+                      open={openToPopper}
+                      anchorEl={anchorElTo}
                       transition
                     >
                       <Typography
@@ -489,9 +521,9 @@ const FlightsTab = () => {
                           flexWrap: "wrap",
                         }}
                       >
-                        {cities.map((city, index) => (
+                        {destinations.map((city, index) => (
                           <Box
-                            onClick={() => setTextValue(city.fullName)}
+                            onClick={() => setDestination(city.fullName)}
                             key={city.id}
                             sx={{
                               height: "44px",
