@@ -11,11 +11,14 @@ import {
   IconButton,
   SvgIcon,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import CancelIcon from "@mui/icons-material/Cancel";
 const FlightsTab = () => {
   const theme = useTheme();
+  const fromPaperRef = useRef(null);
+  const toPaperRef = useRef(null);
+  
   const btns = ["One-way", "Round-trip", "Multi-city"];
   const [from, setfrom] = useState(false);
   const [to, setTo] = useState(false);
@@ -25,22 +28,34 @@ const FlightsTab = () => {
   };
   const destinations = [
     { id: 1, fullName: "Jeddah, Saudi Arabia (JED)", title: "Jeddah" },
-  { id: 2, fullName: "Riyadh, Saudi Arabia (RUH)", title: "Riyadh" },
-  { id: 3, fullName: "Dubai, United Arab Emirates (DXB)", title: "Dubai" },
-  { id: 4, fullName: "Dammam, Saudi Arabia (DMM)", title: "Dammam" },
-  { id: 5, fullName: "Al Madinah, Saudi Arabia (MED)", title: "Al Madinah" },
-  { id: 6, fullName: "Muscat, Oman (MCT)", title: "Muscat" },
-  { id: 7, fullName: "Manama, Bahrain (BAH)", title: "Manama" },
-  { id: 8, fullName: "Sharjah, United Arab Emirates (SHJ)", title: "Sharjah" },
-  { id: 9, fullName: "Abu Dhabi, United Arab Emirates (AUH)", title: "Abu Dhabi" },
-  { id: 10, fullName: "Doha, Qatar (DOH)", title: "Doha" },
-  { id: 11, fullName: "Kuwait, Kuwait (KWI)", title: "Kuwait" },
-  { id: 12, fullName: "Buraydah Al-Qassim, Saudi Arabia (ELQ)", title: "Buraydah Al-Qassim" },
-  { id: 13, fullName: "Baku, Azerbaijan (GYD)", title: "Baku" },
-  { id: 14, fullName: "Kuala Lumpur, Malaysia (KUL)", title: "Kuala Lumpur" },
-  { id: 15, fullName: "Abha, Saudi Arabia (AHB)", title: "Abha" },
-  { id: 16, fullName: "Bangkok, Thailand (BKK)", title: "Bangkok" },
-  ]
+    { id: 2, fullName: "Riyadh, Saudi Arabia (RUH)", title: "Riyadh" },
+    { id: 3, fullName: "Dubai, United Arab Emirates (DXB)", title: "Dubai" },
+    { id: 4, fullName: "Dammam, Saudi Arabia (DMM)", title: "Dammam" },
+    { id: 5, fullName: "Al Madinah, Saudi Arabia (MED)", title: "Al Madinah" },
+    { id: 6, fullName: "Muscat, Oman (MCT)", title: "Muscat" },
+    { id: 7, fullName: "Manama, Bahrain (BAH)", title: "Manama" },
+    {
+      id: 8,
+      fullName: "Sharjah, United Arab Emirates (SHJ)",
+      title: "Sharjah",
+    },
+    {
+      id: 9,
+      fullName: "Abu Dhabi, United Arab Emirates (AUH)",
+      title: "Abu Dhabi",
+    },
+    { id: 10, fullName: "Doha, Qatar (DOH)", title: "Doha" },
+    { id: 11, fullName: "Kuwait, Kuwait (KWI)", title: "Kuwait" },
+    {
+      id: 12,
+      fullName: "Buraydah Al-Qassim, Saudi Arabia (ELQ)",
+      title: "Buraydah Al-Qassim",
+    },
+    { id: 13, fullName: "Baku, Azerbaijan (GYD)", title: "Baku" },
+    { id: 14, fullName: "Kuala Lumpur, Malaysia (KUL)", title: "Kuala Lumpur" },
+    { id: 15, fullName: "Abha, Saudi Arabia (AHB)", title: "Abha" },
+    { id: 16, fullName: "Bangkok, Thailand (BKK)", title: "Bangkok" },
+  ];
   const cities = [
     { id: 1, fullName: "Lahore, Pakistan (LHE)", title: "Lahore" },
     { id: 2, fullName: "Islamabad, Pakistan (ISB)", title: "Islamabad" },
@@ -84,21 +99,54 @@ const FlightsTab = () => {
     setTo(true);
   };
  
+
   const canBeOpenFrom = openFromPopper && Boolean(anchorElFrom);
   const FromId = canBeOpenFrom ? "From-popper" : undefined;
   const canBeOpenTo = openToPopper && Boolean(anchorElTo);
   const ToId = canBeOpenTo ? "To-popper" : undefined;
 
-  const [textValue, setTextValue] = useState("Lahore, Pakistan (LHE)"); // State to manage text input
+  const [place, setPlace] = useState("Lahore, Pakistan (LHE)"); // State to manage text input
   const handleTextChange = (event) => {
-    setTextValue(event.target.value); // Update state when text is changed
+    setPlace(event.target.value); // Update state when text is changed
   };
-const [destination ,setDestination] = useState("")
-const handleDestinationChange = (event) => {
-  setDestination(event.target.value); // Update state when text is changed
-};
-  return (
+  const [destination, setDestination] = useState("");
+  const handleDestinationChange = (event) => {
+    setDestination(event.target.value); // Update state when text is changed
+  };
+  const [exchange, setExchange] = useState(false);
+  const handleExchange = () => {
+    if (destination != "" && place != "") {
+      setDestination(place);
+      setPlace(destination);
+      setExchange(!exchange);
+    }
+  };
+  const handleClickOutside = (event) => {
+    // If click is outside the "From" Paper
+    if (fromPaperRef.current && !fromPaperRef.current.contains(event.target)) {
+      setfrom(false);
+    }
+    // If click is outside the "To" Paper
+    if (toPaperRef.current && !toPaperRef.current.contains(event.target)) {
+      setTo(false);
+    }
+  };
+  const [close, setclose] =useState(true)
+  // Add event listener to detect outside clicks when either "From" or "To" Paper is open
+  useEffect(() => {
+    if (from || to) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
 
+    // Cleanup when either "from" or "to" changes
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [to, from]);
+
+  return (
     <Box>
       <Stack direction="row" height="40px" gap="7px">
         {btns.map((btn) => (
@@ -132,33 +180,37 @@ const handleDestinationChange = (event) => {
       </Stack>
       {activeBtn === "One-way" && (
         <Box>
-          <Box
+          <Stack direction="row"
             mt={2}
-            sx={
-              {
-                // width: "365px",
-                // border: "1px solid lightgray",
-              }
-            }
-            // onClick={handleCalender}
+            sx={{gap:"0 8px"}}
           >
-            <Stack direction="row" position="relative" sx={{ gap: "0 8px", justifyContent:"center", alignItems:"center" }}>
+            <Stack
+            width="50%"
+              direction="row"
+              position="relative"
+              sx={{
+                gap: "0 8px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Box
                 sx={{
                   width: "50%",
                   p: 2,
                   minHeight: "64px",
                   padding: "0px",
-                  position:"relative"
+                  position: "relative",
                 }}
               >
-                <Paper
+                <Paper ref={fromPaperRef}
                   elevation={0}
                   sx={{
                     width: from ? "130%" : "100%",
                     position: from ? "absolute" : "relative",
-                    zIndex:"2",
-                    p: from ? 2 : 0,  
+                    zIndex: from ? "2" : "1",
+                    p: from ? 2 : 0,
+                    marginTop: from ? -2 : 0,
                     minHeight: "64px",
                     boxShadow: from ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
                     borderRadius: "16px",
@@ -181,16 +233,27 @@ const handleDestinationChange = (event) => {
                       placement="bottom-start"
                       size="small"
                       label="From"
-                      value={textValue}
+                      value={place}
                       onChange={handleTextChange}
-                      InputLabelProps={{
-                        shrink: true,
+                      slotProps={{
+                        inputLabel: {
+                          shrink: !!place,
+                          sx: {
+                            transform: !place ? "translate(0, 6px)" : "", // Adjusts label positioning
+                            left: 0,
+                            position: "absolute",
+                            color: "#767676", // Adjust color for better visibility
+                          },
+                        },
                       }}
                       InputProps={{
                         endAdornment: from && (
                           <InputAdornment position="end">
                             <IconButton
-                              onClick={() => setTextValue("")}
+                              onClick={(event) => {
+                                event.stopPropagation(); // Prevent click event from bubbling up
+                                setPlace("");
+                              }}
                               edge="end"
                               sx={{
                                 padding: "1px",
@@ -199,6 +262,7 @@ const handleDestinationChange = (event) => {
                                 width: "22px",
                                 position: "absolute",
                                 top: "-3px",
+                                
                                 "&:hover": { backgroundColor: "black" },
                               }}
                             >
@@ -232,7 +296,9 @@ const handleDestinationChange = (event) => {
                         "& .MuiInputBase-root": {
                           marginTop: "0px",
                         },
-
+                        "& .MuiInput-input": {
+                          paddingLeft: "5px",
+                        },
                         "& .MuiInputBase-input": {
                           fontWeight: "600",
                           paddingBottom: "0px",
@@ -269,13 +335,19 @@ const handleDestinationChange = (event) => {
                   </Box>
                   {from && (
                     <Paper
-                      onClick={() => setfrom(false)}
+                      
+                    onClick={(event) => {
+                      event.stopPropagation(); // Prevent click events from bubbling up
+                      setfrom(false);
+                      setTo(true);
+                      setclose(false)
+                    }}
+                    
                       id={FromId}
                       sx={{
                         width: "100%",
                         boxShadow: "none",
                         paddingTop: "20px",
-
                         padding: "20px 8px 0px",
                       }}
                       open={openFromPopper}
@@ -300,7 +372,7 @@ const handleDestinationChange = (event) => {
                       >
                         {cities.map((city, index) => (
                           <Box
-                            onClick={() => setTextValue(city.fullName)}
+                            onClick={() => setPlace(city.fullName)}
                             key={city.id}
                             sx={{
                               height: "44px",
@@ -311,11 +383,7 @@ const handleDestinationChange = (event) => {
                                 backgroundColor: "#e7fddc",
                                 color: "#188920",
                               },
-
                               cursor: "pointer",
-
-                              // color: item.currencyCode === currency ? theme.palette.customGreen.main : 'inherit',
-                              // fontWeight: item.currencyCode === currency ? '600' : 'inherit',
                             }}
                           >
                             <Typography
@@ -338,8 +406,10 @@ const handleDestinationChange = (event) => {
                   )}
                 </Paper>
               </Box>
-             
-              <Box
+
+              <Button
+                disableRipple
+                onClick={handleExchange}
                 sx={{
                   alignItems: "center",
                   backgroundColor: "transparent",
@@ -348,25 +418,30 @@ const handleDestinationChange = (event) => {
                   cursor: "pointer",
                   display: "flex",
                   height: "36px",
-                  color: "black",
+                  color: "1px solid lightgray",
                   justifyContent: "center",
                   outline: "none",
                   position: "absolute",
                   transition: " transform .15s ease-out",
                   width: "36px",
-                  zIndex:"3",
+                  zIndex: "2",
                   display: from ? "none" : "flex",
-
+                  "&:hover": {
+                    background: "transparent",
+                  },
+                  fill:
+                    !!place && !!destination
+                      ? theme.palette.customGreen.main
+                      : "#bdbdbd",
+                  transform: !exchange ? "rotate(180deg)" : "",
                 }}
               >
-                
-                  <SvgIcon>
-                    <svg viewBox="0 0 24 24">
-                      <path d="M17 4l-1.41 1.41L18.17 8H11v2h7.17l-2.58 2.59L17 14l5-5-5-5zM7 20l1.41-1.41L5.83 16H13v-2H5.83l2.58-2.59L7 10l-5 5 5 5z"></path>
-                    </svg>
-                  </SvgIcon>
-                
-              </Box>
+                <SvgIcon>
+                  <svg viewBox="0 0 24 24">
+                    <path d="M17 4l-1.41 1.41L18.17 8H11v2h7.17l-2.58 2.59L17 14l5-5-5-5zM7 20l1.41-1.41L5.83 16H13v-2H5.83l2.58-2.59L7 10l-5 5 5 5z"></path>
+                  </svg>
+                </SvgIcon>
+              </Button>
 
               <Box
                 sx={{
@@ -379,14 +454,17 @@ const handleDestinationChange = (event) => {
               >
                 <Paper
                   elevation={0}
+                  ref={toPaperRef}
                   sx={{
                     width: to ? "130%" : "100%",
                     position: to ? "absolute" : "relative",
-                    p: from ? 0 : 2 ,
+                    p: to ? 2 : 0,
+                    marginTop: to ? -2 : 0,
                     minHeight: "64px",
+                    zIndex: to ? "2" : "1",
                     boxShadow: to ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
                     borderRadius: "16px",
-                    transition: "width 0.3s ease"
+                    transition: "width 0.3s ease",
                   }}
                 >
                   <Box
@@ -395,6 +473,7 @@ const handleDestinationChange = (event) => {
                       height: "64px",
                       overflow: "hidden",
                       position: "relative",
+                      padding: "0px",
                       display: "flex",
                     }}
                   >
@@ -406,8 +485,16 @@ const handleDestinationChange = (event) => {
                       label="To"
                       value={destination}
                       onChange={handleDestinationChange}
-                      InputLabelProps={{
-                        shrink: true,
+                      slotProps={{
+                        inputLabel: {
+                          shrink: !!destination,
+                          sx: {
+                            transform: !destination ? "translate(0, 6px)" : "", // Adjusts label positioning
+                            left: 0,
+                            position: "absolute",
+                            color: "#767676", // Adjust color for better visibility
+                          },
+                        },
                       }}
                       InputProps={{
                         endAdornment: to && (
@@ -442,7 +529,7 @@ const handleDestinationChange = (event) => {
                       sx={{
                         border: "1px solid lightgray",
                         width: "100%",
-                        padding: "27px 40px 11px 16px",
+                        padding: "27px 35px 11px 35px",
 
                         border: to ? "1px solid #44b50c" : "1px solid #dfdfdf",
                         borderRadius: "8px",
@@ -452,6 +539,9 @@ const handleDestinationChange = (event) => {
                         },
                         "& .MuiInputBase-root": {
                           marginTop: "0px",
+                        },
+                        "& .MuiInput-input": {
+                          paddingLeft: "10px",
                         },
 
                         "& .MuiInputBase-input": {
@@ -464,7 +554,7 @@ const handleDestinationChange = (event) => {
                           borderBottom: "none !important",
                         },
                         "& .MuiFormLabel-root": {
-                          paddingLeft: "20px",
+                          paddingLeft: "45px",
                           paddingTop: "14px",
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
@@ -484,7 +574,7 @@ const handleDestinationChange = (event) => {
                         height: "40px",
                         position: "absolute",
 
-                        width: "40px ",
+                        width: to ? "0px" : "40px",
                         left: "-24px",
                         right: "auto",
                       }}
@@ -492,7 +582,7 @@ const handleDestinationChange = (event) => {
                   </Box>
                   {to && (
                     <Paper
-                      onClick={() => setTo(false)}
+                      onClick={() => {setTo(false); setclose(false)}}
                       id={ToId}
                       sx={{
                         width: "100%",
@@ -562,7 +652,8 @@ const handleDestinationChange = (event) => {
                 </Paper>
               </Box>
             </Stack>
-          </Box>
+            <Stack direction="row" width="50%"></Stack>
+          </Stack>
         </Box>
       )}
     </Box>
