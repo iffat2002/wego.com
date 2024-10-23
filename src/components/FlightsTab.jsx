@@ -173,7 +173,7 @@ const FlightsTab = () => {
     console.log(newValue); // Log the new date values
   };
   const formatDate = (date) =>
-    date ? date.format("ddd, DD MMM YYYY") : "Select date";
+    date ? date.format("ddd, DD MMM YYYY") : "";
   const calculateNights = (startDate, endDate) => {
     if (startDate && endDate) {
       return endDate.diff(startDate, "day");
@@ -697,27 +697,54 @@ const FlightsTab = () => {
                 </Paper>
               </Box>
             </Stack>
-            <Box  width="50%" position="relative" sx={{p:0, minHeight:"64px"}}>
-            <Stack direction="row"
-          sx={{
-            width: "100%",
-            height: "100%"
-          }}
+            <Box  width="50%" position="relative" sx={{p:2, minHeight:"64px"}}>
+            <Paper elevation={0}
+      sx={{
+        width: calender ? "110%" : "100%", // Expands Paper when calendar is active
+        position: calender ? "absolute" : "relative",
+        zIndex: calender ? "2" : "1",
+        p: calender ? 2 : 0,
+        marginTop: calender ? -2 : 0,
+        minHeight: "64px",
+        boxShadow: calender ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
+        borderRadius: "16px",
+        transition: "width 0.3s ease", // Smooth transition
+      }}
           onClick={handleCalender}
         >
+          <Box
+        sx={{
+          alignItems: "center",
+          padding: "0px",
+          height: "64px",
+          overflow: "hidden",
+          position: "relative",
+          display: "flex",
+        }}
+      >
           <TextField
             variant="standard"
             placement="bottom-start"
             size="small"
             label="Depart"
             value={formatDate(dateValue[0])}
-            InputLabelProps={{
-              shrink: true,
-            }}
+        
             InputProps={{
               readOnly: true, // Makes the TextField read-only (no blinking cursor)
             }}
+            slotProps={{
+              inputLabel: {
+                shrink: !!formatDate(dateValue[0]),
+                sx: {
+                  transform: !formatDate(dateValue[0]) ? "translate(0, 6px)" : "", // Adjusts label positioning
+                  left: 0,
+                  position: "absolute",
+                  color: "#767676", // Adjust color for better visibility
+                },
+              },
+            }}
             sx={{
+              height:"100%",
               width: "50%",
               padding: "10px 8px 0px 20px",
               cursor: "pointer",
@@ -758,15 +785,23 @@ const FlightsTab = () => {
             size="small"
             label="Return"
             value={formatDate(dateValue[1])}
-            InputLabelProps={{
-              shrink: true,
+            slotProps={{
+              inputLabel: {
+                shrink: !!formatDate(dateValue[1]),
+                sx: {
+                  transform: !formatDate(dateValue[1]) ? "translate(0, 6px)" : "", // Adjusts label positioning
+                  left: 0,
+                  position: "absolute",
+                  color: "#767676", // Adjust color for better visibility
+                },
+              },
             }}
             InputProps={{
               readOnly: true, // Makes the TextField read-only (no blinking cursor)
             }}
             
             sx={{
-             
+              height:"100%",
               width: "50%",
               padding: "10px 8px 0px 20px",
               border:"1px solid #dfdfdf",
@@ -799,18 +834,17 @@ const FlightsTab = () => {
               },
             }}
           />
-        </Stack>
-      
-       
-      </Box>
+          </Box>
+          {calender && (
       <ClickAwayListener onClickAway={handleClickAway}>
-        <Popper
+        <Paper elevation={0}
           open={calender}
           anchorEl={anchorCalender}
           placement="bottom-start"
           // style={{ width: "600px" }}
+          sx={{border:"none"}}
         >
-          <Paper>
+          <Paper elevation={0}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateRangeCalendar
                 value={dateValue}
@@ -818,11 +852,13 @@ const FlightsTab = () => {
               />
             </LocalizationProvider>
           </Paper>
-        </Popper>
+        </Paper>
       </ClickAwayListener>
-
-            </Stack>
+)}
+            </Paper>
          
+        </Box>
+        </Stack>
         </Box>
       )}
     </Box>
