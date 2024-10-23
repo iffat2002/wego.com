@@ -10,10 +10,20 @@ import {
   InputAdornment,
   IconButton,
   SvgIcon,
+  ClickAwayListener,
+ 
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateRangeCalendar } from "@mui/x-date-pickers-pro/DateRangeCalendar";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import dayjs from "dayjs"
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useEffect, useState, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import CancelIcon from "@mui/icons-material/Cancel";
+dayjs.extend(localizedFormat);
 const FlightsTab = () => {
   const theme = useTheme();
   const fromPaperRef = useRef(null);
@@ -146,6 +156,41 @@ const FlightsTab = () => {
     };
   }, [to, from]);
 
+
+  const [calender, setCalender] = useState(false);
+  const [anchorCalender, setAnchorCalender] = useState(null);
+  const handleCalender = (event) => {
+    setAnchorCalender(event.currentTarget);
+    setCalender((previousOpen) => !previousOpen);
+  };
+  const [dateValue, setDateValue] = useState([
+    dayjs().startOf("day"),
+    dayjs().add(1, "day").startOf("day"),
+  ]);
+
+  const handleDateChange = (newValue) => {
+    setDateValue(newValue);
+    console.log(newValue); // Log the new date values
+  };
+  const formatDate = (date) =>
+    date ? date.format("ddd, DD MMM YYYY") : "Select date";
+  const calculateNights = (startDate, endDate) => {
+    if (startDate && endDate) {
+      return endDate.diff(startDate, "day");
+    }
+    return 0;
+  };
+  const handleClickAway = (event) => {
+    if (
+     
+      !anchorCalender?.contains(event.target) 
+      
+    ) {
+ 
+      setCalender(false);
+     
+    }
+  };
   return (
     <Box>
       <Stack direction="row" height="40px" gap="7px">
@@ -652,8 +697,132 @@ const FlightsTab = () => {
                 </Paper>
               </Box>
             </Stack>
-            <Stack direction="row" width="50%"></Stack>
-          </Stack>
+            <Box  width="50%" position="relative" sx={{p:0, minHeight:"64px"}}>
+            <Stack direction="row"
+          sx={{
+            width: "100%",
+            height: "100%"
+          }}
+          onClick={handleCalender}
+        >
+          <TextField
+            variant="standard"
+            placement="bottom-start"
+            size="small"
+            label="Depart"
+            value={formatDate(dateValue[0])}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              readOnly: true, // Makes the TextField read-only (no blinking cursor)
+            }}
+            sx={{
+              width: "50%",
+              padding: "10px 8px 0px 20px",
+              cursor: "pointer",
+              border: "1px solid #dfdfdf",
+              borderRadius:"8px 0px 0px 8px",
+              "& .MuiInput-underline:before": {
+                borderBottom: "none",
+              },
+              "& .MuiInput-underline:hover:before": {
+                borderBottom: "none !important",
+              },
+              "& .MuiFormLabel-root": {
+                paddingTop: "12px",
+                paddingLeft:"24px"
+              },
+              "& .MuiInputBase-input": {
+                fontWeight: "600",
+                paddingBottom: "0px",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              },
+              "& .MuiInput-underline:hover:before": {
+                borderBottom: "none !important",
+              },
+              
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "rgba(0, 0, 0, 0.6)",
+              },
+
+              "& .MuiInput-root::after": {
+                borderBottom: "none",
+              },
+            }}
+          />
+         
+          <TextField
+            variant="standard"
+            size="small"
+            label="Return"
+            value={formatDate(dateValue[1])}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              readOnly: true, // Makes the TextField read-only (no blinking cursor)
+            }}
+            
+            sx={{
+             
+              width: "50%",
+              padding: "10px 8px 0px 20px",
+              border:"1px solid #dfdfdf",
+                     borderRadius:"0px 8px 8px 0px",
+                     borderLeft:"0px",
+              cursor: "pointer",
+              "& .MuiInput-underline:before": {
+                borderBottom: "none",
+              },
+              "& .MuiFormLabel-root": {
+                paddingTop: "12px",
+                paddingLeft:"24px"
+              },
+              "& .MuiInputBase-input": {
+                fontWeight: "600",
+                paddingBottom: "0px",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              },
+              "& .MuiInput-underline:hover:before": {
+                borderBottom: "none !important",
+              },
+              
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "rgba(0, 0, 0, 0.6)",
+              },
+
+              "& .MuiInput-root::after": {
+                borderBottom: "none",
+              },
+            }}
+          />
+        </Stack>
+      
+       
+      </Box>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Popper
+          open={calender}
+          anchorEl={anchorCalender}
+          placement="bottom-start"
+          // style={{ width: "600px" }}
+        >
+          <Paper>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateRangeCalendar
+                value={dateValue}
+                onChange={handleDateChange}
+              />
+            </LocalizationProvider>
+          </Paper>
+        </Popper>
+      </ClickAwayListener>
+
+            </Stack>
+         
         </Box>
       )}
     </Box>
