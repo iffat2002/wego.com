@@ -95,7 +95,8 @@ const FlightsTab = () => {
 
   const [openFromPopper, setOpenFromPopper] = useState(false);
   const [anchorElFrom, setAnchorElFrom] = useState(null);
-
+const [depart, setdepart] = useState(false);
+const [returns, setreturns] = useState(false);
   const [openToPopper, setOpenToPopper] = useState(false);
   const [anchorElTo, setAnchorElTo] = useState(null);
   const handleFromClick = (event) => {
@@ -161,11 +162,11 @@ const FlightsTab = () => {
   const [anchorCalender, setAnchorCalender] = useState(null);
   const handleCalender = (event) => {
     setAnchorCalender(event.currentTarget);
-    setCalender((previousOpen) => !previousOpen);
+    setCalender(true);
   };
   const [dateValue, setDateValue] = useState([
     dayjs().startOf("day"),
-    dayjs().add(1, "day").startOf("day"),
+    // dayjs().add(1, "day").startOf("day"),
   ]);
 
   const handleDateChange = (newValue) => {
@@ -186,7 +187,8 @@ const FlightsTab = () => {
       !anchorCalender?.contains(event.target) 
       
     ) {
- 
+ setreturns(false);
+ setdepart(false);
       setCalender(false);
      
     }
@@ -700,9 +702,10 @@ const FlightsTab = () => {
             <Box  width="50%" position="relative" sx={{p:2, minHeight:"64px"}}>
             <Paper elevation={0}
       sx={{
-        width: calender ? "110%" : "100%", // Expands Paper when calendar is active
+        width: calender ? "120%" : "100%", // Expands Paper when calendar is active
         position: calender ? "absolute" : "relative",
         zIndex: calender ? "2" : "1",
+        right:"0px",
         p: calender ? 2 : 0,
         marginTop: calender ? -2 : 0,
         minHeight: "64px",
@@ -712,6 +715,7 @@ const FlightsTab = () => {
       }}
           onClick={handleCalender}
         >
+         
           <Box
         sx={{
           alignItems: "center",
@@ -722,7 +726,9 @@ const FlightsTab = () => {
           display: "flex",
         }}
       >
-          <TextField
+        {calender && (<Button onClick={()=>setDateValue("")} variant="outline">Clear</Button>)}
+         
+          <TextField     onClick={()=>{setdepart(true); setreturns(false)}}
             variant="standard"
             placement="bottom-start"
             size="small"
@@ -744,11 +750,12 @@ const FlightsTab = () => {
               },
             }}
             sx={{
+              border: depart ? "2px solid #44b50c" : "1px solid #dfdfdf",
               height:"100%",
               width: "50%",
               padding: "10px 8px 0px 20px",
               cursor: "pointer",
-              border: "1px solid #dfdfdf",
+             
               borderRadius:"8px 0px 0px 8px",
               "& .MuiInput-underline:before": {
                 borderBottom: "none",
@@ -780,7 +787,7 @@ const FlightsTab = () => {
             }}
           />
          
-          <TextField
+          <TextField     onClick={()=>{setreturns(true); setdepart(false)}}
             variant="standard"
             size="small"
             label="Return"
@@ -804,9 +811,10 @@ const FlightsTab = () => {
               height:"100%",
               width: "50%",
               padding: "10px 8px 0px 20px",
-              border:"1px solid #dfdfdf",
+              borderLeft: returns ? "2px": "0px",
+              border: returns ? "2px solid #44b50c" : "1px solid #dfdfdf",
                      borderRadius:"0px 8px 8px 0px",
-                     borderLeft:"0px",
+                     
               cursor: "pointer",
               "& .MuiInput-underline:before": {
                 borderBottom: "none",
@@ -844,7 +852,7 @@ const FlightsTab = () => {
           // style={{ width: "600px" }}
           sx={{border:"none"}}
         >
-          <Paper elevation={0}>
+          <Paper elevation={0} >
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateRangeCalendar
                 value={dateValue}
