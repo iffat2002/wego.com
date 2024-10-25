@@ -11,13 +11,12 @@ import {
   IconButton,
   SvgIcon,
   ClickAwayListener,
- 
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateRangeCalendar } from "@mui/x-date-pickers-pro/DateRangeCalendar";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useEffect, useState, useRef } from "react";
@@ -28,7 +27,7 @@ const FlightsTab = () => {
   const theme = useTheme();
   const fromPaperRef = useRef(null);
   const toPaperRef = useRef(null);
-  
+
   const btns = ["One-way", "Round-trip", "Multi-city"];
   const [from, setfrom] = useState(false);
   const [to, setTo] = useState(false);
@@ -95,8 +94,8 @@ const FlightsTab = () => {
 
   const [openFromPopper, setOpenFromPopper] = useState(false);
   const [anchorElFrom, setAnchorElFrom] = useState(null);
-const [depart, setdepart] = useState(false);
-const [returns, setreturns] = useState(false);
+  const [depart, setdepart] = useState(false);
+  const [returns, setreturns] = useState(false);
   const [openToPopper, setOpenToPopper] = useState(false);
   const [anchorElTo, setAnchorElTo] = useState(null);
   const handleFromClick = (event) => {
@@ -109,7 +108,6 @@ const [returns, setreturns] = useState(false);
     setOpenToPopper((prev) => !prev);
     setTo(true);
   };
- 
 
   const canBeOpenFrom = openFromPopper && Boolean(anchorElFrom);
   const FromId = canBeOpenFrom ? "From-popper" : undefined;
@@ -142,7 +140,7 @@ const [returns, setreturns] = useState(false);
       setTo(false);
     }
   };
-  const [close, setclose] =useState(true)
+  const [close, setclose] = useState(true);
   // Add event listener to detect outside clicks when either "From" or "To" Paper is open
   useEffect(() => {
     if (from || to) {
@@ -156,7 +154,6 @@ const [returns, setreturns] = useState(false);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [to, from]);
-
 
   const [calender, setCalender] = useState(false);
   const [anchorCalender, setAnchorCalender] = useState(null);
@@ -173,8 +170,7 @@ const [returns, setreturns] = useState(false);
     setDateValue(newValue);
     console.log(newValue); // Log the new date values
   };
-  const formatDate = (date) =>
-    date ? date.format("ddd, DD MMM YYYY") : "";
+  const formatDate = (date) => (date ? date.format("ddd, DD MMM YYYY") : "");
   const calculateNights = (startDate, endDate) => {
     if (startDate && endDate) {
       return endDate.diff(startDate, "day");
@@ -182,15 +178,10 @@ const [returns, setreturns] = useState(false);
     return 0;
   };
   const handleClickAway = (event) => {
-    if (
-     
-      !anchorCalender?.contains(event.target) 
-      
-    ) {
- setreturns(false);
- setdepart(false);
+    if (!anchorCalender?.contains(event.target)) {
+      setreturns(false);
+      setdepart(false);
       setCalender(false);
-     
     }
   };
   return (
@@ -227,12 +218,9 @@ const [returns, setreturns] = useState(false);
       </Stack>
       {activeBtn === "One-way" && (
         <Box>
-          <Stack direction="row"
-            mt={2}
-            sx={{gap:"0 8px"}}
-          >
+          <Stack direction="row" mt={2} sx={{ gap: "0 8px" }}>
             <Stack
-            width="50%"
+              width="50%"
               direction="row"
               position="relative"
               sx={{
@@ -250,7 +238,8 @@ const [returns, setreturns] = useState(false);
                   position: "relative",
                 }}
               >
-                <Paper ref={fromPaperRef}
+                <Paper
+                  ref={fromPaperRef}
                   elevation={0}
                   sx={{
                     width: from ? "130%" : "100%",
@@ -274,6 +263,7 @@ const [returns, setreturns] = useState(false);
                       display: "flex",
                     }}
                   >
+                    <Box sx={{p:0, margin: 0, width:"100%", height:"100%",borderRadius:"8px", "&:hover": {border: from ? "none" : "1px solid #9c9c9c" }}}>
                     <TextField
                       onClick={handleFromClick}
                       variant="standard"
@@ -309,7 +299,7 @@ const [returns, setreturns] = useState(false);
                                 width: "22px",
                                 position: "absolute",
                                 top: "-3px",
-                                
+
                                 "&:hover": { backgroundColor: "black" },
                               }}
                             >
@@ -368,6 +358,7 @@ const [returns, setreturns] = useState(false);
                         },
                       }}
                     />
+                    </Box>
                     <Box
                       sx={{
                         backgroundColor: "#fff",
@@ -382,14 +373,12 @@ const [returns, setreturns] = useState(false);
                   </Box>
                   {from && (
                     <Paper
-                      
-                    onClick={(event) => {
-                      event.stopPropagation(); // Prevent click events from bubbling up
-                      setfrom(false);
-                      setTo(true);
-                      setclose(false)
-                    }}
-                    
+                      onClick={(event) => {
+                        event.stopPropagation(); // Prevent click events from bubbling up
+                        setfrom(false);
+                        setTo(true);
+                        setclose(false);
+                      }}
                       id={FromId}
                       sx={{
                         width: "100%",
@@ -629,7 +618,10 @@ const [returns, setreturns] = useState(false);
                   </Box>
                   {to && (
                     <Paper
-                      onClick={() => {setTo(false); setclose(false)}}
+                      onClick={() => {
+                        setTo(false);
+                        setclose(false);
+                      }}
                       id={ToId}
                       sx={{
                         width: "100%",
@@ -699,174 +691,226 @@ const [returns, setreturns] = useState(false);
                 </Paper>
               </Box>
             </Stack>
-            <Box  width="50%" position="relative" sx={{p:2, minHeight:"64px"}}>
-            <Paper elevation={0}
-      sx={{
-        width: calender ? "120%" : "100%", // Expands Paper when calendar is active
-        position: calender ? "absolute" : "relative",
-        zIndex: calender ? "2" : "1",
-        right:"0px",
-        p: calender ? 2 : 0,
-        marginTop: calender ? -2 : 0,
-        minHeight: "64px",
-        boxShadow: calender ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
-        borderRadius: "16px",
-        transition: "width 0.3s ease", // Smooth transition
-      }}
-          onClick={handleCalender}
-        >
-         
-          <Box
-        sx={{
-          alignItems: "center",
-          padding: "0px",
-          height: "64px",
-          overflow: "hidden",
-          position: "relative",
-          display: "flex",
-        }}
-      >
-        {calender && (<Button onClick={()=>setDateValue("")} variant="outline">Clear</Button>)}
-         
-          <TextField     onClick={()=>{setdepart(true); setreturns(false)}}
-            variant="standard"
-            placement="bottom-start"
-            size="small"
-            label="Depart"
-            value={formatDate(dateValue[0])}
-        
-            InputProps={{
-              readOnly: true, // Makes the TextField read-only (no blinking cursor)
-            }}
-            slotProps={{
-              inputLabel: {
-                shrink: !!formatDate(dateValue[0]),
-                sx: {
-                  transform: !formatDate(dateValue[0]) ? "translate(0, 6px)" : "", // Adjusts label positioning
-                  left: 0,
-                  position: "absolute",
-                  color: "#767676", // Adjust color for better visibility
-                },
-              },
-            }}
-            sx={{
-              border: depart ? "2px solid #44b50c" : "1px solid #dfdfdf",
-              height:"100%",
-              width: "50%",
-              padding: "10px 8px 0px 20px",
-              cursor: "pointer",
-             
-              borderRadius:"8px 0px 0px 8px",
-              "& .MuiInput-underline:before": {
-                borderBottom: "none",
-              },
-              "& .MuiInput-underline:hover:before": {
-                borderBottom: "none !important",
-              },
-              "& .MuiFormLabel-root": {
-                paddingTop: "12px",
-                paddingLeft:"24px"
-              },
-              "& .MuiInputBase-input": {
-                fontWeight: "600",
-                paddingBottom: "0px",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              },
-              "& .MuiInput-underline:hover:before": {
-                borderBottom: "none !important",
-              },
-              
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "rgba(0, 0, 0, 0.6)",
-              },
+            <Box
+              width="50%"
+              position="relative"
+              sx={{ p: 2, minHeight: "64px" }}
+            >
+              <Paper
+                elevation={0}
+                sx={{
+                  width: calender ? "120%" : "100%", // Expands Paper when calendar is active
+                  position: calender ? "absolute" : "relative",
+                  zIndex: calender ? "2" : "1",
+                  right: "0px",
+                  p: calender ? 2 : 0,
+                  paddingBottom:"0px",
+                  marginTop: calender ? -2 : 0,
+                  minHeight: "64px",
+                  boxShadow: calender ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
+                  borderRadius: "16px",
+                  transition: "width 0.3s ease", // Smooth transition
+                }}
+                onClick={handleCalender}
+              >
+                <Box
+                  sx={{
+                    alignItems: "center",
+                    padding: "0px",
+                    height: "64px",
+                    overflow: "hidden",
+                    position: "relative",
+                    display: "flex",
+                  }}
+                >
+                  {calender && (
+                    <Box width="15%">
+                      <Button
+                        disableRipple
+                        onClick={() => setDateValue("")}
+                        variant="outline"
+                        sx={{
+                          borderRdius: "4px",
+                          fontWeight: "400",
+                          color: theme.palette.customGreen.dark,
+                          height: "48px",
+                          width: "70px",
+                          textTransform: "none",
+                          "&:hover": {
+                            backgroundColor: "#f4f4f4",
+                          },
+                        }}
+                      >
+                        Clear
+                      </Button>
+                    </Box>
+                  )}
 
-              "& .MuiInput-root::after": {
-                borderBottom: "none",
-              },
-            }}
-          />
-         
-          <TextField     onClick={()=>{setreturns(true); setdepart(false)}}
-            variant="standard"
-            size="small"
-            label="Return"
-            value={formatDate(dateValue[1])}
-            slotProps={{
-              inputLabel: {
-                shrink: !!formatDate(dateValue[1]),
-                sx: {
-                  transform: !formatDate(dateValue[1]) ? "translate(0, 6px)" : "", // Adjusts label positioning
-                  left: 0,
-                  position: "absolute",
-                  color: "#767676", // Adjust color for better visibility
-                },
-              },
-            }}
-            InputProps={{
-              readOnly: true, // Makes the TextField read-only (no blinking cursor)
-            }}
-            
-            sx={{
-              height:"100%",
-              width: "50%",
-              padding: "10px 8px 0px 20px",
-              borderLeft: returns ? "2px": "0px",
-              border: returns ? "2px solid #44b50c" : "1px solid #dfdfdf",
-                     borderRadius:"0px 8px 8px 0px",
-                     
-              cursor: "pointer",
-              "& .MuiInput-underline:before": {
-                borderBottom: "none",
-              },
-              "& .MuiFormLabel-root": {
-                paddingTop: "12px",
-                paddingLeft:"24px"
-              },
-              "& .MuiInputBase-input": {
-                fontWeight: "600",
-                paddingBottom: "0px",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              },
-              "& .MuiInput-underline:hover:before": {
-                borderBottom: "none !important",
-              },
-              
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "rgba(0, 0, 0, 0.6)",
-              },
+                  <TextField
+                
+                    onClick={() => {
+                      setdepart(true);
+                      setreturns(false);
+                    }}
+                    variant="standard"
+                    placement="bottom-start"
+                    size="small"
+                    label="Depart"
+                    value={formatDate(dateValue[0])}
+                    InputProps={{
+                      readOnly: true, // Makes the TextField read-only (no blinking cursor)
+                    }}
+                    slotProps={{
+                      inputLabel: {
+                        shrink: !!formatDate(dateValue[0]),
+                        sx: {
+                          transform: !formatDate(dateValue[0])
+                            ? "translate(0, 6px)"
+                            : "", // Adjusts label positioning
+                          left: 0,
+                          position: "absolute",
+                          color: "#767676", // Adjust color for better visibility
+                        },
+                      },
+                    }}
+                    sx={{
+                      border: depart
+                        ? "2px solid #44b50c"
+                        : "1px solid #dfdfdf",
+                      height: "100%",
+                      width: "50%",
+                      padding: "10px 8px 0px 20px",
+                      cursor: "pointer",
 
-              "& .MuiInput-root::after": {
-                borderBottom: "none",
-              },
-            }}
-          />
-          </Box>
-          {calender && (
-      <ClickAwayListener onClickAway={handleClickAway}>
-        <Paper elevation={0}
-          open={calender}
-          anchorEl={anchorCalender}
-          placement="bottom-start"
-          // style={{ width: "600px" }}
-          sx={{border:"none"}}
-        >
-          <Paper elevation={0} >
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateRangeCalendar
-                value={dateValue}
-                onChange={handleDateChange}
-              />
-            </LocalizationProvider>
-          </Paper>
-        </Paper>
-      </ClickAwayListener>
-)}
-            </Paper>
-         
-        </Box>
-        </Stack>
+                      borderRadius: "8px 0px 0px 8px",
+          
+                      // "& :hover":{
+                      //    border:"1px solid #9c9c9c !important"
+
+                      // },
+                      "& .MuiInput-underline:before": {
+                        borderBottom: "none",
+                      },
+                      "& .MuiInput-underline:hover:before": {
+                        borderBottom: "none !important",
+                       
+                      },
+                      "& .MuiFormLabel-root": {
+                        paddingTop: "12px",
+                        paddingLeft: "24px",
+                      },
+                      "& .MuiInputBase-input": {
+                        fontWeight: "600",
+                        paddingBottom: "0px",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      },
+                      "& .MuiInput-underline:hover:before": {
+                        borderBottom: "none !important",
+                      },
+
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "rgba(0, 0, 0, 0.6)",
+                      },
+
+                      "& .MuiInput-root::after": {
+                        borderBottom: "none",
+                      },
+                 
+          
+              
+
+}}
+                  />
+
+                  <TextField
+                    onClick={() => {
+                      setreturns(true);
+                      setdepart(false);
+                    }}
+                    variant="standard"
+                    size="small"
+                    label="Return"
+                    value={formatDate(dateValue[1])}
+                    slotProps={{
+                      inputLabel: {
+                        shrink: !!formatDate(dateValue[1]),
+                        sx: {
+                          transform: !formatDate(dateValue[1])
+                            ? "translate(0, 6px)"
+                            : "", // Adjusts label positioning
+                          left: 0,
+                          position: "absolute",
+                          color: "#767676", // Adjust color for better visibility
+                        },
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: true, // Makes the TextField read-only (no blinking cursor)
+                    }}
+                    sx={{
+                      height: "100%",
+                      width: "50%",
+                      padding: "10px 8px 0px 20px",
+                      borderLeft: returns ? "2px" : "0px",
+                      border: returns
+                        ? "2px solid #44b50c"
+                        : "1px solid #dfdfdf",
+                      borderRadius: "0px 8px 8px 0px",
+
+                      cursor: "pointer",
+                      "& .MuiInput-underline:before": {
+                        borderBottom: "none",
+                      },
+                      "& .MuiFormLabel-root": {
+                        paddingTop: "12px",
+                        paddingLeft: "24px",
+                      },
+                      "& .MuiInputBase-input": {
+                        fontWeight: "600",
+                        paddingBottom: "0px",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      },
+                      "& .MuiInput-underline:hover:before": {
+                        borderBottom: "none !important",
+                      },
+
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "rgba(0, 0, 0, 0.6)",
+                      },
+
+                      "& .MuiInput-root::after": {
+                        borderBottom: "none",
+                      },
+                    }}
+                  />
+                </Box>
+                {calender && (
+                  <ClickAwayListener onClickAway={handleClickAway}>
+                    <Paper
+                      elevation={0}
+                      open={calender}
+                      anchorEl={anchorCalender}
+                      placement="bottom-start"
+                      // style={{ width: "600px" }}
+                      sx={{ border: "none" }}
+                    >
+                      <Paper elevation={0}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                          <DateRangeCalendar
+                            value={dateValue}
+                            onChange={handleDateChange}
+                            
+                          />
+                        </LocalizationProvider>
+                      </Paper>
+                    </Paper>
+                  </ClickAwayListener>
+                )}
+              </Paper>
+            </Box>
+          </Stack>
         </Box>
       )}
     </Box>
