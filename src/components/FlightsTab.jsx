@@ -7,6 +7,7 @@ import {
   Autocomplete,
   Popper,
   Paper,
+  Divider,
   InputAdornment,
   IconButton,
   SvgIcon,
@@ -15,10 +16,10 @@ import {
   FormControlLabel,
   Card,
   CardContent,
-  CardActions
+  CardActions,
 } from "@mui/material";
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -48,16 +49,9 @@ const FlightsTab = () => {
   const [child, setChild] = useState(0);
   const roombooking = [
     {
-      title: "Rooms",
-      value: room,
-      text: "",
-      add: "addRoom",
-      sub: "subRoom",
-    },
-    {
       title: "Adults",
       value: adult,
-      text: "18+ yrs",
+      text: ">12 Years",
       add: "addAdult",
       sub: "subAdult",
       state: { adult },
@@ -65,13 +59,20 @@ const FlightsTab = () => {
     {
       title: "Children",
       value: child,
-      text: "0-17 yrs",
+      text: "2-12 Years",
       add: "addChild",
       sub: "subChild",
       state: { child },
     },
+    {
+      title: "Infants",
+      value: room,
+      text: "<2 Years",
+      add: "addRoom",
+      sub: "subRoom",
+    },
   ];
- 
+
   const handleRooms = (e) => {
     if (e === "addRoom") {
       setRoom(room + 1);
@@ -87,7 +88,6 @@ const FlightsTab = () => {
       setChild(child - 1);
     }
   };
-
 
   const BtnClick = (e) => {
     setActiveBtn(e);
@@ -1144,121 +1144,145 @@ const FlightsTab = () => {
           />
         </Box>
         <Box>
-          <Button variant="text"   onClick={handleBooking} sx={{ textTransform: "none", alignItems:"center", color:"black" }}
-           endIcon={
-            <ArrowDropDownIcon
-                  sx={{
-                    width: "32px",
-                    height: "32px",
-                   
-                  }}
-                />
-          }
+          <Button
+            variant="text"
+            onClick={handleBooking}
+            sx={{ textTransform: "none", alignItems: "center", color: "black" }}
+            endIcon={
+              <ArrowDropDownIcon
+                sx={{
+                  width: "32px",
+                  height: "32px",
+                }}
+              />
+            }
           >
             8 Adults
           </Button>
-
         </Box>
         <ClickAwayListener onClickAway={handleClickAway}>
-        <Popper
-          open={booking}
-          anchorEl={anchorbooking}
-          placement="bottom-start"
-          sx={{ width: "270px" }}
-        >
-          {" "}
-          <Card>
-            <CardContent>
-              {roombooking.map((option) => (
-                <Stack
-                  direction="row"
-                  sx={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "2px",
-                  }}
-                  key={option.title}
-                  value={option.value}
-                >
-                  <Typography
-                    variant="text"
+          <Popper
+            open={booking}
+            anchorEl={anchorbooking}
+            placement="bottom-start"
+            sx={{ width: "230px",zIndex: "5", "& .MuiPaper-root":{
+              borderRadius:"15px"
+            } }}
+          >
+            {" "}
+            <Card>
+              <CardContent sx={{paddingBottom:"0px"}}>
+                {roombooking.map((option) => (
+                  <Stack
+                    direction="row"
                     sx={{
-                      fontSize: "smaller",
-                      textTransform: "none",
-                      color: "black",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                      padding: "2px",
                     }}
+                    key={option.title}
+                    value={option.value}
                   >
-                    {option.title}
-                    <span style={{ color: "gray", marginLeft: "6px" }}>
-                      {option.text}
-                    </span>
-                  </Typography>
-                  <Box sx={{ display: "flex", gap: "6px" }}>
-                    <RemoveIcon
-                      color="primary"
-                      onClick={() => handleRooms(option.sub)}
-                      disable
+                    <Typography
+                      variant="text"
                       sx={{
-                        // Adjust size as needed
-                        borderRadius: "50%",
-                        border: "2px solid",
-                        fontSize: "22px",
-                        cursor: "pointer",
-                        backgroundColor: "transparent", // Default background color or gray if disabled
-                        color:
-                          option.value === 1
-                            ? "grey[400]"
-                            : 'blue',
-
-                        "&:hover": {
-                          color:
-                            option.value === 1
-                              ? 'grey[400]'
-                              : "white",
+                        fontSize: "smaller",
+                        textTransform: "none",
+                        color: "black",
+                      }}
+                    >
+                      {option.title}
+                      <span style={{ color: "gray", display: "block" }}>
+                        {option.text}
+                      </span>
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: "6px" }}>
+                      <IconButton
+                        disableRipple
+                        sx={{
+                          borderRadius: "4px",
+                          width: "22px",
+                          height: "22px",
                           backgroundColor:
                             option.value === 1
-                              ? "transparent"
-                              : "blue",
-                          border: option.value === 1 ? "2px solid" : "none",
-                        },
-                        // Adjust padding to ensure the icon fits well inside the circle
-                      }}
-                    />
-                    {option.value}
-                    <AddIcon
-                      color="primary"
-                      onClick={() => handleRooms(option.add)}
-                      sx={{
-                        // Adjust size as needed
-                        borderRadius: "50%",
-                        fontSize: "22px",
-                        cursor: "pointer",
-                        border: "2px solid",
-                        backgroundColor: "transparent", // Default background color
-                        "&:hover": {
-                          backgroundColor: "blue",
-                          fill: "white",
-                          border: "none",
-                        },
-                        // Adjust padding to ensure the icon fits well inside the circle
-                      }}
-                    />
-                  </Box>
-                </Stack>
-              ))}
-            </CardContent>
-            <CardActions sx={{ justifyContent: "flex-end" }}>
-              <Button
-                size="small"
-                variant="contained"
-                onClick={() => setBooking(false)}
-              >
-                Done
-              </Button>
-            </CardActions>
-          </Card>
-        </Popper>
-      </ClickAwayListener>
+                              ? "#bdbdbd"
+                              : theme.palette.customGreen.main,
+
+                          "&:hover": {
+                            backgroundColor:
+                              option.value === 1
+                                ? "#bdbdbd"
+                                : theme.palette.customGreen.dark,
+                          },
+                        }}
+                      >
+                        <RemoveIcon
+                          onClick={() => handleRooms(option.sub)}
+                          disable
+                          sx={{
+                            outline: "none",
+                            width: "15px",
+                            cursor: "pointer",
+                            color: "white", // Default background color or gray if disabled
+
+                            // Adjust padding to ensure the icon fits well inside the circle
+                          }}
+                        />
+                      </IconButton>
+
+                      {option.value}
+                      <IconButton
+                      disableRipple
+                        sx={{
+                          borderRadius: "4px",
+                          width: "22px",
+                          height: "22px",
+                          backgroundColor:
+                            option.value < 9
+                              ? theme.palette.customGreen.main
+                              : "#bdbdbd",
+                          
+                          "&:hover": {
+                                backgroundColor:
+                                  option.value < 9
+                                    ? theme.palette.customGreen.dark
+                                    : "none"
+                              },
+                        }}
+                      >
+                        <AddIcon
+                          color="primary"
+                          onClick={() => handleRooms(option.add)}
+                          sx={{
+                            // Adjust size as needed
+                            width: "15px",
+                            cursor: "pointer",
+                            color: "white",
+
+                            // Adjust padding to ensure the icon fits well inside the circle
+                          }}
+                        />
+                      </IconButton>
+                    </Box>
+                  </Stack>
+                ))}
+                  <Divider/>
+              </CardContent>
+            
+              <CardActions sx={{ justifyContent: "flex-end" }}>
+                <Button
+                  size="small"
+                  variant="text"
+                  onClick={() => setBooking(false)}
+                  sx={{ textTransform:"none", color: theme.palette.customGreen.main, fontWeight:"600", fontSize:"14px"}}
+                >
+                  Apply
+                </Button>
+              </CardActions>
+            </Card>
+          </Popper>
+        </ClickAwayListener>
       </Stack>
     </Box>
   );
