@@ -10,8 +10,18 @@ import {
   InputAdornment,
   IconButton,
   SvgIcon,
+  Checkbox,
   ClickAwayListener,
+  FormControlLabel,
+  Card,
+  CardContent,
+  CardActions
 } from "@mui/material";
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateRangeCalendar } from "@mui/x-date-pickers-pro/DateRangeCalendar";
@@ -27,11 +37,58 @@ const FlightsTab = () => {
   const theme = useTheme();
   const fromPaperRef = useRef(null);
   const toPaperRef = useRef(null);
-
+  const [booking, setBooking] = useState(false);
+  const [anchorbooking, setAnchorbooking] = useState(null);
   const btns = ["One-way", "Round-trip", "Multi-city"];
   const [from, setfrom] = useState(false);
   const [to, setTo] = useState(false);
   const [activeBtn, setActiveBtn] = useState("One-way");
+  const [room, setRoom] = useState(1);
+  const [adult, setAdult] = useState(2);
+  const [child, setChild] = useState(0);
+  const roombooking = [
+    {
+      title: "Rooms",
+      value: room,
+      text: "",
+      add: "addRoom",
+      sub: "subRoom",
+    },
+    {
+      title: "Adults",
+      value: adult,
+      text: "18+ yrs",
+      add: "addAdult",
+      sub: "subAdult",
+      state: { adult },
+    },
+    {
+      title: "Children",
+      value: child,
+      text: "0-17 yrs",
+      add: "addChild",
+      sub: "subChild",
+      state: { child },
+    },
+  ];
+ 
+  const handleRooms = (e) => {
+    if (e === "addRoom") {
+      setRoom(room + 1);
+    } else if (e === "subRoom" && room > 1) {
+      setRoom(room - 1);
+    } else if (e === "addAdult") {
+      setAdult(adult + 1);
+    } else if (e === "subAdult" && adult > 1) {
+      setAdult(adult - 1);
+    } else if (e === "addChild") {
+      setChild(child + 1);
+    } else if (e === "subChild" && child > 0) {
+      setChild(child - 1);
+    }
+  };
+
+
   const BtnClick = (e) => {
     setActiveBtn(e);
   };
@@ -98,6 +155,8 @@ const FlightsTab = () => {
   const [returns, setreturns] = useState(false);
   const [openToPopper, setOpenToPopper] = useState(false);
   const [anchorElTo, setAnchorElTo] = useState(null);
+  const today = dayjs().startOf("day");
+
   const handleFromClick = (event) => {
     setAnchorElFrom(event.currentTarget);
     setOpenFromPopper((prev) => !prev);
@@ -122,6 +181,7 @@ const FlightsTab = () => {
   const handleDestinationChange = (event) => {
     setDestination(event.target.value); // Update state when text is changed
   };
+
   const [exchange, setExchange] = useState(false);
   const handleExchange = () => {
     if (destination != "" && place != "") {
@@ -165,18 +225,45 @@ const FlightsTab = () => {
     dayjs().startOf("day"),
     // dayjs().add(1, "day").startOf("day"),
   ]);
+  const [disable, setdisable] = useState(true);
 
+  const dayminus = (date) => {
+    const today = dayjs().startOf("day");
+
+    if (date === dateValue[0] && dateValue[0].isAfter(today)) {
+      setDateValue((prevDate) => [
+        dayjs(prevDate[0]).subtract(1, "day").startOf("day"),
+        prevDate[1],
+      ]);
+    } else if (date === dateValue[1] && dateValue[1].isAfter(dateValue[0])) {
+      setDateValue((prevDate) => [
+        prevDate[0],
+        dayjs(prevDate[1]).subtract(1, "day").startOf("day"),
+      ]);
+    }
+  };
+
+  const isToday = dateValue[0].isSame(today, "day");
+  const isMaxRange = dateValue[1]?.isSame(dateValue[0]);
+  const dayadd = (date) => {
+    if (date === dateValue[0] && dateValue[0].isBefore(dateValue[1])) {
+      setDateValue((prevDate) => [
+        dayjs(prevDate[0]).add(1, "day").startOf("day"),
+        prevDate[1],
+      ]);
+    } else if (date === dateValue[1]) {
+      setDateValue((prevDate) => [
+        prevDate[0],
+        dayjs(prevDate[1]).add(1, "day").startOf("day"),
+      ]);
+    }
+  };
   const handleDateChange = (newValue) => {
     setDateValue(newValue);
     console.log(newValue); // Log the new date values
   };
   const formatDate = (date) => (date ? date.format("ddd, DD MMM YYYY") : "");
-  const calculateNights = (startDate, endDate) => {
-    if (startDate && endDate) {
-      return endDate.diff(startDate, "day");
-    }
-    return 0;
-  };
+
   const handleClickAway = (event) => {
     if (!anchorCalender?.contains(event.target)) {
       setreturns(false);
@@ -184,6 +271,11 @@ const FlightsTab = () => {
       setCalender(false);
     }
   };
+  const handleBooking = (event) => {
+    setAnchorbooking(event.currentTarget);
+    setBooking((previousOpen) => !previousOpen);
+  };
+
   return (
     <Box>
       <Stack direction="row" height="40px" gap="7px">
@@ -242,7 +334,7 @@ const FlightsTab = () => {
                   ref={fromPaperRef}
                   elevation={0}
                   sx={{
-                    width: from ? "130%" : "100%",
+                    width: from ? "220%" : "100%",
                     position: from ? "absolute" : "relative",
                     zIndex: from ? "2" : "1",
                     p: from ? 2 : 0,
@@ -263,101 +355,113 @@ const FlightsTab = () => {
                       display: "flex",
                     }}
                   >
-                    <Box sx={{p:0, margin: 0, width:"100%", height:"100%",borderRadius:"8px", "&:hover": {border: from ? "none" : "1px solid #9c9c9c" }}}>
-                    <TextField
-                      onClick={handleFromClick}
-                      variant="standard"
-                      placement="bottom-start"
-                      size="small"
-                      label="From"
-                      value={place}
-                      onChange={handleTextChange}
-                      slotProps={{
-                        inputLabel: {
-                          shrink: !!place,
-                          sx: {
-                            transform: !place ? "translate(0, 6px)" : "", // Adjusts label positioning
-                            left: 0,
-                            position: "absolute",
-                            color: "#767676", // Adjust color for better visibility
-                          },
-                        },
-                      }}
-                      InputProps={{
-                        endAdornment: from && (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={(event) => {
-                                event.stopPropagation(); // Prevent click event from bubbling up
-                                setPlace("");
-                              }}
-                              edge="end"
-                              sx={{
-                                padding: "1px",
-                                borderRadius: "100px",
-                                background: "#767676",
-                                width: "22px",
-                                position: "absolute",
-                                top: "-3px",
-
-                                "&:hover": { backgroundColor: "black" },
-                              }}
-                            >
-                              <SvgIcon>
-                                <svg
-                                  viewBox="0 0 24 24"
-                                  width="18"
-                                  fill="#fff"
-                                  class="P4rKBkFmrKv8JqDfjjOS"
-                                >
-                                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                                </svg>
-                              </SvgIcon>
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                    <Box
                       sx={{
-                        border: "1px solid lightgray",
+                        p: 0,
+                        margin: 0,
                         width: "100%",
-                        padding: "27px 40px 11px 16px",
-
+                        height: "100%",
+                        borderRadius: "8px",
                         border: from
                           ? "1px solid #44b50c"
                           : "1px solid #dfdfdf",
-                        borderRadius: "8px",
-                        cursor: "pointer",
-                        "& .MuiInput-underline:before": {
-                          borderBottom: "none",
-                        },
-                        "& .MuiInputBase-root": {
-                          marginTop: "0px",
-                        },
-                        "& .MuiInput-input": {
-                          paddingLeft: "5px",
-                        },
-                        "& .MuiInputBase-input": {
-                          fontWeight: "600",
-                          paddingBottom: "0px",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        },
-                        "& .MuiInput-underline:hover:before": {
-                          borderBottom: "none !important",
-                        },
-                        "& .MuiFormLabel-root": {
-                          paddingLeft: "20px",
-                          paddingTop: "14px",
-                        },
-                        "& .MuiInputLabel-root.Mui-focused": {
-                          color: "rgba(0, 0, 0, 0.6)",
-                        },
-
-                        "& .MuiInput-root::after": {
-                          borderBottom: "none",
+                        "&:hover": {
+                          border: from
+                            ? "1px solid #44b50c"
+                            : "1px solid #9c9c9c",
                         },
                       }}
-                    />
+                    >
+                      <TextField
+                        onClick={handleFromClick}
+                        variant="standard"
+                        placement="bottom-start"
+                        size="small"
+                        label="From"
+                        value={place}
+                        onChange={handleTextChange}
+                        slotProps={{
+                          inputLabel: {
+                            shrink: !!place,
+                            sx: {
+                              transform: !place ? "translate(0, 6px)" : "", // Adjusts label positioning
+                              left: 0,
+                              position: "absolute",
+                              color: "#767676", // Adjust color for better visibility
+                            },
+                          },
+                        }}
+                        InputProps={{
+                          endAdornment: from && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={(event) => {
+                                  event.stopPropagation(); // Prevent click event from bubbling up
+                                  setPlace("");
+                                }}
+                                edge="end"
+                                sx={{
+                                  padding: "1px",
+                                  borderRadius: "100px",
+                                  background: "#767676",
+                                  width: "22px",
+                                  position: "absolute",
+                                  top: "-3px",
+
+                                  "&:hover": { backgroundColor: "black" },
+                                }}
+                              >
+                                <SvgIcon>
+                                  <svg
+                                    viewBox="0 0 24 24"
+                                    width="18"
+                                    fill="#fff"
+                                    class="P4rKBkFmrKv8JqDfjjOS"
+                                  >
+                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                                  </svg>
+                                </SvgIcon>
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                        sx={{
+                          width: "100%",
+                          padding: "27px 40px 11px 16px",
+
+                          borderRadius: "8px",
+                          cursor: "pointer",
+                          "& .MuiInput-underline:before": {
+                            borderBottom: "none",
+                          },
+                          "& .MuiInputBase-root": {
+                            marginTop: "0px",
+                          },
+                          "& .MuiInput-input": {
+                            paddingLeft: "5px",
+                          },
+                          "& .MuiInputBase-input": {
+                            fontWeight: "600",
+                            paddingBottom: "0px",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          },
+                          "& .MuiInput-underline:hover:before": {
+                            borderBottom: "none !important",
+                          },
+                          "& .MuiFormLabel-root": {
+                            paddingLeft: "20px",
+                            paddingTop: "14px",
+                          },
+                          "& .MuiInputLabel-root.Mui-focused": {
+                            color: "rgba(0, 0, 0, 0.6)",
+                          },
+
+                          "& .MuiInput-root::after": {
+                            borderBottom: "none",
+                          },
+                        }}
+                      />
                     </Box>
                     <Box
                       sx={{
@@ -492,7 +596,7 @@ const FlightsTab = () => {
                   elevation={0}
                   ref={toPaperRef}
                   sx={{
-                    width: to ? "130%" : "100%",
+                    width: to ? "220%" : "100%",
                     position: to ? "absolute" : "relative",
                     p: to ? 2 : 0,
                     marginTop: to ? -2 : 0,
@@ -513,95 +617,110 @@ const FlightsTab = () => {
                       display: "flex",
                     }}
                   >
-                    <TextField
-                      onClick={handleToClick}
-                      variant="standard"
-                      placement="bottom-start"
-                      size="small"
-                      label="To"
-                      value={destination}
-                      onChange={handleDestinationChange}
-                      slotProps={{
-                        inputLabel: {
-                          shrink: !!destination,
-                          sx: {
-                            transform: !destination ? "translate(0, 6px)" : "", // Adjusts label positioning
-                            left: 0,
-                            position: "absolute",
-                            color: "#767676", // Adjust color for better visibility
-                          },
-                        },
-                      }}
-                      InputProps={{
-                        endAdornment: to && (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={() => setDestination("")}
-                              edge="end"
-                              sx={{
-                                padding: "1px",
-                                borderRadius: "100px",
-                                background: "#767676",
-                                width: "22px",
-                                position: "absolute",
-                                top: "-3px",
-                                "&:hover": { backgroundColor: "black" },
-                              }}
-                            >
-                              <SvgIcon>
-                                <svg
-                                  viewBox="0 0 24 24"
-                                  width="18"
-                                  fill="#fff"
-                                  class="P4rKBkFmrKv8JqDfjjOS"
-                                >
-                                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                                </svg>
-                              </SvgIcon>
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                    <Box
                       sx={{
-                        border: "1px solid lightgray",
+                        p: 0,
+                        margin: 0,
                         width: "100%",
-                        padding: "27px 35px 11px 35px",
-
-                        border: to ? "1px solid #44b50c" : "1px solid #dfdfdf",
+                        height: "100%",
                         borderRadius: "8px",
-                        cursor: "pointer",
-                        "& .MuiInput-underline:before": {
-                          borderBottom: "none",
-                        },
-                        "& .MuiInputBase-root": {
-                          marginTop: "0px",
-                        },
-                        "& .MuiInput-input": {
-                          paddingLeft: "10px",
-                        },
-
-                        "& .MuiInputBase-input": {
-                          fontWeight: "600",
-                          paddingBottom: "0px",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        },
-                        "& .MuiInput-underline:hover:before": {
-                          borderBottom: "none !important",
-                        },
-                        "& .MuiFormLabel-root": {
-                          paddingLeft: "45px",
-                          paddingTop: "14px",
-                        },
-                        "& .MuiInputLabel-root.Mui-focused": {
-                          color: "rgba(0, 0, 0, 0.6)",
-                        },
-
-                        "& .MuiInput-root::after": {
-                          borderBottom: "none",
+                        border: to ? "1px solid #44b50c" : "1px solid #dfdfdf",
+                        "&:hover": {
+                          border: to
+                            ? "1px solid #44b50c"
+                            : "1px solid #9c9c9c",
                         },
                       }}
-                    />
+                    >
+                      <TextField
+                        onClick={handleToClick}
+                        variant="standard"
+                        placement="bottom-start"
+                        size="small"
+                        label="To"
+                        value={destination}
+                        onChange={handleDestinationChange}
+                        slotProps={{
+                          inputLabel: {
+                            shrink: !!destination,
+                            sx: {
+                              transform: !destination
+                                ? "translate(-4px, 6px)"
+                                : "", // Adjusts label positioning
+                              left: 0,
+                              position: "absolute",
+                              color: "#767676", // Adjust color for better visibility
+                            },
+                          },
+                        }}
+                        InputProps={{
+                          endAdornment: to && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() => setDestination("")}
+                                edge="end"
+                                sx={{
+                                  padding: "1px",
+                                  borderRadius: "100px",
+                                  background: "#767676",
+                                  width: "22px",
+                                  position: "absolute",
+                                  top: "-3px",
+                                  "&:hover": { backgroundColor: "black" },
+                                }}
+                              >
+                                <SvgIcon>
+                                  <svg
+                                    viewBox="0 0 24 24"
+                                    width="18"
+                                    fill="#fff"
+                                    class="P4rKBkFmrKv8JqDfjjOS"
+                                  >
+                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                                  </svg>
+                                </SvgIcon>
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                        sx={{
+                          width: "100%",
+                          padding: "27px 35px 11px 35px",
+                          borderRadius: "8px",
+                          cursor: "pointer",
+                          "& .MuiInput-underline:before": {
+                            borderBottom: "none",
+                          },
+                          "& .MuiInputBase-root": {
+                            marginTop: "0px",
+                          },
+                          "& .MuiInput-input": {
+                            paddingLeft: "10px",
+                          },
+
+                          "& .MuiInputBase-input": {
+                            fontWeight: "600",
+                            paddingBottom: "0px",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          },
+                          "& .MuiInput-underline:hover:before": {
+                            borderBottom: "none !important",
+                          },
+                          "& .MuiFormLabel-root": {
+                            paddingLeft: "45px",
+                            paddingTop: "14px",
+                          },
+                          "& .MuiInputLabel-root.Mui-focused": {
+                            color: "rgba(0, 0, 0, 0.6)",
+                          },
+
+                          "& .MuiInput-root::after": {
+                            borderBottom: "none",
+                          },
+                        }}
+                      />
+                    </Box>
                     <Box
                       sx={{
                         backgroundColor: "#fff",
@@ -704,7 +823,7 @@ const FlightsTab = () => {
                   zIndex: calender ? "2" : "1",
                   right: "0px",
                   p: calender ? 2 : 0,
-                  paddingBottom:"0px",
+                  paddingBottom: "0px",
                   marginTop: calender ? -2 : 0,
                   minHeight: "64px",
                   boxShadow: calender ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
@@ -745,146 +864,226 @@ const FlightsTab = () => {
                       </Button>
                     </Box>
                   )}
-
-                  <TextField
-                
-                    onClick={() => {
-                      setdepart(true);
-                      setreturns(false);
-                    }}
-                    variant="standard"
-                    placement="bottom-start"
-                    size="small"
-                    label="Depart"
-                    value={formatDate(dateValue[0])}
-                    InputProps={{
-                      readOnly: true, // Makes the TextField read-only (no blinking cursor)
-                    }}
-                    slotProps={{
-                      inputLabel: {
-                        shrink: !!formatDate(dateValue[0]),
-                        sx: {
-                          transform: !formatDate(dateValue[0])
-                            ? "translate(0, 6px)"
-                            : "", // Adjusts label positioning
-                          left: 0,
-                          position: "absolute",
-                          color: "#767676", // Adjust color for better visibility
-                        },
-                      },
-                    }}
+                  <Box
                     sx={{
+                      p: 0,
+                      margin: 0,
+                      width: "50%",
+                      height: "100%",
+                      borderRadius: "8px 0px 0px 8px",
                       border: depart
                         ? "2px solid #44b50c"
                         : "1px solid #dfdfdf",
-                      height: "100%",
-                      width: "50%",
-                      padding: "10px 8px 0px 20px",
-                      cursor: "pointer",
-
-                      borderRadius: "8px 0px 0px 8px",
-          
-                      // "& :hover":{
-                      //    border:"1px solid #9c9c9c !important"
-
-                      // },
-                      "& .MuiInput-underline:before": {
-                        borderBottom: "none",
+                      "&:hover": {
+                        border: depart
+                          ? "2px solid #44b50c"
+                          : "1px solid #9c9c9c",
                       },
-                      "& .MuiInput-underline:hover:before": {
-                        borderBottom: "none !important",
-                       
-                      },
-                      "& .MuiFormLabel-root": {
-                        paddingTop: "12px",
-                        paddingLeft: "24px",
-                      },
-                      "& .MuiInputBase-input": {
-                        fontWeight: "600",
-                        paddingBottom: "0px",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      },
-                      "& .MuiInput-underline:hover:before": {
-                        borderBottom: "none !important",
-                      },
-
-                      "& .MuiInputLabel-root.Mui-focused": {
-                        color: "rgba(0, 0, 0, 0.6)",
-                      },
-
-                      "& .MuiInput-root::after": {
-                        borderBottom: "none",
-                      },
-                 
-          
-              
-
-}}
-                  />
-
-                  <TextField
-                    onClick={() => {
-                      setreturns(true);
-                      setdepart(false);
                     }}
-                    variant="standard"
-                    size="small"
-                    label="Return"
-                    value={formatDate(dateValue[1])}
-                    slotProps={{
-                      inputLabel: {
-                        shrink: !!formatDate(dateValue[1]),
-                        sx: {
-                          transform: !formatDate(dateValue[1])
-                            ? "translate(0, 6px)"
-                            : "", // Adjusts label positioning
-                          left: 0,
-                          position: "absolute",
-                          color: "#767676", // Adjust color for better visibility
+                  >
+                    <TextField
+                      onClick={() => {
+                        setdepart(true);
+                        setreturns(false);
+                      }}
+                      variant="standard"
+                      placement="bottom-start"
+                      size="small"
+                      label="Depart"
+                      value={formatDate(dateValue[0])}
+                      InputProps={{
+                        endAdornment: !!formatDate(dateValue[0]) && !depart && (
+                          <InputAdornment position="end">
+                            <IconButton
+                              disableRipple
+                              onClick={(event) => {
+                                event.stopPropagation(); // Prevent click event from bubbling up
+                                setPlace("");
+                              }}
+                              edge="end"
+                              sx={{
+                                paddingRight: "30px",
+                                width: "22px",
+                                position: "absolute",
+                                right: "2px",
+                                color: theme.palette.customGreen.dark,
+                                bottom: "-2px",
+                                "&:hover": { background: "transparent" },
+                              }}
+                            >
+                              <KeyboardArrowLeftIcon
+                                onClick={() => dayminus(dateValue[0])}
+                                sx={{
+                                  color: isToday ? "#bdbdbd" : "inherit",
+                                }}
+                              />
+                              <KeyboardArrowRightIcon
+                                onClick={() => dayadd(dateValue[0])}
+                                sx={{
+                                  color: isMaxRange ? "#bdbdbd" : "inherit",
+                                }}
+                              />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                        readOnly: true,
+                      }}
+                      slotProps={{
+                        inputLabel: {
+                          shrink: !!formatDate(dateValue[0]),
+                          sx: {
+                            transform: !formatDate(dateValue[0])
+                              ? "translate(0, 6px)"
+                              : "", // Adjusts label positioning
+                            left: 0,
+                            position: "absolute",
+                            color: "#767676", // Adjust color for better visibility
+                          },
                         },
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: true, // Makes the TextField read-only (no blinking cursor)
-                    }}
+                      }}
+                      sx={{
+                        height: "100%",
+                        width: "100%",
+                        padding: "10px 8px 0px 20px",
+                        cursor: "pointer",
+                        "& .MuiInput-underline:before": {
+                          borderBottom: "none",
+                        },
+                        "& .MuiInput-underline:hover:before": {
+                          borderBottom: "none !important",
+                        },
+                        "& .MuiFormLabel-root": {
+                          paddingTop: "12px",
+                          paddingLeft: "24px",
+                        },
+                        "& .MuiInputBase-input": {
+                          fontWeight: "600",
+                          paddingBottom: "0px",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        },
+                        "& .MuiInput-underline:hover:before": {
+                          borderBottom: "none !important",
+                        },
+
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "rgba(0, 0, 0, 0.6)",
+                        },
+
+                        "& .MuiInput-root::after": {
+                          borderBottom: "none",
+                        },
+                      }}
+                    />
+                  </Box>
+
+                  <Box
                     sx={{
-                      height: "100%",
+                      p: 0,
+                      margin: 0,
                       width: "50%",
-                      padding: "10px 8px 0px 20px",
-                      borderLeft: returns ? "2px" : "0px",
+                      height: "100%",
+                      borderRadius: "0px 8px 8px 0px",
                       border: returns
                         ? "2px solid #44b50c"
                         : "1px solid #dfdfdf",
-                      borderRadius: "0px 8px 8px 0px",
-
-                      cursor: "pointer",
-                      "& .MuiInput-underline:before": {
-                        borderBottom: "none",
+                      "&:hover": {
+                        border: returns
+                          ? "2px solid #44b50c"
+                          : "1px solid #9c9c9c",
                       },
-                      "& .MuiFormLabel-root": {
-                        paddingTop: "12px",
-                        paddingLeft: "24px",
-                      },
-                      "& .MuiInputBase-input": {
-                        fontWeight: "600",
-                        paddingBottom: "0px",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      },
-                      "& .MuiInput-underline:hover:before": {
-                        borderBottom: "none !important",
-                      },
-
-                      "& .MuiInputLabel-root.Mui-focused": {
-                        color: "rgba(0, 0, 0, 0.6)",
-                      },
-
-                      "& .MuiInput-root::after": {
-                        borderBottom: "none",
-                      },
+                      borderLeft: returns ? "2px solid #44b50c" : "0px",
                     }}
-                  />
+                  >
+                    <TextField
+                      onClick={() => {
+                        setreturns(true);
+                        setdepart(false);
+                      }}
+                      variant="standard"
+                      size="small"
+                      label="Return"
+                      value={formatDate(dateValue[1])}
+                      slotProps={{
+                        inputLabel: {
+                          shrink: !!formatDate(dateValue[1]),
+                          sx: {
+                            transform: !formatDate(dateValue[1])
+                              ? "translate(0, 6px)"
+                              : "", // Adjusts label positioning
+                            left: 0,
+                            position: "absolute",
+                            color: "#767676", // Adjust color for better visibility
+                          },
+                        },
+                      }}
+                      InputProps={{
+                        endAdornment: !!formatDate(dateValue[1]) &&
+                          !returns && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                disableRipple
+                                onClick={(event) => {
+                                  event.stopPropagation(); // Prevent click event from bubbling up
+                                  setPlace("");
+                                }}
+                                edge="end"
+                                sx={{
+                                  paddingRight: "30px",
+                                  width: "22px",
+                                  position: "absolute",
+                                  right: "2px",
+                                  color: theme.palette.customGreen.dark,
+                                  bottom: "-2px",
+                                  "&:hover": { background: "transparent" },
+                                }}
+                              >
+                                <KeyboardArrowLeftIcon
+                                  onClick={() => dayminus(dateValue[1])}
+                                  sx={{
+                                    color: isMaxRange ? "#bdbdbd" : "inherit",
+                                  }}
+                                />
+                                <KeyboardArrowRightIcon
+                                  onClick={() => dayadd(dateValue[1])}
+                                />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        readOnly: true,
+                      }}
+                      sx={{
+                        height: "100%",
+                        width: "100%",
+                        padding: "10px 8px 0px 20px",
+                        cursor: "pointer",
+                        "& .MuiInput-underline:before": {
+                          borderBottom: "none",
+                        },
+                        "& .MuiFormLabel-root": {
+                          paddingTop: "12px",
+                          paddingLeft: "24px",
+                        },
+                        "& .MuiInputBase-input": {
+                          fontWeight: "600",
+                          paddingBottom: "0px",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        },
+                        "& .MuiInput-underline:hover:before": {
+                          borderBottom: "none !important",
+                        },
+
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "rgba(0, 0, 0, 0.6)",
+                        },
+
+                        "& .MuiInput-root::after": {
+                          borderBottom: "none",
+                        },
+                      }}
+                    />
+                  </Box>
                 </Box>
                 {calender && (
                   <ClickAwayListener onClickAway={handleClickAway}>
@@ -897,11 +1096,14 @@ const FlightsTab = () => {
                       sx={{ border: "none" }}
                     >
                       <Paper elevation={0}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DateRangeCalendar
                             value={dateValue}
                             onChange={handleDateChange}
-                            
+                            shouldDisableDate={(date) =>
+                              date.isBefore(today, "day")
+                            }
+                            minDate={today}
                           />
                         </LocalizationProvider>
                       </Paper>
@@ -913,6 +1115,151 @@ const FlightsTab = () => {
           </Stack>
         </Box>
       )}
+
+      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+        <Box>
+          <FormControlLabel
+            sx={{ "& .MuiTypography-root": { fontSize: "1.1rem" } }}
+            control={
+              <Checkbox
+                sx={{
+                  color: "transparent",
+                  padding: "0px !important",
+                  border: ".125rem solid #9c9c9c",
+                  borderRadius: "2px",
+                  transition: "all 225ms cubic-bezier(.4,0,.2,1) 0ms",
+                  height: "24px",
+                  width: "24px",
+                  marginRight: "10px",
+                  "& .MuiTypography-root": { fontSize: "3rem" },
+
+                  "& .MuiSvgIcon-root": { fontSize: 32 },
+                  "&.Mui-checked": {
+                    color: theme.palette.customGreen.main,
+                  },
+                }}
+              />
+            }
+            label="Direct flight only"
+          />
+        </Box>
+        <Box>
+          <Button variant="text"   onClick={handleBooking} sx={{ textTransform: "none", alignItems:"center", color:"black" }}
+           endIcon={
+            <ArrowDropDownIcon
+                  sx={{
+                    width: "32px",
+                    height: "32px",
+                   
+                  }}
+                />
+          }
+          >
+            8 Adults
+          </Button>
+
+        </Box>
+        <ClickAwayListener onClickAway={handleClickAway}>
+        <Popper
+          open={booking}
+          anchorEl={anchorbooking}
+          placement="bottom-start"
+          sx={{ width: "270px" }}
+        >
+          {" "}
+          <Card>
+            <CardContent>
+              {roombooking.map((option) => (
+                <Stack
+                  direction="row"
+                  sx={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "2px",
+                  }}
+                  key={option.title}
+                  value={option.value}
+                >
+                  <Typography
+                    variant="text"
+                    sx={{
+                      fontSize: "smaller",
+                      textTransform: "none",
+                      color: "black",
+                    }}
+                  >
+                    {option.title}
+                    <span style={{ color: "gray", marginLeft: "6px" }}>
+                      {option.text}
+                    </span>
+                  </Typography>
+                  <Box sx={{ display: "flex", gap: "6px" }}>
+                    <RemoveIcon
+                      color="primary"
+                      onClick={() => handleRooms(option.sub)}
+                      disable
+                      sx={{
+                        // Adjust size as needed
+                        borderRadius: "50%",
+                        border: "2px solid",
+                        fontSize: "22px",
+                        cursor: "pointer",
+                        backgroundColor: "transparent", // Default background color or gray if disabled
+                        color:
+                          option.value === 1
+                            ? "grey[400]"
+                            : 'blue',
+
+                        "&:hover": {
+                          color:
+                            option.value === 1
+                              ? 'grey[400]'
+                              : "white",
+                          backgroundColor:
+                            option.value === 1
+                              ? "transparent"
+                              : "blue",
+                          border: option.value === 1 ? "2px solid" : "none",
+                        },
+                        // Adjust padding to ensure the icon fits well inside the circle
+                      }}
+                    />
+                    {option.value}
+                    <AddIcon
+                      color="primary"
+                      onClick={() => handleRooms(option.add)}
+                      sx={{
+                        // Adjust size as needed
+                        borderRadius: "50%",
+                        fontSize: "22px",
+                        cursor: "pointer",
+                        border: "2px solid",
+                        backgroundColor: "transparent", // Default background color
+                        "&:hover": {
+                          backgroundColor: "blue",
+                          fill: "white",
+                          border: "none",
+                        },
+                        // Adjust padding to ensure the icon fits well inside the circle
+                      }}
+                    />
+                  </Box>
+                </Stack>
+              ))}
+            </CardContent>
+            <CardActions sx={{ justifyContent: "flex-end" }}>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => setBooking(false)}
+              >
+                Done
+              </Button>
+            </CardActions>
+          </Card>
+        </Popper>
+      </ClickAwayListener>
+      </Stack>
     </Box>
   );
 };
