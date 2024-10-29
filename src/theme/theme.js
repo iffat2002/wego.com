@@ -19,6 +19,7 @@ const theme = createTheme({
       dark: '#188920',
     },
     customTransparent:{
+      lightgray:"#f4f4f4",
       gray: 'rgba(29, 29, 29, .48)',
       hovergray: 'rgba(29, 29, 29, .8)',
     },

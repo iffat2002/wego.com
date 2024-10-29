@@ -17,6 +17,9 @@ import {
   Card,
   CardContent,
   CardActions,
+  MenuItem,
+  Select,
+  FormControl,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -44,14 +47,15 @@ const FlightsTab = () => {
   const [from, setfrom] = useState(false);
   const [to, setTo] = useState(false);
   const [activeBtn, setActiveBtn] = useState("One-way");
-  const [room, setRoom] = useState(1);
-  const [adult, setAdult] = useState(2);
+  const [room, setRoom] = useState(0);
+  const [adult, setAdult] = useState(1);
   const [child, setChild] = useState(0);
   const roombooking = [
     {
       title: "Adults",
       value: adult,
       text: ">12 Years",
+      position: "-75px 0",
       add: "addAdult",
       sub: "subAdult",
       state: { adult },
@@ -60,6 +64,7 @@ const FlightsTab = () => {
       title: "Children",
       value: child,
       text: "2-12 Years",
+      position: "0 -50px",
       add: "addChild",
       sub: "subChild",
       state: { child },
@@ -68,13 +73,14 @@ const FlightsTab = () => {
       title: "Infants",
       value: room,
       text: "<2 Years",
+      position: "-25px -100px",
       add: "addRoom",
       sub: "subRoom",
     },
   ];
 
   const handleRooms = (e) => {
-    if (e === "addRoom") {
+    if (e === "addRoom" && room < 10) {
       setRoom(room + 1);
     } else if (e === "subRoom" && room > 1) {
       setRoom(room - 1);
@@ -88,10 +94,22 @@ const FlightsTab = () => {
       setChild(child - 1);
     }
   };
-
+  
+  const getPassengerCount = () => {
+    const total = room + adult + child;
+    if(room === 0 && child === 0 && adult > 1){
+      return `${total} Adults`
+    } else if(room === 0 && child === 0 && adult === 1){
+ return `${total} Adult`
+    } else{
+       return `${total} Passengers`
+    }
+   
+  };
   const BtnClick = (e) => {
     setActiveBtn(e);
   };
+
   const destinations = [
     { id: 1, fullName: "Jeddah, Saudi Arabia (JED)", title: "Jeddah" },
     { id: 2, fullName: "Riyadh, Saudi Arabia (RUH)", title: "Riyadh" },
@@ -271,11 +289,16 @@ const FlightsTab = () => {
       setCalender(false);
     }
   };
+   const [Class, setclass] = useState('');
   const handleBooking = (event) => {
     setAnchorbooking(event.currentTarget);
     setBooking((previousOpen) => !previousOpen);
   };
+const handleClass= (event) => {
+    setclass(event.target.value);
+  };
 
+ 
   return (
     <Box>
       <Stack direction="row" height="40px" gap="7px">
@@ -1145,28 +1168,52 @@ const FlightsTab = () => {
         </Box>
         <Box>
           <Button
+          disableRipple
             variant="text"
             onClick={handleBooking}
-            sx={{ textTransform: "none", alignItems: "center", color: "black" }}
+            sx={{ textTransform: "none", alignItems: "center", color: "black",  "&:hover":{
+              background:"none"
+              } }}
             endIcon={
               <ArrowDropDownIcon
                 sx={{
                   width: "32px",
                   height: "32px",
+                
                 }}
               />
             }
           >
-            8 Adults
+           {getPassengerCount()}
           </Button>
+         <FormControl variant="standard" sx={{ m: 1, minWidth: 120, "&:hover":{background:theme.palette.customTransparent.lightgray} }}>
+          <Select
+          
+          disableUnderline
+          value={Class}
+          onChange={handleClass}
+          displayEmpty
+            id="demo-simple-select-standard"
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+          
+        </Select>
+        </FormControl>
         </Box>
         <ClickAwayListener onClickAway={handleClickAway}>
           <Popper
             open={booking}
             anchorEl={anchorbooking}
             placement="bottom-start"
-            sx={{ width: "230px",zIndex: "5", "& .MuiPaper-root":{
-              borderRadius:"15px"
+            sx={{ width: "245px",zIndex: "5", "& .MuiPaper-root":{
+              borderRadius:"15px",
+              padding:"10px 0px"
             } }}
           >
             {" "}
@@ -1184,6 +1231,10 @@ const FlightsTab = () => {
                     key={option.title}
                     value={option.value}
                   >
+                    <Stack direction="row" sx={{alignItems: "center"}}>
+                     <Box sx={{backgroundImage: 'url(/icons.webp)', width:"24px", height:"24px", backgroundRepeat: 'no-repeat',
+    backgroundSize: '99px 149px' , backgroundPosition: option.position, marginRight:1, p:0}}></Box>
+              
                     <Typography
                       variant="text"
                       sx={{
@@ -1197,7 +1248,8 @@ const FlightsTab = () => {
                         {option.text}
                       </span>
                     </Typography>
-                    <Box sx={{ display: "flex", gap: "6px" }}>
+                    </Stack>
+                    <Stack direction="row" sx={{  gap: "0 12px" }}>
                       <IconButton
                         disableRipple
                         sx={{
@@ -1264,7 +1316,7 @@ const FlightsTab = () => {
                           }}
                         />
                       </IconButton>
-                    </Box>
+                    </Stack>
                   </Stack>
                 ))}
                   <Divider/>
@@ -1275,7 +1327,7 @@ const FlightsTab = () => {
                   size="small"
                   variant="text"
                   onClick={() => setBooking(false)}
-                  sx={{ textTransform:"none", color: theme.palette.customGreen.main, fontWeight:"600", fontSize:"14px"}}
+                  sx={{ textTransform:"none", color: theme.palette.customGreen.main, fontWeight:"600", fontSize:"14px", "&:hover":{background:"none"}}}
                 >
                   Apply
                 </Button>
