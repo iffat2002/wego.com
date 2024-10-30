@@ -6,6 +6,8 @@ import {
   Typography,
   Autocomplete,
   Popper,
+  Popover,
+  Grid,
   Paper,
   Divider,
   InputAdornment,
@@ -290,6 +292,10 @@ const FlightsTab = () => {
     }
   };
    const [Class, setclass] = useState('');
+   const classes = [
+    "Economy", "Premium Economy","Business Class","First Class"
+    
+   ]
   const handleBooking = (event) => {
     setAnchorbooking(event.currentTarget);
     setBooking((previousOpen) => !previousOpen);
@@ -298,7 +304,49 @@ const handleClass= (event) => {
     setclass(event.target.value);
   };
 
- 
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [checked, setChecked] = useState({
+    mastercard: false,
+    visa: true,
+    easypaisa: true,
+    amex: true,
+    bank: false,
+    diners: true,
+    paypal: false,
+    unionpay: false,
+  });
+  const [showMore, setShowMore] = useState(false); 
+
+  const handleButtonClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleChange = (event) => {
+    setChecked({
+      ...checked,
+      [event.target.name]: event.target.checked,
+    });
+  };
+  const toggleShowMore = () => {
+    setShowMore((prev) => !prev); // Toggle between show more and show less
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'payment-menu-popover' : undefined;
+
+  const labelStyles = {
+   "& .MuiFormControlLabel-label":{
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+   maxWidth:"129px"}
+  };
+
   return (
     <Box>
       <Stack direction="row" height="40px" gap="7px">
@@ -1166,19 +1214,20 @@ const handleClass= (event) => {
             label="Direct flight only"
           />
         </Box>
-        <Box>
+        <Stack direction="row" sx={{    fontSize: "16px",
+    fontWeight: "400", alignItems:"center", position:"relative"}}>
           <Button
           disableRipple
             variant="text"
             onClick={handleBooking}
-            sx={{ textTransform: "none", alignItems: "center", color: "black",  "&:hover":{
+            sx={{ textTransform: "none", alignItems: "center",fontWeight:"400", fontSize:"16px", color: "inherit",  "&:hover":{
               background:"none"
               } }}
             endIcon={
               <ArrowDropDownIcon
                 sx={{
-                  width: "32px",
-                  height: "32px",
+                  width: "28px",
+                  height: "29px",
                 
                 }}
               />
@@ -1186,26 +1235,200 @@ const handleClass= (event) => {
           >
            {getPassengerCount()}
           </Button>
-         <FormControl variant="standard" sx={{ m: 1, minWidth: 120, "&:hover":{background:theme.palette.customTransparent.lightgray} }}>
+         <FormControl variant="standard" sx={{ m: 1, minWidth: "200", padding:"0 12px",  "&:hover":{background:theme.palette.customTransparent.lightgray},fontSize:"inherit", height:"48px",gap: "8px 0px", borderRadius:"8px", justifyContent:"center"  }}>
           <Select
           
           disableUnderline
-          value={Class}
+          value={Class || "Economy"}
           onChange={handleClass}
           displayEmpty
             id="demo-simple-select-standard"
           inputProps={{ 'aria-label': 'Without label' }}
+        
+          sx={{
+            "& .MuiSelect-icon": {
+              fontSize: 28, 
+              color:"black"
+            },
+            fontSize:"16px",
+            "& .MuiInput-input":{
+            marginRight:"8px"
+            },
+           
+            
+          }}
+          MenuProps={{
+            PaperProps: {
+              sx: {
+                borderRadius:"16px", 
+             
+                "& .MuiMenuItem-root.Mui-selected": {
+                  backgroundColor: "transparent", 
+                  color: theme.palette.customGreen.dark,
+                  "&:hover": {
+                    backgroundColor: "transparent", // Keep yellow on hover when selected
+                  },
+              },
+             
+          },
+             
+            },
+          }}
+         
         >
-          <MenuItem value="">
-            <em>None</em>
+          {classes.map((classOption)=>(
+            <MenuItem key={classOption} value={classOption} sx={{padding:"10px 24px",}}>
+            {classOption}
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-          
+          ))}
         </Select>
         </FormControl>
+        <Button variant="contained" onClick={handleButtonClick}>
+        Open Payment Menu
+      </Button>
+   
+        </Stack>
+        <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Box sx={{padding:"24px 24px 18px", width:"400px"}} >
+          <Typography variant="body2" color="textSecondary">
+            By Selecting One Or More (Max 10) Payment Types, Prices On Wego Will Include Applicable Minimum Payment Fee. Please Note That Not All Providers Support All Payment Types.
+          </Typography>
+          <Grid container spacing={1} mt={1}>
+            <Grid item xs={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.mastercard}
+                    onChange={handleChange}
+                    name="mastercard"
+                  />
+                }
+                label="MasterCard Credit"
+                sx={labelStyles}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.visa}
+                    onChange={handleChange}
+                    name="visa"
+                  />
+                }
+                label="Visa Credit"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.easypaisa}
+                    onChange={handleChange}
+                    name="easypaisa"
+                  />
+                }
+                label="Easypaisa"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.amex}
+                    onChange={handleChange}
+                    name="amex"
+                  />
+                }
+                label="American Express"
+                sx={labelStyles}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.bank}
+                    onChange={handleChange}
+                    name="bank"
+                  />
+                }
+                label="Bank Transfer"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.diners}
+                    onChange={handleChange}
+                    name="diners"
+                  />
+                }
+                label="Diners Club"
+              />
+            </Grid>
+            {showMore && (
+              <>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked.paypal}
+                        onChange={handleChange}
+                        name="paypal"
+                      />
+                    }
+                    label="PayPal"
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked.unionpay}
+                        onChange={handleChange}
+                        name="unionpay"
+                      />
+                    }
+                    label="UnionPay"
+                  />
+                </Grid>
+              </>
+            )}
+          </Grid>
+          <Typography
+            variant="body2"
+            color="primary"
+            mt={1}
+            onClick={toggleShowMore}
+            style={{ cursor: 'pointer' }}
+          >
+            {showMore ? '- Show Less' : '+ Show More'}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" mt={1}>
+            Tips: To Find Popular Payment Types, You Can Change Your "Country" Setting (Located On Top-Right Menu).
+          </Typography>
+          <Box display="flex" justifyContent="flex-end" mt={2}>
+            <Button color="success" onClick={handleClose}>
+              Apply
+            </Button>
+          </Box>
         </Box>
+      </Popover>
         <ClickAwayListener onClickAway={handleClickAway}>
           <Popper
             open={booking}
