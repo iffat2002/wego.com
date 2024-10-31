@@ -96,17 +96,16 @@ const FlightsTab = () => {
       setChild(child - 1);
     }
   };
-  
+
   const getPassengerCount = () => {
     const total = room + adult + child;
-    if(room === 0 && child === 0 && adult > 1){
-      return `${total} Adults`
-    } else if(room === 0 && child === 0 && adult === 1){
- return `${total} Adult`
-    } else{
-       return `${total} Passengers`
+    if (room === 0 && child === 0 && adult > 1) {
+      return `${total} Adults`;
+    } else if (room === 0 && child === 0 && adult === 1) {
+      return `${total} Adult`;
+    } else {
+      return `${total} Passengers`;
     }
-   
   };
   const BtnClick = (e) => {
     setActiveBtn(e);
@@ -291,19 +290,20 @@ const FlightsTab = () => {
       setCalender(false);
     }
   };
-   const [Class, setclass] = useState('');
-   const classes = [
-    "Economy", "Premium Economy","Business Class","First Class"
-    
-   ]
+  const [Class, setclass] = useState("");
+  const classes = [
+    "Economy",
+    "Premium Economy",
+    "Business Class",
+    "First Class",
+  ];
   const handleBooking = (event) => {
     setAnchorbooking(event.currentTarget);
     setBooking((previousOpen) => !previousOpen);
   };
-const handleClass= (event) => {
+  const handleClass = (event) => {
     setclass(event.target.value);
   };
-
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [checked, setChecked] = useState({
@@ -316,7 +316,7 @@ const handleClass= (event) => {
     paypal: false,
     unionpay: false,
   });
-  const [showMore, setShowMore] = useState(false); 
+  const [showMore, setShowMore] = useState(false);
 
   const handleButtonClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -325,28 +325,46 @@ const handleClass= (event) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const paymentOptions = [
+    { name: "mastercard", label: "MasterCard Credit" },
+    { name: "visa", label: "Visa Credit" },
+    { name: "easypaisa", label: "Easypaisa" },
+    { name: "amex", label: "American Express" },
+    { name: "bank", label: "Bank Transfer" },
+    { name: "diners", label: "Diners Club" },
+    { name: "paypal", label: "PayPal", showMore: true },
+    { name: "unionpay", label: "UnionPay", showMore: true },
+  ];
+  const [checkedcount, setCheckedCount] = useState(4);
   const handleChange = (event) => {
-    setChecked({
+    const updatedChecked = {
       ...checked,
       [event.target.name]: event.target.checked,
-    });
+    };
+    setChecked(updatedChecked);
+
+    // Calculate the number of checked boxes
+    const checkedCount = Object.values(updatedChecked).filter(Boolean).length;
+    setCheckedCount(checkedCount);
   };
+
   const toggleShowMore = () => {
     setShowMore((prev) => !prev); // Toggle between show more and show less
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'payment-menu-popover' : undefined;
+  const id = open ? "payment-menu-popover" : undefined;
 
   const labelStyles = {
-   "& .MuiFormControlLabel-label":{
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-   maxWidth:"129px"}
+    "& .MuiFormControlLabel-label": {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      maxWidth: "129px",
+    },
   };
 
+  console.log("checked", checkedcount);
   return (
     <Box>
       <Stack direction="row" height="40px" gap="7px">
@@ -381,24 +399,36 @@ const handleClass= (event) => {
       </Stack>
       {activeBtn === "One-way" && (
         <Box>
-          <Stack direction="row" mt={2} sx={{ gap: "0 8px" }}>
-            <Stack
-              width="50%"
+          <Stack
+           
+            mt={2}
+            sx={{  alignItems: "center", width:"100%", gap:{lg:"0 8px", md:"8px 0",  md:"8px 0"},
+              flexDirection: {
+                 md: "col",
+                 xs: "col",
+              lg: 'row', 
+              
+            }, }}
+          >
+            <Stack   
               direction="row"
               position="relative"
               sx={{
                 gap: "0 8px",
                 justifyContent: "center",
                 alignItems: "center",
+                width:"100%"
+                 
               }}
             >
               <Box
                 sx={{
-                  width: "50%",
+                 
                   p: 2,
                   minHeight: "64px",
                   padding: "0px",
                   position: "relative",
+                  width: "50%"
                 }}
               >
                 <Paper
@@ -882,9 +912,9 @@ const handleClass= (event) => {
               </Box>
             </Stack>
             <Box
-              width="50%"
+           
               position="relative"
-              sx={{ p: 2, minHeight: "64px" }}
+              sx={{ p: 0, minHeight: "64px", width: "100%" }}
             >
               <Paper
                 elevation={0}
@@ -1187,10 +1217,14 @@ const handleClass= (event) => {
         </Box>
       )}
 
-      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+      <Stack
+      mt={1}
+        direction="row"
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
+      >
         <Box>
           <FormControlLabel
-            sx={{ "& .MuiTypography-root": { fontSize: "1.1rem" } }}
+            sx={{ "& .MuiTypography-root": { fontSize: "16px"}, marginLeft:"0px" }}
             control={
               <Checkbox
                 sx={{
@@ -1202,7 +1236,7 @@ const handleClass= (event) => {
                   height: "24px",
                   width: "24px",
                   marginRight: "10px",
-                  "& .MuiTypography-root": { fontSize: "3rem" },
+                  "& .MuiTypography-root": { fontSize: "15px" },
 
                   "& .MuiSvgIcon-root": { fontSize: 32 },
                   "&.Mui-checked": {
@@ -1214,15 +1248,105 @@ const handleClass= (event) => {
             label="Direct flight only"
           />
         </Box>
-        <Stack direction="row" sx={{    fontSize: "16px",
-    fontWeight: "400", alignItems:"center", position:"relative"}}>
+        <Stack
+          direction="row"
+          sx={{
+            fontSize: "16px",
+            fontWeight: "400",
+            alignItems: "center",
+            position: "relative",
+          }}
+        >
           <Button
-          disableRipple
+            disableRipple
             variant="text"
             onClick={handleBooking}
-            sx={{ textTransform: "none", alignItems: "center",fontWeight:"400", fontSize:"16px", color: "inherit",  "&:hover":{
-              background:"none"
-              } }}
+            sx={{
+              textTransform: "none",
+              borderRadius: "8px",
+              alignItems: "center",
+              height:"48px",
+              fontWeight: "400",
+              fontSize: "16px",
+              color: "inherit",
+              "&:hover": {
+                background: theme.palette.customTransparent.lightgray,
+              },
+            }}
+            endIcon={
+              <ArrowDropDownIcon
+                sx={{
+                  width: "28px",
+                  height: "29px",
+                }}
+              />
+            }
+          >
+            {getPassengerCount()}
+          </Button>
+          <FormControl
+            variant="standard"
+            sx={{
+              m: 1,
+              minWidth: "200",
+              padding: "0 12px",
+              "&:hover": {
+                background: theme.palette.customTransparent.lightgray,
+              },
+              fontSize: "inherit",
+              height: "48px",
+              gap: "8px 0px",
+              borderRadius: "8px",
+              justifyContent: "center",
+            }}
+          >
+            <Select
+              disableUnderline
+              value={Class || "Economy"}
+              onChange={handleClass}
+              displayEmpty
+              id="demo-simple-select-standard"
+              inputProps={{ "aria-label": "Without label" }}
+              sx={{
+                "& .MuiSelect-icon": {
+                  fontSize: 28,
+                  color: "black",
+                },
+                fontSize: "16px",
+                "& .MuiInput-input": {
+                  marginRight: "8px",
+                },
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    borderRadius: "16px",
+
+                    "& .MuiMenuItem-root.Mui-selected": {
+                      backgroundColor: "transparent",
+                      color: theme.palette.customGreen.dark,
+                      "&:hover": {
+                        backgroundColor: "transparent", // Keep yellow on hover when selected
+                      },
+                    },
+                  },
+                },
+              }}
+            >
+              {classes.map((classOption) => (
+                <MenuItem
+                  key={classOption}
+                  value={classOption}
+                  sx={{ padding: "10px 24px" }}
+                >
+                  {classOption}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button
+            disableRipple
+            variant="standard"
             endIcon={
               <ArrowDropDownIcon
                 sx={{
@@ -1232,216 +1356,158 @@ const handleClass= (event) => {
                 }}
               />
             }
-          >
-           {getPassengerCount()}
-          </Button>
-         <FormControl variant="standard" sx={{ m: 1, minWidth: "200", padding:"0 12px",  "&:hover":{background:theme.palette.customTransparent.lightgray},fontSize:"inherit", height:"48px",gap: "8px 0px", borderRadius:"8px", justifyContent:"center"  }}>
-          <Select
-          
-          disableUnderline
-          value={Class || "Economy"}
-          onChange={handleClass}
-          displayEmpty
-            id="demo-simple-select-standard"
-          inputProps={{ 'aria-label': 'Without label' }}
-        
-          sx={{
-            "& .MuiSelect-icon": {
-              fontSize: 28, 
-              color:"black"
-            },
-            fontSize:"16px",
-            "& .MuiInput-input":{
-            marginRight:"8px"
-            },
-           
-            
-          }}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                borderRadius:"16px", 
-             
-                "& .MuiMenuItem-root.Mui-selected": {
-                  backgroundColor: "transparent", 
-                  color: theme.palette.customGreen.dark,
-                  "&:hover": {
-                    backgroundColor: "transparent", // Keep yellow on hover when selected
-                  },
+            sx={{
+              fontWeight: "400",
+              padding: "0 12px",
+              "&:hover": {
+                background: theme.palette.customTransparent.lightgray,
               },
-             
-          },
-             
-            },
-          }}
-         
-        >
-          {classes.map((classOption)=>(
-            <MenuItem key={classOption} value={classOption} sx={{padding:"10px 24px",}}>
-            {classOption}
-          </MenuItem>
-          ))}
-        </Select>
-        </FormControl>
-        <Button variant="contained" onClick={handleButtonClick}>
-        Open Payment Menu
-      </Button>
-   
+              fontSize: "15px",
+              height: "48px",
+              gap: "8px 0px",
+              borderRadius: "8px",
+              color:"inherit",
+              justifyContent: "center",
+              textTransform: "none",
+              alignItems:"center",
+              mr:2,
+            }}
+            onClick={handleButtonClick}
+          >
+            {checkedcount} Payment Types
+          </Button>
+          <Button
+            variant="contained"
+            disableRipple
+            sx={{
+              backgroundColor: theme.palette.customGreen.main,
+              textTransform: "none",
+              borderRadius: "100px",
+              height: "48px",
+              width: "135px",
+              fontSize: "16px",
+              marginLeft: "8px",
+              "&:hover": { backgroundColor: theme.palette.customGreen.dark },
+            }}
+          >
+            Search{" "}
+          </Button>
         </Stack>
         <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Box sx={{padding:"24px 24px 18px", width:"400px"}} >
-          <Typography variant="body2" color="textSecondary">
-            By Selecting One Or More (Max 10) Payment Types, Prices On Wego Will Include Applicable Minimum Payment Fee. Please Note That Not All Providers Support All Payment Types.
-          </Typography>
-          <Grid container spacing={1} mt={1}>
-            <Grid item xs={6}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.mastercard}
-                    onChange={handleChange}
-                    name="mastercard"
-                  />
-                }
-                label="MasterCard Credit"
-                sx={labelStyles}
-              />
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          sx={{
+            "& .MuiPaper-root": {
+              borderRadius: "16px",
+            },
+          }}
+        >
+          <Box sx={{ padding: "24px 24px 18px", width: "400px" }}>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              sx={{ fontSize: "12px" }}
+            >
+              By Selecting One Or More (Max 10) Payment Types, Prices On Wego
+              Will Include Applicable Minimum Payment Fee. Please Note That Not
+              All Providers Support All Payment Types.
+            </Typography>
+            <Grid
+              container
+              pt={0}
+              spacing={1}
+              mt={1}
+              sx={{ "& .MuiGrid-item": { paddingTop: 0 } }}
+            >
+              {paymentOptions.map((option) => {
+                if (!showMore && option.showMore) return null; // Only show "showMore" items if showMore is true
+                return (
+                  <Grid
+                    item
+                    xs={6}
+                    pt={0}
+                    key={option.name}
+                    sx={{ "& .MuiGrid-item": { paddingTop: 0 } }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={!!checked[option.name]}
+                          onChange={handleChange}
+                          name={option.name}
+                        />
+                      }
+                      label={option.label}
+                      sx={labelStyles}
+                    />
+                  </Grid>
+                );
+              })}
             </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.visa}
-                    onChange={handleChange}
-                    name="visa"
-                  />
-                }
-                label="Visa Credit"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.easypaisa}
-                    onChange={handleChange}
-                    name="easypaisa"
-                  />
-                }
-                label="Easypaisa"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.amex}
-                    onChange={handleChange}
-                    name="amex"
-                  />
-                }
-                label="American Express"
-                sx={labelStyles}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.bank}
-                    onChange={handleChange}
-                    name="bank"
-                  />
-                }
-                label="Bank Transfer"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.diners}
-                    onChange={handleChange}
-                    name="diners"
-                  />
-                }
-                label="Diners Club"
-              />
-            </Grid>
-            {showMore && (
-              <>
-                <Grid item xs={6}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked.paypal}
-                        onChange={handleChange}
-                        name="paypal"
-                      />
-                    }
-                    label="PayPal"
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked.unionpay}
-                        onChange={handleChange}
-                        name="unionpay"
-                      />
-                    }
-                    label="UnionPay"
-                  />
-                </Grid>
-              </>
-            )}
-          </Grid>
-          <Typography
-            variant="body2"
-            color="primary"
-            mt={1}
-            onClick={toggleShowMore}
-            style={{ cursor: 'pointer' }}
-          >
-            {showMore ? '- Show Less' : '+ Show More'}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" mt={1}>
-            Tips: To Find Popular Payment Types, You Can Change Your "Country" Setting (Located On Top-Right Menu).
-          </Typography>
-          <Box display="flex" justifyContent="flex-end" mt={2}>
-            <Button color="success" onClick={handleClose}>
-              Apply
-            </Button>
+            <Typography
+              variant="body2"
+              color="#44b50c"
+              mt={1}
+              onClick={toggleShowMore}
+              sx={{ cursor: "pointer", fontWeight: "600" }}
+            >
+              {showMore ? "- Show Less" : "+ Show More"}
+            </Typography>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              mt={2}
+              mb={2}
+              sx={{ fontSize: "12px" }}
+            >
+              Tips: To Find Popular Payment Types, You Can Change Your "Country"
+              Setting (Located On Top-Right Menu).
+            </Typography>
+            <Divider />
+            <Box display="flex" justifyContent="flex-end" mt={1} p={0}>
+              <Button
+                disableRipple
+                onClick={handleClose}
+                sx={{
+                  textTransform: "none",
+                  padding: "0px",
+                  fontWeight: "500",
+                  color: "#44b50c",
+                  "&:hover": { background: "transparent" },
+                }}
+              >
+                Apply
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Popover>
+        </Popover>
         <ClickAwayListener onClickAway={handleClickAway}>
           <Popper
             open={booking}
             anchorEl={anchorbooking}
             placement="bottom-start"
-            sx={{ width: "245px",zIndex: "5", "& .MuiPaper-root":{
-              borderRadius:"15px",
-              padding:"10px 0px"
-            } }}
+            sx={{
+              width: "245px",
+              zIndex: "5",
+              "& .MuiPaper-root": {
+                borderRadius: "15px",
+                padding: "10px 0px",
+              },
+            }}
           >
             {" "}
             <Card>
-              <CardContent sx={{paddingBottom:"0px"}}>
+              <CardContent sx={{ paddingBottom: "0px" }}>
                 {roombooking.map((option) => (
                   <Stack
                     direction="row"
@@ -1454,25 +1520,35 @@ const handleClass= (event) => {
                     key={option.title}
                     value={option.value}
                   >
-                    <Stack direction="row" sx={{alignItems: "center"}}>
-                     <Box sx={{backgroundImage: 'url(/icons.webp)', width:"24px", height:"24px", backgroundRepeat: 'no-repeat',
-    backgroundSize: '99px 149px' , backgroundPosition: option.position, marginRight:1, p:0}}></Box>
-              
-                    <Typography
-                      variant="text"
-                      sx={{
-                        fontSize: "smaller",
-                        textTransform: "none",
-                        color: "black",
-                      }}
-                    >
-                      {option.title}
-                      <span style={{ color: "gray", display: "block" }}>
-                        {option.text}
-                      </span>
-                    </Typography>
+                    <Stack direction="row" sx={{ alignItems: "center" }}>
+                      <Box
+                        sx={{
+                          backgroundImage: "url(/icons.webp)",
+                          width: "24px",
+                          height: "24px",
+                          backgroundRepeat: "no-repeat",
+                          backgroundSize: "99px 149px",
+                          backgroundPosition: option.position,
+                          marginRight: 1,
+                          p: 0,
+                        }}
+                      ></Box>
+
+                      <Typography
+                        variant="text"
+                        sx={{
+                          fontSize: "smaller",
+                          textTransform: "none",
+                          color: "black",
+                        }}
+                      >
+                        {option.title}
+                        <span style={{ color: "gray", display: "block" }}>
+                          {option.text}
+                        </span>
+                      </Typography>
                     </Stack>
-                    <Stack direction="row" sx={{  gap: "0 12px" }}>
+                    <Stack direction="row" sx={{ gap: "0 12px" }}>
                       <IconButton
                         disableRipple
                         sx={{
@@ -1508,7 +1584,7 @@ const handleClass= (event) => {
 
                       {option.value}
                       <IconButton
-                      disableRipple
+                        disableRipple
                         sx={{
                           borderRadius: "4px",
                           width: "22px",
@@ -1517,13 +1593,13 @@ const handleClass= (event) => {
                             option.value < 9
                               ? theme.palette.customGreen.main
                               : "#bdbdbd",
-                          
+
                           "&:hover": {
-                                backgroundColor:
-                                  option.value < 9
-                                    ? theme.palette.customGreen.dark
-                                    : "none"
-                              },
+                            backgroundColor:
+                              option.value < 9
+                                ? theme.palette.customGreen.dark
+                                : "none",
+                          },
                         }}
                       >
                         <AddIcon
@@ -1542,15 +1618,22 @@ const handleClass= (event) => {
                     </Stack>
                   </Stack>
                 ))}
-                  <Divider/>
+                <Divider />
               </CardContent>
-            
+
               <CardActions sx={{ justifyContent: "flex-end" }}>
                 <Button
+                  disableRipple
                   size="small"
                   variant="text"
                   onClick={() => setBooking(false)}
-                  sx={{ textTransform:"none", color: theme.palette.customGreen.main, fontWeight:"600", fontSize:"14px", "&:hover":{background:"none"}}}
+                  sx={{
+                    textTransform: "none",
+                    color: theme.palette.customGreen.main,
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    "&:hover": { background: "none" },
+                  }}
                 >
                   Apply
                 </Button>

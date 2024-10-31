@@ -18,7 +18,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box
-          sx={{ p: 3, backgroundColor: "white", borderRadius: "0 8px 8px 8px",  }}
+          sx={{ p: 3, backgroundColor: "white", borderRadius: "0 8px 8px 8px", boxShadow:"0 0 24px 2px rgba(0,0,0,.2)"  }}
         >
           {children}
         </Box>

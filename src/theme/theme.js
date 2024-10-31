@@ -63,5 +63,36 @@ theme.components = {
       },
     },
   },
+  MuiCheckbox: {
+    defaultProps: {
+      disableRipple: true, // Disable ripple effect
+    },
+    styleOverrides: {
+      root: {
+        color: '#9c9c9c', // Default color
+        '&.Mui-checked': {
+          color: '#44b50c', // Checked color
+        },
+        transform: 'scale(1.2)', // Adjust size
+        transition: "all 225ms cubic-bezier(.4,0,.2,1) 0ms",
+        "&:hover":{
+          background:"transparent"
+        },
+        "&.MuiTouchRipple-root":{
+          display:"none"
+        }
+
+      },
+    },
+  },
+  MuiFormControlLabel: {
+    styleOverrides: {
+      root:{
+        "& .MuiTouchRipple-root":{
+          display:"none"
+         }
+      }
+    },
+  }
 };
 export default theme;
