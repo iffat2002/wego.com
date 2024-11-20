@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import {Box, Stack} from "@mui/material";
 import FlightsTab from "./FlightsTab";
-
+import HotelsTab from "./HotelsTab"
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -129,7 +129,8 @@ export default function HeroTabs() {
          <FlightsTab />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          Where do you want to stay?
+          <HotelsTab />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           Item Three

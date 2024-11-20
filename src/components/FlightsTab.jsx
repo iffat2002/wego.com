@@ -272,6 +272,32 @@ const FlightsTab = () => {
       setFlights(flights.filter(flight => flight.id !== id));
     }
   };
+  const cities = [
+    { id: 1, fullName: "Lahore, Pakistan (LHE)", title: "Lahore" },
+    { id: 2, fullName: "Islamabad, Pakistan (ISB)", title: "Islamabad" },
+    { id: 3, fullName: "Karachi, Pakistan (KHI)", title: "Karachi" },
+    { id: 4, fullName: "Multan, Pakistan (MUX)", title: "Multan" },
+    { id: 5, fullName: "Sialkot, Pakistan (SKT)", title: "Sialkot" },
+    { id: 6, fullName: "Peshawar, Pakistan (PEW)", title: "Peshawar" },
+    { id: 7, fullName: "Faisalabad, Pakistan (LYP)", title: "Faisalabad" },
+    { id: 8, fullName: "Quetta, Pakistan (UET)", title: "Quetta" },
+    { id: 9, fullName: "Hyderabad, Pakistan (HDD)", title: "Hyderabad" },
+    {
+      id: 10,
+      fullName: "Dera Ghazi Khan, Pakistan (DEA)",
+      title: "Dera Ghazi Khan",
+    },
+    { id: 11, fullName: "Bahawalpur, Pakistan (BHV)", title: "Bahawalpur" },
+    {
+      id: 12,
+      fullName: "Rahim Yar Khan, Pakistan (RYK)",
+      title: "Rahim Yar Khan",
+    },
+    { id: 13, fullName: "Sukkur, Pakistan (SKZ)", title: "Sukkur" },
+    { id: 14, fullName: "Skardu, Pakistan (KDU)", title: "Skardu" },
+    { id: 15, fullName: "Turbat, Pakistan (TUK)", title: "Turbat" },
+    { id: 16, fullName: "Gwadar, Pakistan (GWD)", title: "Gwadar" },
+  ];
   return (
     <Box sx={{ position: "relative" }}>
       <Stack direction="row" height="40px" gap="7px">
@@ -307,12 +333,12 @@ const FlightsTab = () => {
 
       {activeBtn === "One-way" && (
         <Box>
-          <FlightContent returnFlight={false} />
+          <FlightContent returnFlight={false} isHotels={false} cities={cities} />
         </Box>
       )}
       {activeBtn === "Round-trip" && (
         <Box>
-          <FlightContent returnFlight={true} />
+          <FlightContent returnFlight={true} isHotels={false} cities={cities} />
         </Box>
       )}
       {activeBtn === "Multi-city" && (
@@ -344,7 +370,7 @@ const FlightsTab = () => {
           </Button>
           {flights.map((flight) => (
         <Box key={flight.id} display="flex" alignItems="center" >
-          <FlightContent returnFlight={true} />
+          <FlightContent returnFlight={true} isHotels={false} cities={cities}/>
           <IconButton disableRipple
             onClick={() => handleDeleteFlight(flight.id)}
             disabled={flights.length <= 2}
