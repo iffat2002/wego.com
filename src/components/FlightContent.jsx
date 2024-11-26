@@ -355,7 +355,9 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
     const [rooms, setRooms] = useState([
       { id: 1, adults: 1, children: 0, childrenAges: [] },
     ]);
-  
+    const totalguests = rooms.reduce((sum, room) => sum + room.adults, 0) +  rooms.reduce((sum, room) => sum + room.children, 0);
+
+    const roomCount = rooms.length > 0 ? Math.max(...rooms.map(room => room.id)) : 0;
     const handleAddRoom = () => {
       setRooms((prevRooms) => [
         ...prevRooms,
@@ -1009,10 +1011,11 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
         <Paper
           elevation={0}
           sx={{
-            width: calender ? "120%" : "100%", // Expands Paper when calendar is active
+            width: (isHotels && calender) ? "150%" : calender ? "120%" : "100%",
+          
             position: calender ? "absolute" : "relative",
             zIndex: calender ? "2" : "1",
-            right: "0px",
+            right: isHotels ? "inherit":"0px",
             p: calender ? 2 : 0,
             paddingBottom: "0px",
             marginTop: calender ? -2 : 0,
@@ -1033,7 +1036,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
               display: "flex",
             }}
           >
-            {calender && (
+            {calender && !isHotels && (
               <Box width="15%">
                 <Button
                   disableRipple
@@ -1299,7 +1302,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
         </Paper>
       </Box>
       {isHotels && (
-        <>
+        <Box position="relative">
         <Box
           position="relative"
           onClick={handleBooking}
@@ -1312,17 +1315,17 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
             "&:hover": {
               border: from ? "1px solid #44b50c" : "1px solid #9c9c9c",
             },
-            width: { md: "100%", lg: "25%" },
+            //width: { md: "100%", lg: "25%" },
           }}
         >
           <TextField
-            onClick={handleFromClick}
+          //  onClick={handleFromClick}
             variant="standard"
             placement="bottom-start"
             size="small"
-            label="From"
-            value={place}
-            onChange={handleTextChange}
+            label="Guests and Rooms"
+            value={`${totalguests} Guests in ${roomCount} Room${roomCount > 1 ? 's' : ''}`}
+            //onChange={handleTextChange}
             sx={{
               cursor: "pointer",
               "& .MuiInput-underline:before": {
@@ -1343,20 +1346,25 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
             }}
           />
         </Box>
-       
+        {booking && 
                 <ClickAwayListener onClickAway={handleClickAway}>
                   
-                <Popper
-                  open={booking}
+                <Paper
+                  elevation={1}
                   anchorEl={anchorbooking}
-                  placement="bottom-start"
+                 
                   sx={{
+                    
                     width: "500px",
-                   
+                    position:"absolute",
+                    top:"-10px",
+                    borderRadius:"12px",
+                    right:"0px",
                     zIndex: "5",
                      "& .MuiPaper-root": {
                      borderRadius:"15px",
                       padding: "0px 0px",
+                  
                     },
                   }}
                 >
@@ -1366,8 +1374,8 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                 
                   <Card key={room.id} elevation={0} // Sets border-radius to 0
       >
-                    <CardContent sx={{ paddingBottom: "0px", }}>
-                    <Typography variant="h6" sx={{ mb: 1, display: "block" }}>
+                    <CardContent sx={{ padding: "16px 24px", }}>
+                    <Typography variant="h6" sx={{ mb: 1, fontSize:"17px", fontWeight:"600", display: "block" }}>
                          Room {room.id}
                          {room.id !== 1 && (
                 <Button
@@ -1377,7 +1385,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                   sx={{
                     textTransform: "none",
                     float: "right",
-                    fontWeight: "bold",
+                    
                   }}
                 >
                   Remove
@@ -1391,8 +1399,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           sx={{
                             justifyContent: "space-between",
                             alignItems: "center",
-                            marginBottom: "10px",
-                            padding: "2px",
+                           
                           }}
                           key={option.title}
                           value={option.value}
@@ -1434,13 +1441,13 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                                 height: "22px",
                                
                                     backgroundColor:
-                                  option.value == option.basic 
+                                 room.adults == option.basic 
                                     ? "#bdbdbd"
                                     : theme.palette.customGreen.main,
       
                                 "&:hover": {
                                   backgroundColor:
-                                    option.value == option.basic
+                                    room.adults == option.basic
                                       ? "#bdbdbd"
                                       : theme.palette.customGreen.dark,
                                 },
@@ -1459,8 +1466,8 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                                 }}
                               />
                             </IconButton>
-      
-                            {option.value}
+      {option.title === "Adults" ?  room.adults : room.children }
+                           
                             <IconButton
                               disableRipple
                               sx={{
@@ -1500,7 +1507,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                       </Stack>
                       {room.children  > 0 && (
         <Box>
-          <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          <Typography variant="subtitle1" sx={{ mb: 1, mt:3 }}>
             Age of Children
           </Typography>
           {room.childrenAges.map((age, index) => (
@@ -1564,7 +1571,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                  
                    ))}
                  </Box>
-                   <Box sx={{ justifyContent: "space-between" }}>
+                   <Box sx={{ justifyContent: "space-between", padding:"8px", display:"flex" }}>
                     <Button
             disableRipple
             variant="standard"
@@ -1617,11 +1624,11 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                       </Button>
                     </Box>
                     </Paper>
-                </Popper>
-              
+                </Paper>
+
               </ClickAwayListener>
-            
-              </>
+}        
+              </Box>
       )}
     </Stack>
   );
