@@ -355,9 +355,18 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
     const [rooms, setRooms] = useState([
       { id: 1, adults: 1, children: 0, childrenAges: [] },
     ]);
-    const totalguests = rooms.reduce((sum, room) => sum + room.adults, 0) +  rooms.reduce((sum, room) => sum + room.children, 0);
-
+    const adultcount = rooms.reduce((sum, room) => sum + room.adults, 0)
+    const childcount=rooms.reduce((sum, room) => sum + room.children, 0)
+    //const totalguests = rooms.reduce((sum, room) => sum + room.adults, 0) +  rooms.reduce((sum, room) => sum + room.children, 0);
     const roomCount = rooms.length > 0 ? Math.max(...rooms.map(room => room.id)) : 0;
+    const labelvalue = () => {
+      if (childcount > 0) {
+        return `${adultcount + childcount} Guest${adultcount + childcount > 1 ? 's' : ''} in ${roomCount} ${roomCount > 1 ? "Rooms" : "Room"}`;
+      } else {
+        return `${adultcount} ${adultcount > 1 && childcount === 0 ? "Adults" : "Adult"} in ${roomCount} ${roomCount > 1 ? "Rooms" : "Room"}`;
+      }
+    };
+    
     const handleAddRoom = () => {
       setRooms((prevRooms) => [
         ...prevRooms,
@@ -555,7 +564,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                       marginTop: "0px",
                     },
                     "& .MuiInput-input": {
-                      paddingLeft: "5px",
+                     // paddingLeft: "5px",
                     },
                     "& .MuiInputBase-input": {
                       fontWeight: "600",
@@ -700,7 +709,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           marginTop: "0px",
                         },
                         "& .MuiInput-input": {
-                          paddingLeft: "5px",
+                         // paddingLeft: "5px",
                         },
                         "& .MuiInputBase-input": {
                           fontWeight: "600",
@@ -887,7 +896,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           marginTop: "0px",
                         },
                         "& .MuiInput-input": {
-                          paddingLeft: "10px",
+                         // paddingLeft: "10px",
                         },
 
                         "& .MuiInputBase-input": {
@@ -1311,9 +1320,9 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
             pl: 2,
             minHeight: "64px",
             borderRadius: "8px",
-            border: from ? "1px solid #44b50c" : "1px solid #dfdfdf",
+            border: "1px solid #dfdfdf",
             "&:hover": {
-              border: from ? "1px solid #44b50c" : "1px solid #9c9c9c",
+              border: "1px solid #9c9c9c",
             },
             //width: { md: "100%", lg: "25%" },
           }}
@@ -1324,7 +1333,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
             placement="bottom-start"
             size="small"
             label="Guests and Rooms"
-            value={`${totalguests} Guests in ${roomCount} Room${roomCount > 1 ? 's' : ''}`}
+            value={labelvalue()}
             //onChange={handleTextChange}
             sx={{
               cursor: "pointer",
@@ -1385,6 +1394,8 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                   sx={{
                     textTransform: "none",
                     float: "right",
+                    padding:"0px",
+                    "&:hover":{backgroundColor:'transparent', textDecoration: "underline",}
                     
                   }}
                 >
@@ -1617,7 +1628,10 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           color: theme.palette.customGreen.main,
                           fontWeight: "600",
                           fontSize: "14px",
-                          "&:hover": { background: "none" },
+                          padding: "0 12px",
+                          "&:hover": {
+                            background: theme.palette.customTransparent.lightgray,
+                          },
                         }}
                       >
                         Apply

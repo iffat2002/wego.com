@@ -105,11 +105,15 @@ const Hero = () => {
                   textShadow: "0 4px 8px rgba(0,0,0,.5)",
                   fontSize: "36px",
                   fontWeight: "500",
+                 
+                  lineHeight:"1.67",
+                  position: 'absolute',
+                  top:"174px"
                 }}
               >
                 Discover the real value of travel
               </Typography>
-              <Box display="flex" justifyContent="center" mt={2}>
+              <Box display="flex" justifyContent="center" mt={13}>
                 {slides.map((slide, index) => (
                   <Box
                     key={slide.id}
@@ -135,7 +139,7 @@ const Hero = () => {
         ))}
         
       </Box>
-      <Box sx={{marginTop:"-15%"}}>
+      <Box sx={{marginTop:"-14%"}}>
       <HeroTabs />
       </Box>
     </Box>

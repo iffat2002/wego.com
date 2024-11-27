@@ -73,6 +73,54 @@ const HotelsTab = () => {
   return(
     <Box>
 <FlightContent returnFlight={true} isHotels={true} cities={cities} />
+<Stack  mt={2}
+        direction="row" sx={{justifyContent:"space-between", alignItems:"center"}}>
+           <Box>
+          <FormControlLabel
+            sx={{
+              "& .MuiTypography-root": { fontSize: "16px" },
+              marginLeft: "0px",
+            }}
+            control={
+              <Checkbox
+                sx={{
+                  color: "transparent",
+                  padding: "0px !important",
+                  border: ".125rem solid #9c9c9c",
+                  borderRadius: "2px",
+                  transition: "all 225ms cubic-bezier(.4,0,.2,1) 0ms",
+                  height: "24px",
+                  width: "24px",
+                  marginRight: "10px",
+                  "& .MuiTypography-root": { fontSize: "15px" },
+
+                  "& .MuiSvgIcon-root": { fontSize: 32 },
+                  "&.Mui-checked": {
+                    color: theme.palette.customGreen.main,
+                  },
+                }}
+              />
+            }
+            label="Free cancellation"
+          />
+        </Box>
+<Button
+            variant="contained"
+            disableRipple
+            sx={{
+              backgroundColor: theme.palette.customGreen.main,
+              textTransform: "none",
+              borderRadius: "100px",
+              height: "48px",
+              width: "135px",
+              fontSize: "16px",
+              marginLeft: "8px",
+              "&:hover": { backgroundColor: theme.palette.customGreen.dark },
+            }}
+          >
+            Search{" "}
+          </Button>
+          </Stack>
     </Box>
   )
 }
