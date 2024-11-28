@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import { Box, Link, Stack } from "@mui/material";
 import FlightsTab from "./FlightsTab";
 import HotelsTab from "./HotelsTab";
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -45,13 +46,14 @@ function a11yProps(index) {
   };
 }
 
+// hero section content tabs
 export default function HeroTabs() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("value", value);
+
   return (
     <Box
       sx={{
@@ -78,17 +80,16 @@ export default function HeroTabs() {
             display: "flex",
             fontSize: "15px",
             textDecoration: "none",
-            "& .MuiButtonBase-root":{
-opacity:1
+            "& .MuiButtonBase-root": {
+              opacity: 1,
             },
             "& .MuiTab-root": {
               color: "white",
               height: "56px",
               textTransform: "none !important",
-             // padding: "0 2rem",
               lineHeight: "1.6",
               fontSize: "15px",
-              fontWeight:'400',
+              fontWeight: "400",
               overflow: "visible !important",
             },
 
@@ -111,9 +112,10 @@ opacity:1
               overflow: "visible",
             }}
           >
-            <Tab  disableRipple
+            <Tab
+              disableRipple
               label={
-                <Stack direction="row" sx={{ padding:"0 1rem"}}>
+                <Stack direction="row" sx={{ padding: "0 1rem" }}>
                   <Box
                     sx={{
                       backgroundImage: "url(/icons.webp)",
@@ -124,7 +126,6 @@ opacity:1
                       backgroundPosition:
                         value == 0 ? "-75px -50px" : "0px -75px",
                       marginRight: 1,
-                     
                     }}
                   ></Box>
                   Flights
@@ -134,13 +135,13 @@ opacity:1
                 backdropFilter: "blur(8px)",
                 backgroundColor: "rgba(0, 0, 0, .24)",
                 borderRadius: "8px 0 0 0",
-               
               }}
               {...a11yProps(0)}
             />
-            <Tab  disableRipple
+            <Tab
+              disableRipple
               label={
-                <Stack direction="row"  sx={{ padding:"0 1rem"}}>
+                <Stack direction="row" sx={{ padding: "0 1rem" }}>
                   <Box
                     sx={{
                       backgroundImage: "url(/icons.webp)",
@@ -164,73 +165,71 @@ opacity:1
               }}
               {...a11yProps(1)}
             />
-             <Link href='/target'>
-            <Tab  disableRipple
-              label={      
-                <Stack
-                  direction="row"
-                  sx={{
-                    alignItems: "center",
-                    color: "white",
-                    cursor: "pointer",
-                  }}
-                >
-                  <Box
+            <Link href="/target">
+              <Tab
+                disableRipple
+                label={
+                  <Stack
+                    direction="row"
                     sx={{
-                      backgroundImage: "url(/fly.png)",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      width: "30px",
-                      height: "30px",
-                      backgroundRepeat: "no-repeat",
-                      marginRight: 1,
-                    }}
-                  ></Box>
-                  <strong style={{ marginRight: "4px" }}>WegoPro </strong>{" "}
-                  Business Travel
-                  <Box
-                    sx={{
-                      width: "2.5rem",
-                      background: "#ff8000",
-                      top: "-10px",
-                      zIndex: "10",
-                      position: "absolute",
-                      fontSize: "12px",
-                      borderRadius: "4px",
+                      alignItems: "center",
                       color: "white",
-                      fontWeight:"600"
+                      cursor: "pointer",
                     }}
                   >
-                    NEW
-                  </Box>
-                 
-                </Stack>
-               
-              }
-              sx={{
-                backdropFilter: "blur(8px)",
-                backgroundColor: "rgba(0, 0, 0, .24)",
-                borderRadius: "8px 8px 0 0",
-                overflow: "visible",
-                "& .MuiTab-root":{
-                  padding:0
+                    <Box
+                      sx={{
+                        backgroundImage: "url(/fly.png)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        width: "30px",
+                        height: "30px",
+                        backgroundRepeat: "no-repeat",
+                        marginRight: 1,
+                      }}
+                    ></Box>
+                    <strong style={{ marginRight: "4px" }}>WegoPro </strong>{" "}
+                    Business Travel
+                    <Box
+                      sx={{
+                        width: "2.5rem",
+                        background: "#ff8000",
+                        top: "-10px",
+                        zIndex: "10",
+                        position: "absolute",
+                        fontSize: "12px",
+                        borderRadius: "4px",
+                        color: "white",
+                        fontWeight: "600",
+                      }}
+                    >
+                      NEW
+                    </Box>
+                  </Stack>
                 }
-              
-              }}
-              {...a11yProps(2)}
-            />
-             </Link>
+                sx={{
+                  backdropFilter: "blur(8px)",
+                  backgroundColor: "rgba(0, 0, 0, .24)",
+                  borderRadius: "8px 8px 0 0",
+                  overflow: "visible",
+                  "& .MuiTab-root": {
+                    padding: 0,
+                  },
+                }}
+                {...a11yProps(2)}
+              />
+            </Link>
           </Tabs>
         </Box>
+        {/* first tab flights content */}
         <CustomTabPanel value={value} index={0} className="tab">
           <FlightsTab />
         </CustomTabPanel>
+        
+        {/* second tab hotels content */}
         <CustomTabPanel value={value} index={1}>
           Where do you want to stay?
           <HotelsTab />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          Item Three
         </CustomTabPanel>
       </Box>
     </Box>

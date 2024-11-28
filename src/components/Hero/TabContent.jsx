@@ -24,7 +24,7 @@ import {
   Select,
   FormControl,
 } from "@mui/material";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -43,7 +43,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 dayjs.extend(localizedFormat);
 
-const FlightContent = ({ returnFlight, cities, isHotels }) => {
+const TabContent = ({ returnFlight, cities, isHotels }) => {
   const theme = useTheme();
   const fromPaperRef = useRef(null);
   const toPaperRef = useRef(null);
@@ -104,13 +104,13 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
   const canBeOpenTo = openToPopper && Boolean(anchorElTo);
   const ToId = canBeOpenTo ? "To-popper" : undefined;
 
-  const [place, setPlace] = useState("Lahore, Pakistan (LHE)"); // State to manage text input
+  const [place, setPlace] = useState("Lahore, Pakistan (LHE)");
   const handleTextChange = (event) => {
-    setPlace(event.target.value); // Update state when text is changed
+    setPlace(event.target.value);
   };
   const [destination, setDestination] = useState("");
   const handleDestinationChange = (event) => {
-    setDestination(event.target.value); // Update state when text is changed
+    setDestination(event.target.value);
   };
 
   const [exchange, setExchange] = useState(false);
@@ -122,11 +122,9 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
     }
   };
   const handleClickOutside = (event) => {
-    // If click is outside the "From" Paper
     if (fromPaperRef.current && !fromPaperRef.current.contains(event.target)) {
       setfrom(false);
     }
-    // If click is outside the "To" Paper
     if (toPaperRef.current && !toPaperRef.current.contains(event.target)) {
       setTo(false);
     }
@@ -138,8 +136,6 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
     } else {
       document.removeEventListener("mousedown", handleClickOutside);
     }
-
-    // Cleanup when either "from" or "to" changes
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -206,7 +202,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
     return (
       <Paper
         onClick={(event) => {
-          event.stopPropagation(); // Prevent click events from bubbling up
+          event.stopPropagation();
           setfrom(false);
           setTo(true);
           setclose(false);
@@ -275,62 +271,28 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
   }
   const [booking, setBooking] = useState(false);
   const [anchorbooking, setAnchorbooking] = useState(null);
-  const [room, setRoom] = useState(0);
-  const [adult, setAdult] = useState(1);
-  const [child, setChild] = useState(0);
-  const [childrenAges, setChildrenAges] = useState([]);
 
   const handleBooking = (event) => {
     setAnchorbooking(event.currentTarget);
     setBooking((previousOpen) => !previousOpen);
   };
+  const [rooms, setRooms] = useState([
+    { id: 1, adults: 1, children: 0, childrenAges: [] },
+  ]);
   const roombooking = [
     {
       title: "Adults",
-      value: adult,
       text: ">17 Years",
       position: "-75px 0",
       basic: 1,
-      add: "addAdult",
-      sub: "subAdult",
-      state: { adult },
     },
     {
       title: "Children",
-      value: child,
       basic: 0,
       text: "≤17 Years",
       position: "0 -50px",
-      add: "addChild",
-      sub: "subChild",
-      state: { child },
     },
-    // {
-    //   title: "Infants",
-    //   value: room,
-    //   text: "<2 Years",
-    //   position: "-25px -100px",
-    //   add: "addRoom",
-    //   sub: "subRoom",
-    // },
   ];
-  const handleRooms = (e) => {
-    if (e === "addRoom" && room < 10) {
-      setRoom(room + 1);
-    } else if (e === "subRoom" && room > 1) {
-      setRoom(room - 1);
-    } else if (e === "addAdult") {
-      setAdult(adult + 1);
-    } else if (e === "subAdult" && adult > 1) {
-      setAdult(adult - 1);
-    } else if (e === "addChild") {
-      setChild((prev) => prev + 1);
-      setChildrenAges((prev) => [...prev, 12]);
-    } else if (e === "subChild" && child > 0) {
-      setChild((prev) => prev - 1);
-      setChildrenAges((prev) => prev.slice(0, -1));
-    }
-  };
 
   const getPassengerCount = () => {
     const total = room + adult + child;
@@ -342,93 +304,86 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
       return `${total} Passengers`;
     }
   };
-  // Function to update the age of a child
-  // const handleAgeChange = (index, age) => {
-  //   setChildrenAges((prev) =>
-  //     prev.map((item, i) => (i === index ? age : item))
-  //   );
-  // };
 
+  const adultcount = rooms.reduce((sum, room) => sum + room.adults, 0);
+  const childcount = rooms.reduce((sum, room) => sum + room.children, 0);
+  //const totalguests = rooms.reduce((sum, room) => sum + room.adults, 0) +  rooms.reduce((sum, room) => sum + room.children, 0);
+  const roomCount =
+    rooms.length > 0 ? Math.max(...rooms.map((room) => room.id)) : 0;
+  const labelvalue = () => {
+    if (childcount > 0) {
+      return `${adultcount + childcount} Guest${
+        adultcount + childcount > 1 ? "s" : ""
+      } in ${roomCount} ${roomCount > 1 ? "Rooms" : "Room"}`;
+    } else {
+      return `${adultcount} ${
+        adultcount > 1 && childcount === 0 ? "Adults" : "Adult"
+      } in ${roomCount} ${roomCount > 1 ? "Rooms" : "Room"}`;
+    }
+  };
 
-  /////
- 
-    const [rooms, setRooms] = useState([
-      { id: 1, adults: 1, children: 0, childrenAges: [] },
+  const handleAddRoom = () => {
+    setRooms((prevRooms) => [
+      ...prevRooms,
+      { id: prevRooms.length + 1, adults: 1, children: 0, childrenAges: [] },
     ]);
-    const adultcount = rooms.reduce((sum, room) => sum + room.adults, 0)
-    const childcount=rooms.reduce((sum, room) => sum + room.children, 0)
-    //const totalguests = rooms.reduce((sum, room) => sum + room.adults, 0) +  rooms.reduce((sum, room) => sum + room.children, 0);
-    const roomCount = rooms.length > 0 ? Math.max(...rooms.map(room => room.id)) : 0;
-    const labelvalue = () => {
-      if (childcount > 0) {
-        return `${adultcount + childcount} Guest${adultcount + childcount > 1 ? 's' : ''} in ${roomCount} ${roomCount > 1 ? "Rooms" : "Room"}`;
-      } else {
-        return `${adultcount} ${adultcount > 1 && childcount === 0 ? "Adults" : "Adult"} in ${roomCount} ${roomCount > 1 ? "Rooms" : "Room"}`;
-      }
-    };
-    
-    const handleAddRoom = () => {
-      setRooms((prevRooms) => [
-        ...prevRooms,
-        { id: prevRooms.length + 1, adults: 1, children: 0, childrenAges: [] },
-      ]);
-    };
-  
-    const handleRemoveRoom = (id) => {
-      setRooms((prevRooms) => prevRooms.filter((room) => room.id !== id));
-    };
-  
-    const handleAdultChange = (id, type) => {
-      setRooms((prevRooms) =>
-        prevRooms.map((room) =>
-          room.id === id
-            ? {
-                ...room,
-                adults:
-                  type === "increment"
-                    ? Math.min(room.adults + 1, 9)
-                    : Math.max(room.adults - 1, 1),
-              }
-            : room
-        )
-      );
-    };
-  
-    const handleChildrenChange = (id, type) => {
-      setRooms((prevRooms) =>
-        prevRooms.map((room) =>
-          room.id === id
-            ? {
-                ...room,
-                children:
-                  type === "increment"
-                    ? Math.min(room.children + 1, 9)
-                    : Math.max(room.children - 1, 0),
-                childrenAges:
-                  type === "increment"
-                    ? [...room.childrenAges, 12] // Add default age of 12
-                    : room.childrenAges.slice(0, -1), // Remove the last child's age
-              }
-            : room
-        )
-      );
-    };
-  
-    const handleAgeChange = (roomId, index, value) => {
-      setRooms((prevRooms) =>
-        prevRooms.map((room) =>
-          room.id === roomId
-            ? {
-                ...room,
-                childrenAges: room.childrenAges.map((age, i) =>
-                  i === index ? parseInt(value, 10) : age
-                ),
-              }
-            : room
-        )
-      );
-    };
-    ////
+  };
+
+  const handleRemoveRoom = (id) => {
+    setRooms((prevRooms) => prevRooms.filter((room) => room.id !== id));
+  };
+
+  const handleAdultChange = (id, type) => {
+    setRooms((prevRooms) =>
+      prevRooms.map((room) =>
+        room.id === id
+          ? {
+              ...room,
+              adults:
+                type === "increment"
+                  ? Math.min(room.adults + 1, 9)
+                  : Math.max(room.adults - 1, 1),
+            }
+          : room
+      )
+    );
+  };
+
+  const handleChildrenChange = (id, type) => {
+    setRooms((prevRooms) =>
+      prevRooms.map((room) =>
+        room.id === id
+          ? {
+              ...room,
+              children:
+                type === "increment"
+                  ? Math.min(room.children + 1, 9)
+                  : Math.max(room.children - 1, 0),
+              childrenAges:
+                type === "increment"
+                  ? [...room.childrenAges, 12]
+                  : room.childrenAges.slice(0, -1),
+            }
+          : room
+      )
+    );
+  };
+
+  const handleAgeChange = (roomId, index, value) => {
+    setRooms((prevRooms) =>
+      prevRooms.map((room) =>
+        room.id === roomId
+          ? {
+              ...room,
+              childrenAges: room.childrenAges.map((age, i) =>
+                i === index ? parseInt(value, 10) : age
+              ),
+            }
+          : room
+      )
+    );
+  };
+  ////
   return (
     <Stack
       mt={2}
@@ -510,10 +465,10 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     inputLabel: {
                       shrink: !!place,
                       sx: {
-                        transform: !place ? "translate(0, 6px)" : "", // Adjusts label positioning
+                        transform: !place ? "translate(0, 6px)" : "",
                         left: 0,
                         position: "absolute",
-                        color: "#767676", // Adjust color for better visibility
+                        color: "#767676",
                       },
                     },
                   }}
@@ -522,7 +477,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                       <InputAdornment position="end">
                         <IconButton
                           onClick={(event) => {
-                            event.stopPropagation(); // Prevent click event from bubbling up
+                            event.stopPropagation();
                             setPlace("");
                           }}
                           edge="end"
@@ -563,13 +518,11 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     "& .MuiInputBase-root": {
                       marginTop: "0px",
                     },
-                    "& .MuiInput-input": {
-                     // paddingLeft: "5px",
-                    },
+                    "& .MuiInput-input": {},
                     "& .MuiInputBase-input": {
                       fontWeight: "600",
                       paddingBottom: "0px",
-                      cursor:"pointer",
+                      cursor: "pointer",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     },
@@ -656,10 +609,10 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                         inputLabel: {
                           shrink: !!place,
                           sx: {
-                            transform: !place ? "translate(0, 6px)" : "", // Adjusts label positioning
+                            transform: !place ? "translate(0, 6px)" : "",
                             left: 0,
                             position: "absolute",
-                            color: "#767676", // Adjust color for better visibility
+                            color: "#767676",
                           },
                         },
                       }}
@@ -668,7 +621,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           <InputAdornment position="end">
                             <IconButton
                               onClick={(event) => {
-                                event.stopPropagation(); // Prevent click event from bubbling up
+                                event.stopPropagation();
                                 setPlace("");
                               }}
                               edge="end"
@@ -710,12 +663,12 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           marginTop: "0px",
                         },
                         "& .MuiInput-input": {
-                         // paddingLeft: "5px",
+                          // paddingLeft: "5px",
                         },
                         "& .MuiInputBase-input": {
                           fontWeight: "600",
                           paddingBottom: "0px",
-                          cursor:"pointer",
+                          cursor: "pointer",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
                         },
@@ -849,10 +802,10 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           sx: {
                             transform: !destination
                               ? "translate(-4px, 6px)"
-                              : "", // Adjusts label positioning
+                              : "",
                             left: 0,
                             position: "absolute",
-                            color: "#767676", // Adjust color for better visibility
+                            color: "#767676",
                           },
                         },
                       }}
@@ -897,15 +850,12 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                         "& .MuiInputBase-root": {
                           marginTop: "0px",
                         },
-                        "& .MuiInput-input": {
-                         // paddingLeft: "10px",
-                        },
 
                         "& .MuiInputBase-input": {
                           fontWeight: "600",
                           paddingBottom: "0px",
                           textOverflow: "ellipsis",
-                          cursor:"pointer",
+                          cursor: "pointer",
                           whiteSpace: "nowrap",
                         },
                         "& .MuiInput-underline:hover:before": {
@@ -986,11 +936,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                               backgroundColor: "#e7fddc",
                               color: "#188920",
                             },
-
                             cursor: "pointer",
-
-                            // color: item.currencyCode === currency ? theme.palette.customGreen.main : 'inherit',
-                            // fontWeight: item.currencyCode === currency ? '600' : 'inherit',
                           }}
                         >
                           <Typography
@@ -1023,11 +969,10 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
         <Paper
           elevation={0}
           sx={{
-            width: (isHotels && calender) ? "150%" : calender ? "120%" : "100%",
-          
+            width: isHotels && calender ? "150%" : calender ? "120%" : "100%",
             position: calender ? "absolute" : "relative",
             zIndex: calender ? "2" : "1",
-            right: isHotels ? "inherit":"0px",
+            right: isHotels ? "inherit" : "0px",
             p: calender ? 2 : 0,
             paddingBottom: "0px",
             marginTop: calender ? -2 : 0,
@@ -1100,7 +1045,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                         <IconButton
                           disableRipple
                           onClick={(event) => {
-                            event.stopPropagation(); // Prevent click event from bubbling up
+                            event.stopPropagation();
                             setPlace("");
                           }}
                           edge="end"
@@ -1139,10 +1084,10 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     sx: {
                       transform: !formatDate(dateValue[0])
                         ? "translate(0, 6px)"
-                        : "", // Adjusts label positioning
+                        : "",
                       left: 0,
                       position: "absolute",
-                      color: "#767676", // Adjust color for better visibility
+                      color: "#767676",
                     },
                   },
                 }}
@@ -1165,7 +1110,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     fontWeight: "600",
                     paddingBottom: "0px",
                     textOverflow: "ellipsis",
-                    cursor:"pointer",
+                    cursor: "pointer",
                     whiteSpace: "nowrap",
                   },
                   "& .MuiInput-underline:hover:before": {
@@ -1212,10 +1157,10 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                       sx: {
                         transform: !formatDate(dateValue[1])
                           ? "translate(0, 6px)"
-                          : "", // Adjusts label positioning
+                          : "",
                         left: 0,
                         position: "absolute",
-                        color: "#767676", // Adjust color for better visibility
+                        color: "#767676",
                       },
                     },
                   }}
@@ -1226,7 +1171,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           <IconButton
                             disableRipple
                             onClick={(event) => {
-                              event.stopPropagation(); // Prevent click event from bubbling up
+                              event.stopPropagation();
                               setPlace("");
                             }}
                             edge="end"
@@ -1270,7 +1215,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     "& .MuiInputBase-input": {
                       fontWeight: "600",
                       paddingBottom: "0px",
-                      cursor:"pointer",
+                      cursor: "pointer",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     },
@@ -1297,7 +1242,6 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                 open={calender}
                 anchorEl={anchorCalender}
                 placement="bottom-start"
-                // style={{ width: "600px" }}
                 sx={{ border: "none" }}
               >
                 <Paper elevation={0}>
@@ -1316,345 +1260,396 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
         </Paper>
       </Box>
       {isHotels && (
-        <Box position="relative" sx={{  width: { md: "100%", lg: "25%" },}}>
-        <Box
-          position="relative"
-          onClick={handleBooking}
-          sx={{
-            p: 1,
-            pl: 2,
-            minHeight: "64px",
-            borderRadius: "8px",
-            border: "1px solid #dfdfdf",
-            "&:hover": {
-              border: "1px solid #9c9c9c",
-            },
-            //width: { md: "100%", lg: "25%" },
-          }}
-        >
-          <TextField
-          //  onClick={handleFromClick}
-            variant="standard"
-            placement="bottom-start"
-            size="small"
-            label="Guests and Rooms"
-            value={labelvalue()}
-            InputProps={{
-              readOnly: true,
-            }}
-            //onChange={handleTextChange}
+        <Box position="relative" sx={{ width: { md: "100%", lg: "25%" } }}>
+          <Box
+            position="relative"
+            onClick={handleBooking}
             sx={{
-              cursor: "pointer",
-              "& .MuiInput-underline:before": {
-                borderBottom: "none",
-              },
-              "& .MuiInputBase-input": {
-                fontWeight: "600",
-                cursor: "pointer",
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "rgba(0, 0, 0, 0.6)",
-              },
-              "& .MuiInput-underline:hover:before": {
-                borderBottom: "none !important",
-              },
-              "& .MuiInput-root::after": {
-                borderBottom: "none",
-              },
-            }}
-          />
-        </Box>
-        {booking && 
-                <ClickAwayListener onClickAway={handleClickAway}>
-                  
-                <Paper
-                  elevation={1}
-                  anchorEl={anchorbooking}
-                 
-                  sx={{
-                    
-                    width: "500px",
-                    position:"absolute",
-                    top:"-10px",
-                    borderRadius:"12px",
-                    right:"0px",
-                    zIndex: "5",
-                     "& .MuiPaper-root": {
-                     borderRadius:"15px",
-                      padding: "0px 0px",
-                  
-                    },
-                  }}
-                >
-                <Paper sx={{borderRadius:"0px"}}>
-                  <Box>
-                   {rooms.map((room, index) => (
-                
-                  <Card key={room.id} elevation={0} // Sets border-radius to 0
-      >
-                    <CardContent sx={{ padding: "16px 24px", }}>
-                    <Typography variant="h6" sx={{ mb: 1, fontSize:"17px", fontWeight:"600", display: "block" }}>
-                         Room {room.id}
-                         {room.id !== 1 && (
-                <Button
-                  variant="text"
-                  color="error"
-                  onClick={() => handleRemoveRoom(room.id)}
-                  sx={{
-                    textTransform: "none",
-                    float: "right",
-                    padding:"0px",
-                    "&:hover":{backgroundColor:'transparent', textDecoration: "underline",}
-                    
-                  }}
-                >
-                  Remove
-                </Button>
-              )}
-                       </Typography>
-                      <Stack direction="row" justifyContent="space-between">
-                      {roombooking.map((option) => (
-                        <Stack
-                          direction="row"
-                          sx={{
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                           
-                          }}
-                          key={option.title}
-                          value={option.value}
-                        >
-                          <Stack direction="row" sx={{ alignItems: "center" }}>
-                            <Box
-                              sx={{
-                                backgroundImage: "url(/icons.webp)",
-                                width: "24px",
-                                height: "24px",
-                                backgroundRepeat: "no-repeat",
-                                backgroundSize: "99px 149px",
-                                backgroundPosition: option.position,
-                                marginRight: 1,
-                                p: 0,
-                              }}
-                            ></Box>
-      
-                            <Typography
-                              variant="text"
-                              sx={{
-                                
-                                textTransform: "none",
-                                color: "black",
-                              }}
-                            >
-                              {option.title}
-                              <span style={{ color: "gray", display: "block", fontSize:"small" }}>
-                                {option.text}
-                              </span>
-                            </Typography>
-                          </Stack>
-                          <Stack direction="row" sx={{ gap: "0 12px" , marginLeft:"40px"}}>
-                            <IconButton
-                              disableRipple
-                              sx={{
-                                borderRadius: "4px",
-                                width: "22px",
-                                height: "22px",
-                               
-                                    backgroundColor:
-                                 room.adults == option.basic 
-                                    ? "#bdbdbd"
-                                    : theme.palette.customGreen.main,
-      
-                                "&:hover": {
-                                  backgroundColor:
-                                    room.adults == option.basic
-                                      ? "#bdbdbd"
-                                      : theme.palette.customGreen.dark,
-                                },
-                              }}
-                            >
-                              <RemoveIcon
-                                onClick={() => {option.title === "Adults"?  handleAdultChange(room.id, "decrement") : handleChildrenChange(room.id, "decrement")}}
-                                disable
-                                sx={{
-                                  outline: "none",
-                                  width: "15px",
-                                  cursor: "pointer",
-                                  color: "white", // Default background color or gray if disabl
-                                 
-                                  // Adjust padding to ensure the icon fits well inside the circle
-                                }}
-                              />
-                            </IconButton>
-      {option.title === "Adults" ?  room.adults : room.children }
-                           
-                            <IconButton
-                              disableRipple
-                              sx={{
-                                borderRadius: "4px",
-                                width: "22px",
-                                height: "22px",
-                                backgroundColor:
-                                  option.value < 9
-                                    ? theme.palette.customGreen.main
-                                    : "#bdbdbd",
-      
-                                "&:hover": {
-                                  backgroundColor:
-                                    option.value < 9
-                                      ? theme.palette.customGreen.dark
-                                      : "none",
-                                },
-                              }}
-                            >
-                              <AddIcon
-                                color="primary"
-                                onClick={() =>{option.title === "Adults" ? handleAdultChange(room.id, "increment") : handleChildrenChange(room.id, "increment")}}
-                                sx={{
-                                  // Adjust size as needed
-                                  width: "15px",
-                                  cursor: "pointer",
-                                  color: "white",
-      
-                                  // Adjust padding to ensure the icon fits well inside the circle
-                                }}
-                              />
-                            </IconButton>
-                          </Stack>
-                        </Stack>
-                        
-                      ))}
-                      </Stack>
-                      {room.children  > 0 && (
-        <Box>
-          <Typography variant="subtitle1" sx={{ mb: 1, mt:3 }}>
-            Age of Children
-          </Typography>
-          {room.childrenAges.map((age, index) => (
-             <Select
-             key={index}
-             value={age}
-             onChange={(e) => handleAgeChange(room.id, index, e.target.value)}
-             native // Enables native HTML <select> behavior
-
-             sx={{
-              height:"48px",
-              width:"68px",
-              color:"black",
-                alignItems:"center",
-               justifyContent:"center",
-              marginRight: 1,
-              "& option": {
-               padding: " !important",
-               fontSize:"small",
-               color:"black",
-               textAlign:"left",
-               outline: "1px"
-             
-              },
-              "& .MuiNativeSelect-icon": {
-                color: "black", // Change the color of the dropdown icon
-                fontSize:"28px"
-              },
-              "&:hover":{
-             
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      // Removes the blue border
-    
-      border:"1px solid #D2D2D2"
-    },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-     borderColor: "gray", // Optional: Set a custom border on hover
-    },
-            }}
-           >
-             <option value="<1" >&lt;1</option>
-             {[...Array(17).keys()].map((num) => (
-               <option key={num + 1} value={num + 1}>
-                 {num + 1}
-               </option>
-             ))}
-           </Select>
-          ))}
-           <Typography variant="text" sx={{fontSize: "small", color:"gray", display:"block", my:1, paddingRight:1}}>
-        We preset your children's ages to 12 years old. You might get a better price if you enter their actual age.
-        </Typography>
-        </Box>
-      )
-     
-      }
-                    </CardContent>
-                    <Divider sx={{  borderRadius: 0, width: "100%", zIndex:10, position:"absolute"}} />
-                  
-                  </Card>
-                 
-                   ))}
-                 </Box>
-                   <Box sx={{ justifyContent: "space-between", padding:"8px", display:"flex" }}>
-                    <Button
-            disableRipple
-            variant="standard"
-            startIcon={
-              <AddCircleOutlineIcon 
-                sx={{
-                  width: "28px",
-                  height: "24px",
-                }}
-              />
-             
-            }
-            sx={{
-              fontWeight: "400",
-              padding: "0 12px",
-              "&:hover": {
-                background: theme.palette.customTransparent.lightgray,
-              },
-          
-              height: "48px",
-              gap: "8px 0px",
+              p: 1,
+              pl: 2,
+              minHeight: "64px",
               borderRadius: "8px",
-              color: "inherit",
-              justifyContent: "center",
-              textTransform: "none",
-              alignItems: "center",
-             
-              color: theme.palette.customGreen.main,
-                          fontWeight: "600",
-                          fontSize: "14px",
+              border: "1px solid #dfdfdf",
+              "&:hover": {
+                border: "1px solid #9c9c9c",
+              },
+              //width: { md: "100%", lg: "25%" },
             }}
-           onClick={handleAddRoom}
           >
-            Add Room
-          </Button>
-                      <Button
-                        disableRipple
-                        size="small"
-                        variant="text"
-                        onClick={() => setBooking(false)}
-                        sx={{
-                          textTransform: "none",
-                          color: theme.palette.customGreen.main,
-                          fontWeight: "600",
-                          fontSize: "14px",
-                          padding: "0 12px",
-                          "&:hover": {
-                            background: theme.palette.customTransparent.lightgray,
-                          },
-                        }}
-                      >
-                        Apply
-                      </Button>
-                    </Box>
-                    </Paper>
-                </Paper>
+            <TextField
+              variant="standard"
+              placement="bottom-start"
+              size="small"
+              label="Guests and Rooms"
+              value={labelvalue()}
+              InputProps={{
+                readOnly: true,
+              }}
+              sx={{
+                cursor: "pointer",
+                "& .MuiInput-underline:before": {
+                  borderBottom: "none",
+                },
+                "& .MuiInputBase-input": {
+                  fontWeight: "600",
+                  cursor: "pointer",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "rgba(0, 0, 0, 0.6)",
+                },
+                "& .MuiInput-underline:hover:before": {
+                  borderBottom: "none !important",
+                },
+                "& .MuiInput-root::after": {
+                  borderBottom: "none",
+                },
+              }}
+            />
+          </Box>
+          {booking && (
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <Paper
+                elevation={1}
+                anchorEl={anchorbooking}
+                sx={{
+                  width: "500px",
+                  position: "absolute",
+                  top: "-10px",
+                  borderRadius: "12px",
+                  right: "0px",
+                  zIndex: "5",
+                  "& .MuiPaper-root": {
+                    borderRadius: "15px",
+                    padding: "0px 0px",
+                  },
+                }}
+              >
+                <Paper sx={{ borderRadius: "0px" }}>
+                  <Box>
+                    {rooms.map((room, index) => (
+                      <Card key={room.id} elevation={0}>
+                        <CardContent sx={{ padding: "16px 24px" }}>
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              mb: 1,
+                              fontSize: "17px",
+                              fontWeight: "600",
+                              display: "block",
+                            }}
+                          >
+                            Room {room.id}
+                            {room.id !== 1 && (
+                              <Button
+                                variant="text"
+                                color="error"
+                                onClick={() => handleRemoveRoom(room.id)}
+                                sx={{
+                                  textTransform: "none",
+                                  float: "right",
+                                  padding: "0px",
+                                  "&:hover": {
+                                    backgroundColor: "transparent",
+                                    textDecoration: "underline",
+                                  },
+                                }}
+                              >
+                                Remove
+                              </Button>
+                            )}
+                          </Typography>
+                          <Stack direction="row" justifyContent="space-between">
+                            {roombooking.map((option) => (
+                              <Stack
+                                direction="row"
+                                sx={{
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                                key={option.title}
+                                value={option.value}
+                              >
+                                <Stack
+                                  direction="row"
+                                  sx={{ alignItems: "center" }}
+                                >
+                                  <Box
+                                    sx={{
+                                      backgroundImage: "url(/icons.webp)",
+                                      width: "24px",
+                                      height: "24px",
+                                      backgroundRepeat: "no-repeat",
+                                      backgroundSize: "99px 149px",
+                                      backgroundPosition: option.position,
+                                      marginRight: 1,
+                                      p: 0,
+                                    }}
+                                  ></Box>
 
-              </ClickAwayListener>
-}        
-              </Box>
+                                  <Typography
+                                    variant="text"
+                                    sx={{
+                                      textTransform: "none",
+                                      color: "black",
+                                    }}
+                                  >
+                                    {option.title}
+                                    <span
+                                      style={{
+                                        color: "gray",
+                                        display: "block",
+                                        fontSize: "small",
+                                      }}
+                                    >
+                                      {option.text}
+                                    </span>
+                                  </Typography>
+                                </Stack>
+                                <Stack
+                                  direction="row"
+                                  sx={{ gap: "0 12px", marginLeft: "40px" }}
+                                >
+                                  <IconButton
+                                    disableRipple
+                                    sx={{
+                                      borderRadius: "4px",
+                                      width: "22px",
+                                      height: "22px",
+
+                                      backgroundColor:
+                                        room.adults == option.basic
+                                          ? "#bdbdbd"
+                                          : theme.palette.customGreen.main,
+
+                                      "&:hover": {
+                                        backgroundColor:
+                                          room.adults == option.basic
+                                            ? "#bdbdbd"
+                                            : theme.palette.customGreen.dark,
+                                      },
+                                    }}
+                                  >
+                                    <RemoveIcon
+                                      onClick={() => {
+                                        option.title === "Adults"
+                                          ? handleAdultChange(
+                                              room.id,
+                                              "decrement"
+                                            )
+                                          : handleChildrenChange(
+                                              room.id,
+                                              "decrement"
+                                            );
+                                      }}
+                                      disable
+                                      sx={{
+                                        outline: "none",
+                                        width: "15px",
+                                        cursor: "pointer",
+                                        color: "white",
+                                      }}
+                                    />
+                                  </IconButton>
+                                  {option.title === "Adults"
+                                    ? room.adults
+                                    : room.children}
+
+                                  <IconButton
+                                    disableRipple
+                                    sx={{
+                                      borderRadius: "4px",
+                                      width: "22px",
+                                      height: "22px",
+                                      backgroundColor:
+                                        room.adults >= 1
+                                          ? theme.palette.customGreen.main
+                                          : "#bdbdbd",
+
+                                      "&:hover": {
+                                        backgroundColor:
+                                          room.adults >= 1
+                                            ? theme.palette.customGreen.dark
+                                            : "none",
+                                      },
+                                    }}
+                                  >
+                                    <AddIcon
+                                      color="primary"
+                                      onClick={() => {
+                                        option.title === "Adults"
+                                          ? handleAdultChange(
+                                              room.id,
+                                              "increment"
+                                            )
+                                          : handleChildrenChange(
+                                              room.id,
+                                              "increment"
+                                            );
+                                      }}
+                                      sx={{
+                                        width: "15px",
+                                        cursor: "pointer",
+                                        color: "white",
+                                      }}
+                                    />
+                                  </IconButton>
+                                </Stack>
+                              </Stack>
+                            ))}
+                          </Stack>
+                          {room.children > 0 && (
+                            <Box>
+                              <Typography
+                                variant="subtitle1"
+                                sx={{ mb: 1, mt: 3 }}
+                              >
+                                Age of Children
+                              </Typography>
+                              {room.childrenAges.map((age, index) => (
+                                <Select
+                                  key={index}
+                                  value={age}
+                                  onChange={(e) =>
+                                    handleAgeChange(
+                                      room.id,
+                                      index,
+                                      e.target.value
+                                    )
+                                  }
+                                  native
+                                  sx={{
+                                    height: "48px",
+                                    width: "68px",
+                                    color: "black",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    marginRight: 1,
+                                    "& option": {
+                                      padding: " !important",
+                                      fontSize: "small",
+                                      color: "black",
+                                      textAlign: "left",
+                                      outline: "1px",
+                                    },
+                                    "& .MuiNativeSelect-icon": {
+                                      color: "black",
+                                      fontSize: "28px",
+                                    },
+                                    "&:hover": {},
+                                    "&.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                      {
+                                        border: "1px solid #D2D2D2",
+                                      },
+                                    "&:hover .MuiOutlinedInput-notchedOutline":
+                                      {
+                                        borderColor: "gray",
+                                      },
+                                  }}
+                                >
+                                  <option value="<1">&lt;1</option>
+                                  {[...Array(17).keys()].map((num) => (
+                                    <option key={num + 1} value={num + 1}>
+                                      {num + 1}
+                                    </option>
+                                  ))}
+                                </Select>
+                              ))}
+                              <Typography
+                                variant="text"
+                                sx={{
+                                  fontSize: "small",
+                                  color: "gray",
+                                  display: "block",
+                                  my: 1,
+                                  paddingRight: 1,
+                                }}
+                              >
+                                We preset your children's ages to 12 years old.
+                                You might get a better price if you enter their
+                                actual age.
+                              </Typography>
+                            </Box>
+                          )}
+                        </CardContent>
+                        <Divider
+                          sx={{
+                            borderRadius: 0,
+                            width: "100%",
+                            zIndex: 10,
+                            position: "absolute",
+                          }}
+                        />
+                      </Card>
+                    ))}
+                  </Box>
+                  <Box
+                    sx={{
+                      justifyContent: "space-between",
+                      padding: "8px",
+                      display: "flex",
+                    }}
+                  >
+                    <Button
+                      disableRipple
+                      variant="standard"
+                      startIcon={
+                        <AddCircleOutlineIcon
+                          sx={{
+                            width: "28px",
+                            height: "24px",
+                          }}
+                        />
+                      }
+                      sx={{
+                        fontWeight: "400",
+                        padding: "0 12px",
+                        "&:hover": {
+                          background: theme.palette.customTransparent.lightgray,
+                        },
+
+                        height: "48px",
+                        gap: "8px 0px",
+                        borderRadius: "8px",
+                        color: "inherit",
+                        justifyContent: "center",
+                        textTransform: "none",
+                        alignItems: "center",
+
+                        color: theme.palette.customGreen.main,
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                      onClick={handleAddRoom}
+                    >
+                      Add Room
+                    </Button>
+                    <Button
+                      disableRipple
+                      size="small"
+                      variant="text"
+                      onClick={() => setBooking(false)}
+                      sx={{
+                        textTransform: "none",
+                        color: theme.palette.customGreen.main,
+                        fontWeight: "600",
+                        fontSize: "14px",
+                        padding: "0 12px",
+                        "&:hover": {
+                          background: theme.palette.customTransparent.lightgray,
+                        },
+                      }}
+                    >
+                      Apply
+                    </Button>
+                  </Box>
+                </Paper>
+              </Paper>
+            </ClickAwayListener>
+          )}
+        </Box>
       )}
     </Stack>
   );
 };
 
-export default FlightContent;
+export default TabContent;

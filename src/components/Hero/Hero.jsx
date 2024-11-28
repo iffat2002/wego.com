@@ -7,26 +7,24 @@ import {
   Stack,
   Container,
 } from "@mui/material";
-import Header from "./Header/Header";
+import Header from "../Header/Header";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import HeroTabs from "./HeroTabs";
 import styles from "@/styles/Home.module.css";
+
 const slides = [
   {
     id: 1,
-    title: "Slide 1",
     image:
       "https://assets.wego.com/image/upload/c_fill,fl_lossy,q_auto:best,f_auto,w_2560/v1678790459/web/campaigns/autumn-season/hero-image_1.jpg",
   },
   {
     id: 2,
-    title: "Slide 2",
     image:
       "https://assets.wego.com/image/upload/c_fill,fl_lossy,q_auto:best,f_auto,w_2560/v1678790459/web/campaigns/autumn-season/hero-image_2.jpg",
   },
   {
     id: 3,
-    title: "Slide 3",
     image:
       "https://assets.wego.com/image/upload/c_fill,fl_lossy,q_auto:best,f_auto,w_2560/v1678790459/web/campaigns/autumn-season/hero-image_3.jpg",
   },
@@ -45,12 +43,13 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(handleNext, 8000); // Change slide every 8 seconds
+    const interval = setInterval(handleNext, 8000); 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <Box  width="100%"  >
+      {/* Header */}
       <Box
         position="absolute"
         top={0}
@@ -61,7 +60,7 @@ const Hero = () => {
       >
         <Header />
       </Box>
-
+      {/* Hero section background slides */}
       <Box
         position="relative"
         overflow="hidden"
@@ -139,6 +138,7 @@ const Hero = () => {
         ))}
         
       </Box>
+      {/* Hero section content */}
       <Box sx={{marginTop:"-14%"}}>
       <HeroTabs />
       </Box>

@@ -186,7 +186,7 @@ const Header = () => {
                 height: "512px",
                 boxShadow: "0 0 24px 2px rgba(0,0,0,.08)",
                 right: "0px",
-                zIndex:"10"
+                zIndex: "10",
               }}
               open={openCountryPopper}
               anchorEl={anchorElCountry}
@@ -275,7 +275,7 @@ const Header = () => {
               id={lanId}
               sx={{
                 width: "588px",
-                zIndex:"10",
+                zIndex: "10",
                 boxShadow: "0 0 24px 2px rgba(0,0,0,.08)",
               }}
               open={openLanPopper}
@@ -365,7 +365,7 @@ const Header = () => {
               sx={{
                 width: "778px",
                 height: "512px",
-                zIndex:"10",
+                zIndex: "10",
                 boxShadow: "0 0 24px 2px rgba(0,0,0,.08)",
               }}
               open={openCurrencyPopper}

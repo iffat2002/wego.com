@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import { Container } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Header from "../components/Header/Header";
-import Hero from "../components/Hero";
+import Hero from "../components/Hero/Hero";
 import CountryCurrencyFlags from "../components/Header/CountryCurrencyFlags";
 
 const geistSans = localFont({
@@ -29,12 +29,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
-        <main className={styles.main}>
-          <Hero />
-          {/* <CountryCurrencyFlags /> */}
-        </main>
-     
+      <main className={styles.main}>
+        <Hero />
+      </main>
     </>
   );
 }
