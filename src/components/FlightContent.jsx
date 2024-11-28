@@ -569,6 +569,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     "& .MuiInputBase-input": {
                       fontWeight: "600",
                       paddingBottom: "0px",
+                      cursor:"pointer",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     },
@@ -714,6 +715,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                         "& .MuiInputBase-input": {
                           fontWeight: "600",
                           paddingBottom: "0px",
+                          cursor:"pointer",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
                         },
@@ -799,7 +801,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                 elevation={0}
                 ref={toPaperRef}
                 sx={{
-                  width: to ? "150%" : "100%",
+                  width: to ? "200%" : "100%",
                   position: to ? "absolute" : "relative",
                   p: to ? 2 : 0,
                   marginTop: to ? -2 : 0,
@@ -903,6 +905,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                           fontWeight: "600",
                           paddingBottom: "0px",
                           textOverflow: "ellipsis",
+                          cursor:"pointer",
                           whiteSpace: "nowrap",
                         },
                         "& .MuiInput-underline:hover:before": {
@@ -1162,6 +1165,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     fontWeight: "600",
                     paddingBottom: "0px",
                     textOverflow: "ellipsis",
+                    cursor:"pointer",
                     whiteSpace: "nowrap",
                   },
                   "& .MuiInput-underline:hover:before": {
@@ -1266,6 +1270,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
                     "& .MuiInputBase-input": {
                       fontWeight: "600",
                       paddingBottom: "0px",
+                      cursor:"pointer",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     },
@@ -1311,7 +1316,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
         </Paper>
       </Box>
       {isHotels && (
-        <Box position="relative">
+        <Box position="relative" sx={{  width: { md: "100%", lg: "25%" },}}>
         <Box
           position="relative"
           onClick={handleBooking}
@@ -1334,6 +1339,9 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
             size="small"
             label="Guests and Rooms"
             value={labelvalue()}
+            InputProps={{
+              readOnly: true,
+            }}
             //onChange={handleTextChange}
             sx={{
               cursor: "pointer",
@@ -1342,6 +1350,7 @@ const FlightContent = ({ returnFlight, cities, isHotels }) => {
               },
               "& .MuiInputBase-input": {
                 fontWeight: "600",
+                cursor: "pointer",
               },
               "& .MuiInputLabel-root.Mui-focused": {
                 color: "rgba(0, 0, 0, 0.6)",
