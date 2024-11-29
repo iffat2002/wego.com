@@ -2,7 +2,7 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Box, Link, Stack } from "@mui/material";
+import { Box, Link, Stack,Container } from "@mui/material";
 import FlightsTab from "./FlightsTab";
 import HotelsTab from "./HotelsTab";
 
@@ -55,9 +55,9 @@ export default function HeroTabs() {
   };
 
   return (
-    <Box
+    <Container
       sx={{
-        maxWidth: "84%",
+      
         height: "300px",
         borderRadius: "18px",
         overflow: "visible",
@@ -66,7 +66,7 @@ export default function HeroTabs() {
       }}
     >
       <Box
-        sx={{ width: "100%", zIndex: "4", margin: "auto", overflow: "visible" }}
+        sx={{ width: "100%", zIndex: "4", margin: "auto", overflow: "visible" ,padding:"0px 8px"}}
       >
         <Box
           sx={{
@@ -232,6 +232,6 @@ export default function HeroTabs() {
           <HotelsTab />
         </CustomTabPanel>
       </Box>
-    </Box>
+    </Container>
   );
 }
