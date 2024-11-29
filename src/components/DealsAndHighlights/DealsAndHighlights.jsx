@@ -82,12 +82,12 @@ const DealsAndHighlights = () => {
             sx={{
                 display: "flex", // Arrange items in a row
                 justifyContent: "flex-start", // Align items to the start
-                margin: "auto",
-                transform: `translateX(-${currentIndex * cardWidth}px)`, // Shift by one item's width on click
+               // margin: "auto",
+                gap:"16px",
+                transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`, // Shift by one item's width on click
                 transition: "transform 0.5s ease-in-out", // Smooth sliding effect
-                width: `${cardData.length * cardWidth}px`, // Total width for all items
+                width: `${cardData.length * (cardWidth + 16) + 16}px`, // Total width for all items
               
-                
             }}
           >
             {cardData.map((card) => (
@@ -95,8 +95,8 @@ const DealsAndHighlights = () => {
                 key={card.id}
                 sx={{
                     flex: `0 0 ${cardWidth}px`, // Set each card's width to 368px
-                 marginRight:"16px",
-                    overflow:"hidden",
+                
+                  
                    
                  
                 }}
