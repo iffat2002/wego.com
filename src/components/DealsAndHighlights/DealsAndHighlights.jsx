@@ -61,13 +61,15 @@ const DealsAndHighlights = () => {
       setCurrentIndex(currentIndex - 1);
     }
   };
+  console.log("cuurent index", currentIndex)
 
   return (
-    <Container >
+    <Container sx={{paddingTop: 7,paddingBottom:4, }} >
+      <Box sx={{position:"relative"}}>
       <Grid
         item
         xs={9}
-        sx={{ position: "relative",padding:1, paddingTop: 7,paddingBottom:4 }}
+        sx={{ position: "relative",padding:1,  overflow:"hidden" }}
       >
         <Grid
           container
@@ -95,10 +97,6 @@ const DealsAndHighlights = () => {
                 key={card.id}
                 sx={{
                     flex: `0 0 ${cardWidth}px`, // Set each card's width to 368px
-                
-                  
-                   
-                 
                 }}
               >
                 <Card
@@ -108,6 +106,7 @@ const DealsAndHighlights = () => {
                 
                   }}
                 >
+                  <Link href={card.imageUrl} target="_blank" rel="noopener noreferrer">
                   <CardMedia
                     component="img"
                     sx={{
@@ -118,12 +117,17 @@ const DealsAndHighlights = () => {
                     image={card.imageUrl}
                     alt="slider"
                   />
+                  </Link>
                 </Card>
               </Box>
             ))}
+ 
           </Grid>
+          
         </Grid>
 
+      </Grid>
+      {currentIndex !=0 && 
         <IconButton
           onClick={handlePrevious}
           disabled={currentIndex === 0}
@@ -132,34 +136,46 @@ const DealsAndHighlights = () => {
             top: "50%",
             left: "-20px",
             transform: "translateY(-50%)",
-            backgroundColor: theme.palette.primary.dark,
-            color: "white",
-            "&:hover": {
-              backgroundColor: theme.palette.primary.light,
-            },
+            height:"40px",
+            width:"40px",
+            transform: "translateY(-50%)",
+            backgroundColor: "#fff",
+            color: "#44b50c",
+            boxShadow: '0 0 8px 2px rgba(0,0,0,.1)',
+            cursor: 'pointer',
+            "&:hover":{
+              background:"#fff"
+            }
           }}
         >
-          <ArrowBackIosIcon />
+          <ArrowBackIosIcon sx={{width:"15px", height:"15px"}} />
         </IconButton>
-
+}
+{currentIndex != cardData.length - itemsPerPage  &&
         <IconButton
           onClick={handleNext}
           disabled={currentIndex >= cardData.length - itemsPerPage}
           sx={{
+            boxShadow: '0 0 8px 2px rgba(0,0,0,.1)',
+            cursor: 'pointer',
             position: "absolute",
             top: "50%",
-            right: "-20px",
+            zIndex:"100",
+            right: "-18px",
+            height:"40px",
+            width:"40px",
             transform: "translateY(-50%)",
-            backgroundColor: theme.palette.primary.dark,
-            color: "white",
-            "&:hover": {
-              backgroundColor: theme.palette.primary.light,
-            },
+            backgroundColor: "#fff",
+            color: "#44b50c",
+            "&:hover":{
+              background:"#fff"
+            }
           }}
         >
-          <ArrowForwardIosIcon />
+          <ArrowForwardIosIcon  sx={{width:"15px", height:"15px"}}/>
         </IconButton>
-      </Grid>
+}
+</Box>
     </Container>
   );
 };
