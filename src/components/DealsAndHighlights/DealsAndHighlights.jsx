@@ -43,6 +43,28 @@ const cardData = [
       "https://zen.wego.com/marketing/carousel/Web_Banner%201104x552_310747957.jpg", // Replace with actual image URL
   },
 ];
+const features = [
+  {id: 1,
+  img: "https://zen.wego.com/web/illustrations/look-no-further.png",
+  title:"Top travel app in Pakistan",
+  subtitle: "Highly rated in App Store & Google Play"
+  },
+   {id: 2,
+  img: "https://zen.wego.com/web/illustrations/shop-with-confidence.png",
+  title:"Shop with confidence",
+  subtitle: "No hidden fees, taxes or other nasty surprises"
+  },
+  {id: 3,
+    img: "https://zen.wego.com/web/illustrations/pay-the-way-you-want.png",
+    title:"Pay the way you want",
+    subtitle: "See only sellers who support your preferred methods"
+    },
+    {id: 4,
+      img: "https://zen.wego.com/web/illustrations/instant-booking.png",
+      title:"Instant booking",
+      subtitle: "For selected sellers, book with just a couple of clicks"
+      },
+]
 
 const DealsAndHighlights = () => {
   const theme = useTheme();
@@ -64,7 +86,7 @@ const DealsAndHighlights = () => {
   console.log("cuurent index", currentIndex)
 
   return (
-    <Container sx={{paddingTop: 7,paddingBottom:4, }} >
+    <Container sx={{marginTop: 7,marginBottom:4, }} >
       <Box sx={{position:"relative"}}>
       <Grid
         item
@@ -128,7 +150,7 @@ const DealsAndHighlights = () => {
 
       </Grid>
       {currentIndex !=0 && 
-        <IconButton
+        <IconButton disableRipple
           onClick={handlePrevious}
           disabled={currentIndex === 0}
           sx={{
@@ -152,7 +174,7 @@ const DealsAndHighlights = () => {
         </IconButton>
 }
 {currentIndex != cardData.length - itemsPerPage  &&
-        <IconButton
+        <IconButton disableRipple
           onClick={handleNext}
           disabled={currentIndex >= cardData.length - itemsPerPage}
           sx={{
@@ -176,6 +198,24 @@ const DealsAndHighlights = () => {
         </IconButton>
 }
 </Box>
+<Stack direction="row" sx={{justifyContent:"space-between", marginTop:5, marginBottom:5}}>
+{features.map((item) => (
+  <Stack direction="column" sx={{justifyContent:"center",width:"272px", alignItems:"center"}} key={item.id}>
+    <img src={item.img} alt={item.title} width="100px" height="100px">
+    </img>
+    <Typography variant="h6" sx={{fontSize: "17px",    fontWeight: "600",
+    lineHeight: "24px",
+    marginTop: "8px",
+    minHeight: "24px",textAlign:"center"}}>{item.title}</Typography>
+      <Typography variant="body1" sx={{fontSize: "17px",    fontWeight: "400",
+    lineHeight: "24px",
+    marginTop: "4px",
+    color:"#767676",
+    minHeight: "24px",textAlign:"center"}}>{item.subtitle}</Typography>
+    </Stack>
+))}
+
+</Stack>
     </Container>
   );
 };
