@@ -5,6 +5,7 @@ import {
   Typography,
   useTheme,
   Stack,
+  Hidden,
   Container,
 } from "@mui/material";
 import Header from "../Header/Header";
@@ -43,12 +44,12 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(handleNext, 8000); 
+    const interval = setInterval(handleNext, 8000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <Box  width="100%"  >
+    <Box width="100%">
       {/* Header */}
       <Box
         position="absolute"
@@ -64,8 +65,14 @@ const Hero = () => {
       <Box
         position="relative"
         overflow="hidden"
-        height="544px"
+      
         sx={{
+          height: {
+            xs: "240px", // Extra small screens
+      sm: "240px", // Small screens
+      md: "240px", // Medium screens
+      lg: "544px", 
+          },
           borderRadius: "0 0 100% 100%",
           margin: "0 -20%",
           padding: "0 20%",
@@ -87,7 +94,6 @@ const Hero = () => {
               backgroundSize: "cover", // Use cover to fill the area
               opacity: currentSlide === index ? 1 : 0,
               transition: "opacity 0.7s ease",
-            
             }}
           >
             <Stack
@@ -97,53 +103,71 @@ const Hero = () => {
                 height: "100%",
               }}
             >
-              <Typography
-                variant="h4"
-                color="white"
-                sx={{
-                  textShadow: "0 4px 8px rgba(0,0,0,.5)",
-                  fontSize: "36px",
-                  fontWeight: "500",
-                 
-                  lineHeight:"1.67",
-                  position: 'absolute',
-                  top:"174px"
-                }}
-              >
-                Discover the real value of travel
-              </Typography>
-              <Box display="flex" justifyContent="center" mt={13}>
-                {slides.map((slide, index) => (
-                  <Box
-                    key={slide.id}
-                    onClick={() => handleDotClick(index)}
-                    bgcolor={currentSlide === index ? "white" : "transparent"}
-                    b
-                    borderRadius="50%"
-                    width={12}
-                    height={12}
-                    mx={0.5}
-                    sx={{
-                      cursor: "pointer",
-                      transition: "background-color 0.3s",
-                      border: "2px solid white",
-                    }}
-                  />
-                ))}
-              </Box>
+              {/* heading for large screens */}
+              <Hidden mdDown>
+                <Typography
+                  variant="h4"
+                  color="white"
+                  sx={{
+                    textShadow: "0 4px 8px rgba(0,0,0,.5)",
+                    fontSize: "36px",
+                    fontWeight: "500",
 
-              
+                    lineHeight: "1.67",
+                    position: "absolute",
+                    top: "174px",
+                  }}
+                >
+                  Discover the real value of travel
+                </Typography>
+
+                <Box display="flex" justifyContent="center" mt={13}>
+                  {slides.map((slide, index) => (
+                    <Box
+                      key={slide.id}
+                      onClick={() => handleDotClick(index)}
+                      bgcolor={currentSlide === index ? "white" : "transparent"}
+                      b
+                      borderRadius="50%"
+                      width={12}
+                      height={12}
+                      mx={0.5}
+                      sx={{
+                        cursor: "pointer",
+                        transition: "background-color 0.3s",
+                        border: "2px solid white",
+                      }}
+                    />
+                  ))}
+                </Box>
+              </Hidden>
+              {/* logo for smaller screens */}
+              <Hidden mdUp>
+                <Box
+                 
+                  sx={{
+                    width: "128px",
+                    height: "58px",
+                    backgroundImage:
+                      "url(https://assets.wego.com/image/upload/w_256,h_116/v1472795189/wego_logos/logo-wego-white.png)",
+                    filter: "drop-shadow(1px 0 2px #27242c)",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "50%",
+                    backgroundSize: "contain",
+                    marginTop:"-40px"
+                  }}
+                />
+              </Hidden>
             </Stack>
           </Box>
         ))}
-        
       </Box>
       {/* Hero section content */}
-      <Box sx={{marginTop:"-14%"}}>
-      <HeroTabs />
+      <Box sx={{ marginTop: {lg:"-14%", xs:"-60px",  backgroundColor:'#F9F9F9'} }}>
+        <HeroTabs />
       </Box>
     </Box>
   );
-}; 
+};
 
 export default Hero;
