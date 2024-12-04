@@ -12,6 +12,7 @@ import {
   IconButton,
   Link,
   useTheme,
+  Hidden
 } from "@mui/material";
 
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -91,7 +92,7 @@ const DealsAndHighlights = () => {
       <Grid
         item
         xs={9}
-        sx={{ position: "relative",padding:1,  overflow:"hidden" }}
+        sx={{ position: "relative",padding:{lg:1, xs:0},  overflow:"hidden" }}
       >
         <Grid
           container
@@ -104,13 +105,18 @@ const DealsAndHighlights = () => {
         >
           <Grid
             sx={{
-                display: "flex", // Arrange items in a row
-                justifyContent: "flex-start", // Align items to the start
+                display: "flex", 
+                justifyContent: "flex-start", 
                // margin: "auto",
-                gap:"16px",
-                transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`, // Shift by one item's width on click
-                transition: "transform 0.5s ease-in-out", // Smooth sliding effect
-                width: `${cardData.length * (cardWidth + 16) + 16}px`, // Total width for all items
+                gap:{lg:"16px", xs:"8px"},
+                transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`, 
+                transition: "transform 0.5s ease-in-out",
+                width: `${cardData.length * (cardWidth + 16) + 16}px`, 
+                overflowX:{lg:"hidden", xs:"scroll"},
+                scrollbarWidth: "none", 
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
               
             }}
           >
@@ -118,24 +124,26 @@ const DealsAndHighlights = () => {
               <Box
                 key={card.id}
                 sx={{
-                    flex: `0 0 ${cardWidth}px`, // Set each card's width to 368px
-                }}
+                    flex: {lg:`0 0 ${cardWidth}px`, sm:"none"}, // Set each card's width to 368px
+             
+                  }}
               >
                 <Card
                   sx={{
-                    borderRadius: "8px",
+                    borderRadius:{lg: "8px", xs:"0px"},
                     height: "100%",
-                
+                   
                   }}
                 >
                   <Link href={card.imageUrl} target="_blank" rel="noopener noreferrer">
                   <CardMedia
                     component="img"
                     sx={{
-                      width: "100%",
-                      height: "183px",
+                      width: {lg:"100%", xs: "244px"},
+                      height: {lg:"183px", xs:"122px"},
+                   
                     }}
-                    height="183"
+                  
                     image={card.imageUrl}
                     alt="slider"
                   />
@@ -149,6 +157,7 @@ const DealsAndHighlights = () => {
         </Grid>
 
       </Grid>
+      <Hidden mdDown>
       {currentIndex !=0 && 
         <IconButton disableRipple
           onClick={handlePrevious}
@@ -197,17 +206,18 @@ const DealsAndHighlights = () => {
           <ArrowForwardIosIcon  sx={{width:"15px", height:"15px"}}/>
         </IconButton>
 }
+</Hidden>
 </Box>
-<Stack direction="row" sx={{justifyContent:"space-between", marginTop:5, marginBottom:5}}>
+<Stack direction="row" sx={{justifyContent:"space-between", marginTop:5, marginBottom:5, flexWrap:"wrap", gap:"16px 0px"}}>
 {features.map((item) => (
-  <Stack direction="column" sx={{justifyContent:"center",width:"272px", alignItems:"center"}} key={item.id}>
+  <Stack direction="column" sx={{width:{lg:"272px", xs:"165px"}, alignItems:"center",  }} key={item.id}>
     <img src={item.img} alt={item.title} width="100px" height="100px">
     </img>
-    <Typography variant="h6" sx={{fontSize: "17px",    fontWeight: "600",
+    <Typography variant="h6" sx={{fontSize: {lg:"17px", xs:"14px"},    fontWeight: {lg:"600", xs:"500"},
     lineHeight: "24px",
     marginTop: "8px",
     minHeight: "24px",textAlign:"center"}}>{item.title}</Typography>
-      <Typography variant="body1" sx={{fontSize: "17px",    fontWeight: "400",
+      <Typography variant="body1" sx={{fontSize: {lg:"17px", xs:"14px"},     fontWeight: "400",
     lineHeight: "24px",
     marginTop: "4px",
     color:"#767676",
