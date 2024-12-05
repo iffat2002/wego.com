@@ -87,7 +87,7 @@ const DealsAndHighlights = () => {
   console.log("cuurent index", currentIndex)
 
   return (
-    <Container sx={{marginTop: 7,marginBottom:4, }} >
+    <Container sx={{marginTop: {lg:7, xs:0},marginBottom:4, }} >
       <Box sx={{position:"relative"}}>
       <Grid
         item
@@ -112,7 +112,7 @@ const DealsAndHighlights = () => {
                 transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`, 
                 transition: "transform 0.5s ease-in-out",
                 width: `${cardData.length * (cardWidth + 16) + 16}px`, 
-                overflowX:{lg:"hidden", xs:"scroll"},
+                overflowX:{lg:"visible", xs:"scroll"},
                 scrollbarWidth: "none", 
     "&::-webkit-scrollbar": {
       display: "none",
@@ -125,7 +125,7 @@ const DealsAndHighlights = () => {
                 key={card.id}
                 sx={{
                     flex: {lg:`0 0 ${cardWidth}px`, sm:"none"}, // Set each card's width to 368px
-             
+                  
                   }}
               >
                 <Card

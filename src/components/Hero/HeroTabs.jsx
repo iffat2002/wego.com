@@ -57,7 +57,7 @@ export default function HeroTabs() {
   return (
     <Container
       sx={{
-        height: "300px",
+        height: {lg:"300px", xs:"auto"},
         borderRadius: "18px",
         overflow: "visible",
         margin: "auto",

@@ -8,6 +8,7 @@ import Header from "../components/Header/Header";
 import Hero from "../components/Hero/Hero";
 import CountryCurrencyFlags from "../components/Header/CountryCurrencyFlags";
 import DealsAndHighlights from "@/components/DealsAndHighlights/DealsAndHighlights";
+import Stories from "@/components/Stories/Stories";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function Home() {
       <main className={styles.main}>
         <Hero />
         <DealsAndHighlights />
+        <Stories />
       </main>
     </>
   );
