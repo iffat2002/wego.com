@@ -136,7 +136,7 @@ const Stories = () => {
             container
             spacing={2}
             sx={{
-              overflow: "hidden",
+              //overflow: "hidden",
               display: "flex",
               margin: "auto",
             }}
@@ -162,7 +162,8 @@ const Stories = () => {
                   sx={{
                     flex: { lg: `0 0 ${cardWidth}px`,md: `0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs: "none" },
                     padding: {lg: "8px", md:"8px",sm:"8px", xs: "0px 0px 8px 14px"},
-                    boxSizing:"content-box"
+                    boxSizing:"content-box",
+                    width:{xs:"180px"}
                   }}
                 >
                   <Link
@@ -183,6 +184,7 @@ const Stories = () => {
                         sx={{
                           width: { lg: "100%", md:"100%",sm:"100%", xs: "180px" },
                           height: { lg: "216px",md: "216px",sm:"216px", xs: "120px" },
+
                         }}
                         image={card.imageUrl}
                         alt={card.title}
@@ -192,17 +194,18 @@ const Stories = () => {
                       >
                         <Typography
                           variant="body1"
-                          component="div"
+                          //component="div"
                           sx={{
                             fontSize: "17px",
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
-                            WebkitLineClamp: "3", 
+                            WebkitLineClamp: "4",
                             textTransform: "none",
                             fontWeight: {lg:"600",sm:"500", xs:"500"},
                             textOverflow: "ellipsis",
-                            flexShrink: 0, 
+                            flexShrink: 0,
+                            // width:"100%"
                           }}
                         >
                           {card.title}

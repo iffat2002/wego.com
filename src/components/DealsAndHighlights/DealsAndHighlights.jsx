@@ -97,7 +97,7 @@ const DealsAndHighlights = () => {
           container
           spacing={2}
           sx={{
-            overflow: "hidden",
+           // overflow: "hidden",
             display: "flex",
              margin:"auto"
           }}
@@ -123,7 +123,7 @@ const DealsAndHighlights = () => {
               <Box
                 key={card.id}
                 sx={{
-                    flex: {lg:`0 0 ${cardWidth}px`,md:`0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs:"none"}, // Set each card's width to 368px
+                    flex: {lg:`0 0 ${cardWidth}px`,md:`0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs: "0 0 auto"}, // Set each card's width to 368px
                   
                   }}
               >
