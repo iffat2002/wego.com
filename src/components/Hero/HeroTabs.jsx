@@ -74,7 +74,7 @@ export default function HeroTabs() {
           padding: {lg:"0px 8px", sm: '0px'}
         }}
       >
-       <Hidden mdUp>
+       <Hidden smUp>
           <Stack direction="column" width="100%">
             <Stack direction="row">
               <Stack
@@ -182,7 +182,7 @@ export default function HeroTabs() {
               </Box>
           </Stack>
         </Hidden>
-        <Hidden mdDown>
+        <Hidden smDown>
           <Box
             sx={{
               borderBottom: 1,
@@ -241,7 +241,7 @@ export default function HeroTabs() {
                   <Stack
                     sx={{
                       padding: "0 1rem",
-                      flexDirection: { lg: "row", sm: "column" },
+                      flexDirection: { lg: "row", sm: "column", md:"row" },
                     }}
                   >
                     <Box
@@ -352,10 +352,8 @@ export default function HeroTabs() {
               </Link>
             </Tabs>
           </Box></Hidden>
-
-        
-       
-        <Hidden mdDown>
+   
+        <Hidden smDown>
           {/* first tab flights content */}
           <CustomTabPanel value={value} index={0} className="tab">
             <FlightsTab />

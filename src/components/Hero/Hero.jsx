@@ -70,7 +70,7 @@ const Hero = () => {
           height: {
             xs: "240px", // Extra small screens
       sm: "240px", // Small screens
-      md: "240px", // Medium screens
+      md: "390px", // Medium screens
       lg: "544px", 
           },
           borderRadius: "0 0 100% 100%",
@@ -115,13 +115,13 @@ const Hero = () => {
 
                     lineHeight: "1.67",
                     position: "absolute",
-                    top: "174px",
+                    top: {lg:"174px", md:"144px"},
                   }}
                 >
                   Discover the real value of travel
                 </Typography>
 
-                <Box display="flex" justifyContent="center" mt={13}>
+                <Box justifyContent="center" mt={13} sx={{display:{lg:"flex", md:"none"}}}>
                   {slides.map((slide, index) => (
                     <Box
                       key={slide.id}
@@ -163,7 +163,7 @@ const Hero = () => {
         ))}
       </Box>
       {/* Hero section content */}
-      <Box sx={{ marginTop: {lg:"-14%", xs:"-60px",  backgroundColor:'#F9F9F9'} }}>
+      <Box sx={{ marginTop: {lg:"-14%", xs:"-60px", md:"-130px"},  backgroundColor:'#F9F9F9' }}>
         <HeroTabs />
       </Box>
     </Box>

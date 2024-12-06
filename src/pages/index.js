@@ -9,6 +9,8 @@ import Hero from "../components/Hero/Hero";
 import CountryCurrencyFlags from "../components/Header/CountryCurrencyFlags";
 import DealsAndHighlights from "@/components/DealsAndHighlights/DealsAndHighlights";
 import Stories from "@/components/Stories/Stories";
+import Affiliation from "@/components/Affiliation/Affiliation";
+import {Hidden} from "@mui/material"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +37,9 @@ export default function Home() {
         <Hero />
         <DealsAndHighlights />
         <Stories />
+        <Hidden smDown>
+        <Affiliation />
+        </Hidden>
       </main>
     </>
   );

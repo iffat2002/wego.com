@@ -84,15 +84,14 @@ const DealsAndHighlights = () => {
       setCurrentIndex(currentIndex - 1);
     }
   };
-  console.log("cuurent index", currentIndex)
 
   return (
-    <Container sx={{marginTop: {lg:7, xs:0},marginBottom:4, }} >
+    <Container sx={{marginTop: {lg:7, xs:0, sm:7},marginBottom:4, }} >
       <Box sx={{position:"relative"}}>
       <Grid
         item
         xs={9}
-        sx={{ position: "relative",padding:{lg:1, xs:0},  overflow:"hidden" }}
+        sx={{ position: "relative",padding:{lg:1,sm:1, xs:0},  overflow:"hidden" }}
       >
         <Grid
           container
@@ -108,11 +107,11 @@ const DealsAndHighlights = () => {
                 display: "flex", 
                 justifyContent: "flex-start", 
                // margin: "auto",
-                gap:{lg:"16px", xs:"8px"},
+                gap:{lg:"16px",md:"16px", xs:"8px"},
                 transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`, 
                 transition: "transform 0.5s ease-in-out",
                 width: `${cardData.length * (cardWidth + 16) + 16}px`, 
-                overflowX:{lg:"visible", xs:"scroll"},
+                overflowX:{lg:"visible",sm:"visible", md:"visible", xs:"scroll"},
                 scrollbarWidth: "none", 
     "&::-webkit-scrollbar": {
       display: "none",
@@ -124,13 +123,13 @@ const DealsAndHighlights = () => {
               <Box
                 key={card.id}
                 sx={{
-                    flex: {lg:`0 0 ${cardWidth}px`, sm:"none"}, // Set each card's width to 368px
+                    flex: {lg:`0 0 ${cardWidth}px`,md:`0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs:"none"}, // Set each card's width to 368px
                   
                   }}
               >
                 <Card
                   sx={{
-                    borderRadius:{lg: "8px", xs:"0px"},
+                    borderRadius:{lg: "8px",sm:"8px", xs:"0px", md:"8px"},
                     height: "100%",
                    
                   }}
@@ -139,8 +138,8 @@ const DealsAndHighlights = () => {
                   <CardMedia
                     component="img"
                     sx={{
-                      width: {lg:"100%", xs: "244px"},
-                      height: {lg:"183px", xs:"122px"},
+                      width: {lg:"100%",md:"100%", sm:"100%", xs: "244px"},
+                      height: {lg:"183px",md:"183px",sm:"183px", xs:"122px"},
                    
                     }}
                   
@@ -157,7 +156,7 @@ const DealsAndHighlights = () => {
         </Grid>
 
       </Grid>
-      <Hidden mdDown>
+      <Hidden smDown>
       {currentIndex !=0 && 
         <IconButton disableRipple
           onClick={handlePrevious}

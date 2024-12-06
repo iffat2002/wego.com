@@ -58,7 +58,6 @@ const stories = [
 
 const Stories = () => {
   const theme = useTheme();
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
   const cardWidth = 368;
@@ -72,6 +71,7 @@ const Stories = () => {
       setCurrentIndex(currentIndex - 1);
     }
   };
+
   return (
     <Container sx={{ mb: 4, padding:0 }}>
       <Stack
@@ -80,11 +80,11 @@ const Stories = () => {
       >
         <Typography
           variant="h5"
-          sx={{ fontSize: {lg:"24px", xs:"20px"}, fontWeight: "500", color: "black" }}
+          sx={{ fontSize: {lg:"24px",md:"24px",sm:"24px", xs:"20px"}, fontWeight: "500", color: "black" }}
         >
           Stories
         </Typography>
-        <Hidden mdDown>
+        <Hidden smDown>
         <Link
           href="https://blog.wego.com/"
           target="_blank"
@@ -148,7 +148,7 @@ const Stories = () => {
                 transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`,
                 transition: "transform 0.5s ease-in-out",
                 width: `${stories.length * (cardWidth + 16) + 16}px`,
-                overflowX: { lg: "visible", xs: "scroll" },
+                overflowX: { lg: "visible",md: "visible",sm:"visible" , xs: "scroll" },
                 scrollbarWidth: "none",
                 "&::-webkit-scrollbar": {
                   display: "none",
@@ -160,8 +160,8 @@ const Stories = () => {
                 <Box
                   key={card.id}
                   sx={{
-                    flex: { lg: `0 0 ${cardWidth}px`, sm: "none" },
-                    padding: {lg: "8px", xs: "0px 0px 8px 14px"},
+                    flex: { lg: `0 0 ${cardWidth}px`,md: `0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs: "none" },
+                    padding: {lg: "8px", md:"8px",sm:"8px", xs: "0px 0px 8px 14px"},
                     boxSizing:"content-box"
                   }}
                 >
@@ -181,8 +181,8 @@ const Stories = () => {
                       <CardMedia
                         component="img"
                         sx={{
-                          width: { lg: "100%", xs: "180px" },
-                          height: { lg: "216px", xs: "120px" },
+                          width: { lg: "100%", md:"100%",sm:"100%", xs: "180px" },
+                          height: { lg: "216px",md: "216px",sm:"216px", xs: "120px" },
                         }}
                         image={card.imageUrl}
                         alt={card.title}
@@ -198,9 +198,9 @@ const Stories = () => {
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
-                            WebkitLineClamp: "3", // Limit to 3 lines
-                            textTransform: "none", // Corrected property name
-                            fontWeight: {lg:"600", xs:"500"},
+                            WebkitLineClamp: "3", 
+                            textTransform: "none",
+                            fontWeight: {lg:"600",sm:"500", xs:"500"},
                             textOverflow: "ellipsis",
                             flexShrink: 0, 
                           }}
@@ -210,7 +210,7 @@ const Stories = () => {
                         <Stack
                           direction="row"
                           sx={{
-                          padding:{lg:0, xs:"8px 0px"},
+                          padding:{lg:0, md:0, sm:0, xs:"8px 0px"},
                             flexGrow:1,
                             fontSize: "13px",
                             color: "#767676",
@@ -235,7 +235,7 @@ const Stories = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Hidden mdDown>
+        <Hidden smDown>
           {currentIndex != 0 && (
             <IconButton
               disableRipple
