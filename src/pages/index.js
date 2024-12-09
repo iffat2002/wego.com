@@ -11,6 +11,7 @@ import DealsAndHighlights from "@/components/DealsAndHighlights/DealsAndHighligh
 import Stories from "@/components/Stories/Stories";
 import Affiliation from "@/components/Affiliation/Affiliation";
 import {Hidden} from "@mui/material"
+import Footer from "../components/Footer/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,6 +41,7 @@ export default function Home() {
         <Hidden smDown>
         <Affiliation />
         </Hidden>
+        <Footer />
       </main>
     </>
   );
