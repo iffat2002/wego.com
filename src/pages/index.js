@@ -12,6 +12,7 @@ import Stories from "@/components/Stories/Stories";
 import Affiliation from "@/components/Affiliation/Affiliation";
 import {Hidden} from "@mui/material"
 import Footer from "../components/Footer/Footer";
+import FlightsAndHotels from "@/components/FlightsAndHotels/FlightsAndHotels";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,6 +42,7 @@ export default function Home() {
         <Hidden smDown>
         <Affiliation />
         </Hidden>
+        <FlightsAndHotels />
         <Footer />
       </main>
     </>

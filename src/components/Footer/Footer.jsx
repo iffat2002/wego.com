@@ -118,10 +118,10 @@ const Footer = () => {
         <Box sx={{ mt: 3, borderTop: '1px solid #444', pt: 2, pb:2 }}>
             <Stack direction="row" sx={{justifyContent: "space-between", alignItems:"center"}}>
         <Box>
-          <Typography variant="body1">
+          <Typography variant="body1" fontSize="17px">
             Copyright ©2024 Wego Pte Ltd. All Rights Reserved
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" fontSize="17px">
             Site Operator: Wego Pte. Ltd. Travel License No. 03513
           </Typography>
           </Box>
