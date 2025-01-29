@@ -1,14 +1,10 @@
-import { Roboto } from 'next/font/google';
+
 import { Inter} from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-});
-const inter = Inter({ subsets: ['latin'] })
+
+const inter = Inter({ subsets: ['latin'], display: 'swap', })
 
 // Create a theme instance.
 const theme = createTheme({
@@ -34,9 +30,9 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: `${inter.style.fontFamily}, "Geeza Pro", sans-serif`,
     button: {
-      fontFamily: inter.style.fontFamily, 
+      fontFamily: `${inter.style.fontFamily}, "Geeza Pro", sans-serif`, 
     },
   },
   tabpanel: {
@@ -50,7 +46,7 @@ theme.components = {
   MuiButton: {
     styleOverrides: {
       root: {
-        fontFamily: inter.style.fontFamily, 
+       
         boxShadow: 'none', 
         borderRadius: '0px',
           '&:hover': {

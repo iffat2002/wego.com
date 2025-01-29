@@ -101,7 +101,7 @@ const travelPartners = [
 ]
 const Affiliation = () => {
   return (
-    <Container sx={{ pb: 4,  }}>
+    <Container sx={{ pb: 4, }}>
       <Box sx={{padding:1}}>
         <Stack direction="row" alignItems="center">
           <Box sx={{ flexShrink: "0", width:{lg:"25%", md:"35%",sm:"35%"}  }}>

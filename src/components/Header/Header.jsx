@@ -7,10 +7,14 @@ import { useTranslation } from "react-i18next";
 import { useTheme, styled } from "@mui/material/styles";
 import {
   Stack,
+  Container,
   Typography,
   Box,
   Divider,
+  Hidden,
   Link,
+  Menu,
+MenuItem,
   IconButton,
   Popper,
   Paper,
@@ -22,9 +26,25 @@ import CountryCurrencyFlags from "./CountryCurrencyFlags";
 import CurrencyMenu from "./CurrencyMenu";
 import MenuIcon from "@mui/icons-material/Menu";
 import LanguagesMenu from "./LanguagesMenu";
-const Header = () => {
+const Header = ({scroll, tab, setTab}) => {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
+setTab(true)
+
+//More menu
+const [anchorMoreEl, setAnchorMoreEl] = useState(null);
+const openMore = Boolean(anchorMoreEl);
+const handleMoreClick = (event) => {
+  setAnchorMoreEl(event.currentTarget);
+};
+const handleMoreClose = () => {
+  setAnchorMoreEl(null);
+};
+
+
+
+
+////
 
   //mobile toggle drawer
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -120,29 +140,66 @@ const Header = () => {
   useEffect(() => {
     setSelectedcurrency(selectedFlag);
   }, [selectedFlag]);
+
+ 
   return (
     <>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
+    <Hidden mdDown>
+      <Box
         height="72px"
-        sx={{ display: { xs: "none", md: "flex" } }}
-      >
-        <Box height="100%" sx={{ display: "flex", alignItems: "center" }}>
+        sx={{ width:"100%", position:"fixed", zIndex:3, backgroundColor: scroll ? "white" : "transparent", boxShadow: scroll ? "0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2)" : "none"
+          }}
+      > 
+        <Container sx={{display:"flex",justifyContent:"space-between", flexDirection:"row", height:"100%", }}>
+        <Box height="100%" sx={{display:  "flex"  ,alignItems: "center", gap:"0 40px", }}>
           <Link
             href="/"
             sx={{
               backgroundImage: "url('/logo.webp')",
-              backgroundPosition: "0 -41px",
+              backgroundPosition: scroll ? "0 0" : "0 -41px",
               backgroundRepeat: "no-repeat",
               backgroundSize: "100px 81px",
               height: "40px",
               width: "100px",
             }}
           ></Link>
+          
+          {scroll &&
+          <Stack direction="row" sx={{gap:"0 2rem", whiteSpace:"no-wrap", height:"100%"}}>
+            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none"}} href="/flights">Flights</Link>
+            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none"}} href="/flights">Hotels</Link>
+            <Stack direction="row" onClick={handleMoreClick} sx={{gap:"12px", fontWeight:"600", alignItems:"center", fontSize:"15px", cursor:"pointer", marginRight:"0.5rem"}}>More
+            <ArrowDropDownIcon
+                  sx={{
+                    width: "28px",
+                    height: "28px",
+                    color:"#767676",
+                    transform: openMore
+                      ? "rotate(180deg)"
+                      : "rotate(0deg)",
+                  }}
+                />
+            </Stack>
+            <Menu
+            disableAutoFocusItem
+        id="basic-menu"
+        anchorEl={anchorMoreEl}
+        open={openMore}
+        onClose={handleMoreClose}
+       sx={{".MuiPaper-root":{borderRadius:"0px !important"}}}
+      >
+        <MenuItem disableRipple onClick={handleMoreClose} sx={{fontWeight:"400", fontSize:"15px", height:"56px"}}><Typography sx={{fontWeight:"600", fontSize:"15px", mr:"4px"}}>WegoPro</Typography>Business Travel</MenuItem>
+        <MenuItem disableRipple onClick={handleMoreClose} sx={{fontWeight:"400", fontSize:"15px", height:"56px"}}>Travel Blog</MenuItem>
+        
+  
+      </Menu>
+          </Stack>
+}
+
         </Box>
+        
         <Stack direction="row" alignItems="center">
-          <Stack direction="row" gap="2px">
+          <Stack direction="row" sx={{gap: scroll ? "0px" :"1px"}}>
             <Button
               variant="contained"
               disableRipple
@@ -161,8 +218,10 @@ const Header = () => {
                 />
               }
               sx={{
-                backgroundColor: theme.palette.customTransparent.gray,
-                borderRadius: "100px 0 0 100px",
+                backgroundColor: scroll ? "white" : theme.palette.customTransparent.gray,
+                color: scroll ? "#767676" :"white",
+                border: scroll ? "1px solid #dfdfdf" :"none",
+                borderRadius: "100px 0 0 100px",    
                 height: "32px",
                 width: "75px",
                 borderWidth: "1px 0 1px 1px",
@@ -174,6 +233,9 @@ const Header = () => {
                   marginLeft: "0px !important",
                   marginRight: "5px !important",
                 },
+                "&:hover":{
+                  backgroundColor: scroll ? "#f4f4f4" : "rgba(29, 29, 29, .8)"
+                }
               }}
               aria-describedby={countryId}
               onClick={handleCountryClick}
@@ -250,6 +312,7 @@ const Header = () => {
                   sx={{
                     width: "28px",
                     height: "28px",
+                    color: scroll ? "#767676" : "white",
                     transform: openLanPopper
                       ? "rotate(180deg)"
                       : "rotate(0deg)",
@@ -257,7 +320,10 @@ const Header = () => {
                 />
               }
               sx={{
-                backgroundColor: theme.palette.customTransparent.gray,
+                backgroundColor: scroll ? "white" : theme.palette.customTransparent.gray,
+                color: scroll ? "#1d1d1d" :"white",
+                border: scroll ? "1px solid #dfdfdf" :"none",
+            
                 height: "32px",
                 width: "78px",
                 padding: "0px 16px",
@@ -268,6 +334,9 @@ const Header = () => {
                   marginLeft: "0px !important",
                   marginRight: "5px !important",
                 },
+                "&:hover":{
+                  backgroundColor: scroll ? "#f4f4f4" : "rgba(29, 29, 29, .8)"
+                }
               }}
             ></Button>
             <Popper
@@ -336,6 +405,7 @@ const Header = () => {
                   sx={{
                     width: "28px",
                     height: "28px",
+                    color: scroll ? "#767676" : "white",
                     transform: openCurrencyPopper
                       ? "rotate(180deg)"
                       : "rotate(0deg)",
@@ -343,7 +413,9 @@ const Header = () => {
                 />
               }
               sx={{
-                backgroundColor: theme.palette.customTransparent.gray,
+                backgroundColor: scroll ? "white" : theme.palette.customTransparent.gray,
+                color: scroll ? "#1d1d1d" :"white",
+                border: scroll ? "1px solid #dfdfdf" :"none",
                 height: "32px",
                 padding: "0px 16px",
                 display: "flex",
@@ -356,6 +428,9 @@ const Header = () => {
                   marginLeft: "0px !important",
                   marginRight: "5px !important",
                 },
+                "&:hover":{
+                  backgroundColor: scroll ? "#f4f4f4" : "rgba(29, 29, 29, .8)"
+                }
               }}
             ></Button>
 
@@ -416,9 +491,12 @@ const Header = () => {
             variant="contained"
             disableRipple
             sx={{
-              backgroundColor: theme.palette.customTransparent.gray,
+
               padding: "0px 18px",
               height: "32px",
+              backgroundColor: scroll ? "white" : theme.palette.customTransparent.gray,
+              color: scroll ? "#1d1d1d" :"white",
+              border: scroll ? "1px solid #dfdfdf" :"none",
               borderRadius: "100px",
               borderWidth: "1px",
               lineHeight: "1.6px",
@@ -426,6 +504,9 @@ const Header = () => {
               fontWeight: "400",
               marginLeft: "8px",
               textTransform: "uppercase",
+              "&:hover":{
+                backgroundColor: scroll ? "#f4f4f4" : "rgba(29, 29, 29, .8)"
+              }
             }}
           >
             {t("loginbtn")}
@@ -445,21 +526,49 @@ const Header = () => {
             {t("signupbtn")}
           </Button>
         </Stack>
-      </Stack>
-      <IconButton
+    
+        </Container>     
+      </Box>
+      </Hidden>
+<Box sx={{display: { xs: "flex", md: "none", }, width:"100%", alignItems:"center", height:"56px", justifyContent:"space-between", background: scroll ? "white" : "transparent", position:"fixed", zIndex:"3"}}>
+<IconButton
         edge="start"
         color="inherit"
         aria-label="menu"
         onClick={toggleDrawer(true)}
         sx={{
-          display: { xs: "block", md: "none" },
-          color: theme.palette.background.paper,
-          top: "10px",
-          left: "0px",
+          margin:"14px",
+          padding:"0px",
+          color: scroll ? theme.palette.customGreen.main : "white",
+   
+         
         }}
       >
         <MenuIcon />
+       
       </IconButton>
+       {scroll && (<>
+      <Link
+            href="/"
+            sx={{
+              backgroundImage: "url('/wego-logo.webp')",
+              backgroundSize: "contain",
+              height: "40px",
+              width: "100px",
+              position:"absolute",
+              margin:"auto",
+              top:0,
+              left:0,
+              right:0,
+              bottom:0,
+            }}
+          ></Link>
+          <Button sx={{background:"#44b50c", margin:"10px 16px", border: "2px solid #44b50c", color:"#fff", fontSize:"0.875rem", padding:"8px 16px",lineHeight:1.2, fontWeight:500, borderRadius:"100px", textTransform:"none"}} >Use App</Button>
+          </>
+       )
+}
+</Box>
+      
       <div style={{ width: "100%" }}>
         <Drawer
           anchor="left"

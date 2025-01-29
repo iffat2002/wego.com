@@ -51,7 +51,7 @@ const Hero = () => {
   return (
     <Box width="100%">
       {/* Header */}
-      <Box
+      {/* <Box
         position="absolute"
         top={0}
         left={0}
@@ -60,7 +60,7 @@ const Hero = () => {
         sx={{ width: "84%", margin: "auto" }}
       >
         <Header />
-      </Box>
+      </Box> */}
       {/* Hero section background slides */}
       <Box
         position="relative"
@@ -106,12 +106,12 @@ const Hero = () => {
               {/* heading for large screens */}
               <Hidden mdDown>
                 <Typography
-                  variant="h4"
+                  variant="body1"
                   color="white"
                   sx={{
-                    textShadow: "0 4px 8px rgba(0,0,0,.5)",
+                  
                     fontSize: "36px",
-                    fontWeight: "500",
+                    fontWeight: "600",
 
                     lineHeight: "1.67",
                     position: "absolute",
@@ -163,7 +163,7 @@ const Hero = () => {
         ))}
       </Box>
       {/* Hero section content */}
-      <Box sx={{ marginTop: {lg:"-14%", xs:"-60px", md:"-130px"},  backgroundColor:'#F9F9F9' }}>
+      <Box sx={{ marginTop: {lg:"-14%", xs:"-60px", md:"-130px"},}}>
         <HeroTabs />
       </Box>
     </Box>

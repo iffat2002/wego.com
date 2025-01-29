@@ -1,8 +1,10 @@
+"use client";
+import React,  { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import styles from "../styles/Home.module.css";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Header from "../components/Header/Header";
 import Hero from "../components/Hero/Hero";
@@ -13,20 +15,44 @@ import Affiliation from "@/components/Affiliation/Affiliation";
 import {Hidden} from "@mui/material"
 import Footer from "../components/Footer/Footer";
 import FlightsAndHotels from "@/components/FlightsAndHotels/FlightsAndHotels";
+import { TripIdeas } from "@/components/TripIdeas/TripIdeas";
+import WegoApp from "@/components/WegoApp/WegoApp";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
+
 
 export default function Home() {
   const theme = useTheme();
+  const [scroll, setscroll] = useState(false);
+// const isHome = props.name === 'Homepage' ? true : false;
+const isHome = true; 
+
+
+const changeNavBg = () => {
+  console.log(window.scrollY); 
+  if (window.scrollY > 1) {
+    setscroll(true);  
+  } else {
+    setscroll(false);
+  }
+};
+
+useEffect(() => {
+  
+  if (typeof window !== "undefined") {
+    console.log("Adding event listener");
+    window.addEventListener('scroll', changeNavBg);
+    return () => {
+      console.log("Removing event listener");
+      window.removeEventListener('scroll', changeNavBg);
+    };
+  }
+}, []);
+
+const [tab, setTab] = useState(false)
+console.log("tab",tab)
   return (
     <>
       <Head>
@@ -35,12 +61,23 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Hero />
+      <main className={`${styles.main} ${inter.className}`}>
+      
+      <Header
+        scroll={isHome && scroll ? true : undefined}
+        tab={tab}
+        setTab={setTab}
+      />
+    
+        <Hero tab={tab} setTab={setTab} />
         <DealsAndHighlights />
         <Stories />
         <Hidden smDown>
         <Affiliation />
+        </Hidden>
+        <TripIdeas />
+        <Hidden smDown>
+        <WegoApp />
         </Hidden>
         <FlightsAndHotels />
         <Footer />
