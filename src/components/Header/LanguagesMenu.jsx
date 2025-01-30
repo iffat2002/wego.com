@@ -67,7 +67,7 @@ const LanguagesMenu = ({ onStateChange, lang }) => {
       .map((item, index) => (
         <Box
           onClick={() => {
-            updateLang(item.code);
+            updateLang(item);
           }}
           key={index}
           sx={{

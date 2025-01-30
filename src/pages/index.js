@@ -75,7 +75,9 @@ console.log("tab",tab)
         <Hidden smDown>
         <Affiliation />
         </Hidden>
+        <Hidden smDown>
         <TripIdeas />
+        </Hidden>
         <Hidden smDown>
         <WegoApp />
         </Hidden>

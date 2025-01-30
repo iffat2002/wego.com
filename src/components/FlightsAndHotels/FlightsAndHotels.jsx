@@ -101,7 +101,7 @@ const FlightsAndHotels = () => {
     }));
   };
   return (
-    <Container sx={{marginTop:"48px" }}>
+    <Container sx={{marginTop:"48px", backgroundColor:{xs:"#F9F9F9", lg:"white",xl:"white", md:"white"}}}>
       <Box sx={{ padding: "0.5rem" }}>
         {sections.map((section, sectionIndex) => (
           <Box key={sectionIndex} sx={{mb:{lg:"2rem", sm:"2rem", xs:1.2}}}>
