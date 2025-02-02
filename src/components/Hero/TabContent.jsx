@@ -390,9 +390,10 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
       sx={{
         alignItems: "center",
         width: "100%",
-        gap: { lg: "0 8px", md: "8px 0", md: "8px 0" },
+        gap: { lg: "0 8px", md: "8px 0", sm:"8px 0" },
         flexDirection: {
           md: "col",
+          sm:"col",
           xs: "col",
           lg: "row",
         },
@@ -408,6 +409,7 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
           width: {
             lg: returnFlight ? "50%" : "100%",
             md: returnFlight ? "100%" : "100%",
+            sm: returnFlight ? "100%" : "100%",
           },
         }}
       >
@@ -964,7 +966,7 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
       </Stack>
       <Box
         position="relative"
-        sx={{ p: 0, minHeight: "64px", width: { md: "100%", lg: "50%" } }}
+        sx={{ p: 0, minHeight: "64px", width: { md: "100%",sm:"100%", lg: "50%" } }}
       >
         <Paper
           elevation={0}
@@ -1260,7 +1262,7 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
         </Paper>
       </Box>
       {isHotels && (
-        <Box position="relative" sx={{ width: { md: "100%", lg: "25%" } }}>
+        <Box position="relative" sx={{ width: { md: "100%",sm: "100%", lg: "25%" } }}>
           <Box
             position="relative"
             onClick={handleBooking}

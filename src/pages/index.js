@@ -17,6 +17,9 @@ import Footer from "../components/Footer/Footer";
 import FlightsAndHotels from "@/components/FlightsAndHotels/FlightsAndHotels";
 import { TripIdeas } from "@/components/TripIdeas/TripIdeas";
 import WegoApp from "@/components/WegoApp/WegoApp";
+import BookingNow from "@/components/BookingNow/BookingNow";
+import Destinations from "@/components/Destinations/Destinations";
+import WegoAppResponsive from "@/components/WegoApp/WegoAppResponsive";
 
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -70,8 +73,14 @@ console.log("tab",tab)
       />
     
         <Hero tab={tab} setTab={setTab} />
+        <Hidden smDown>
+        <BookingNow />
+        </Hidden>
+        <Destinations />
+        <WegoAppResponsive />
         <DealsAndHighlights />
         <Stories />
+
         <Hidden smDown>
         <Affiliation />
         </Hidden>

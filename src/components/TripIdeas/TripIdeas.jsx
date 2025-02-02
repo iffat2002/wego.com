@@ -151,7 +151,7 @@ export const TripIdeas = () => {
       <Stack direction={"row"} sx={{gap:"16px 16px", mt:"16px", flexWrap:"wrap"}}>
         {placesData[selectedCategory].map((place, index) => (
     
-            <Card key={index} sx={{width:"368px", borderRadius:"8px", boxShadow:"0 0 8px 2px rgba(0,0,0,.1)"}}>
+            <Card key={index} sx={{width:{lg:"368px", md:"368", sm:"344px"}, borderRadius:"8px", boxShadow:"0 0 8px 2px rgba(0,0,0,.1)"}}>
                 <Stack direction="row" sx={{}}> 
               <CardMedia component="img" sx={{width:"148px", height:"148px"}} image={"https://zen.wego.com/cdn-cgi/image/height=296/destinations/cities/IST.jpg"} alt={place.name} />
               

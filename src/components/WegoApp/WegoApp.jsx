@@ -3,7 +3,7 @@ import { Stack, Box, Typography, Container,Link } from "@mui/material"
 import Image from 'next/image'
 const WegoApp = () => {
     return (
-        <Container sx={{ mt: "48px", height: "556px" }}>
+        <Container sx={{ mt: "48px", height: {lg:"556px", md:"556px", sm:"710px"} }}>
             <Stack direction="row" sx={{ width: "100%", height: "100%" }} >
                 <Box sx={{ width: "536px", position: "relative", overflow: "hidden", minWidth: "360px", backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundImage: "url(https://zen.wego.com/cdn-cgi/image/width=536/web/illustrations/download-app-bg.png)" }}>
                     <Box sx={{
@@ -27,7 +27,7 @@ const WegoApp = () => {
                         }} />
                     </Box>
                 </Box>
-                <Box sx={{background:"#fafafa", maxWidth:"600px", padding:"48px"}}>
+                <Box sx={{background:"#fafafa", maxWidth:"600px", padding:{lg:"48px", md:"48px", sm:"20px 48px"}}}>
                 <Typography variant="p1" sx={{fontSize:"24px", fontWeight:"600", linehHeight:"28px"}}>Unlock exclusive features available only on the Wego App. Download it now!</Typography>
                 <Box sx={{alignItems:"flex-start", display:"flex", fontSize:"16px", fontWeight:"400", gap:"0 12px", lineHeight:"24px", mt:"24px"}}>
                     <Box sx={{alignItems:"center", backgroundColor:"#44b50c", borderRadius:"100%", display:"flex", flexShrink:"0", height:"24px", justifyContent:"center", width:"24px"}}>

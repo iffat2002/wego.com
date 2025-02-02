@@ -57,7 +57,7 @@ export default function HeroTabs() {
   return (
     <Container
       sx={{
-        height: {lg:"300px", xs:"auto"},
+        minHeight: {lg:"300px",md:"300px",sm:"300px",xl:"300px", xs:"auto"},
         borderRadius: "18px",
         overflow: "visible",
         margin: "auto",
@@ -241,7 +241,7 @@ export default function HeroTabs() {
                   <Stack
                     sx={{
                       padding: "0 1rem",
-                      flexDirection: { lg: "row", sm: "column", md:"row" },
+                      flexDirection: { lg: "row", sm: "column", md:"row", sm:"row" },
                     }}
                   >
                     <Box

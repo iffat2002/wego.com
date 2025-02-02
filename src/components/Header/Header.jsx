@@ -167,7 +167,7 @@ const [drawerlan, setDrawerLan]= useState("English")
  
   return (
     <>
-    <Hidden mdDown>
+    <Hidden smDown>
       <Box
         height="72px"
         sx={{ width:"100%", position:"fixed", zIndex:3, backgroundColor: scroll ? "white" : "transparent", boxShadow: scroll ? "0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2)" : "none"
@@ -244,7 +244,7 @@ const [drawerlan, setDrawerLan]= useState("English")
                 backgroundColor: scroll ? "white" : theme.palette.customTransparent.gray,
                 color: scroll ? "#767676" :"white",
                 border: scroll ? "1px solid #dfdfdf" :"none",
-                borderRadius: "100px 0 0 100px",    
+                borderRadius: {lg:"100px 0 0 100px", md:"100px", sm:"100px"},    
                 height: "32px",
                 width: "75px",
                 borderWidth: "1px 0 1px 1px",
@@ -350,7 +350,7 @@ const [drawerlan, setDrawerLan]= useState("English")
                 height: "32px",
                 width: "78px",
                 padding: "0px 16px",
-                display: "flex",
+                display: {lg:"flex", md:"none", sm:"none"},
                 alignItems: "center",
                 justifyContent: "normal",
                 "& .MuiButton-icon": {
@@ -441,7 +441,7 @@ const [drawerlan, setDrawerLan]= useState("English")
                 border: scroll ? "1px solid #dfdfdf" :"none",
                 height: "32px",
                 padding: "0px 16px",
-                display: "flex",
+                display: {lg:"flex", md:"none", sm:"none"},
                 alignItems: "center",
                 borderRadius: "0 100px 100px 0",
                 borderWidth: "1px 1px 1px 0px",

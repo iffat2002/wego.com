@@ -331,6 +331,8 @@ const FlightsTab = () => {
           justifyContent:
             activeBtn != "Multi-city" ? "space-between" : "flex-end",
           alignItems: "center",
+          flexDirection:{sm:"column-reverse", md:"row", lg:"row"}, alignItems:{sm:"flexStart", md:"center", lg:"center"}
+
         }}
       >
         {activeBtn != "Multi-city" && (
@@ -371,6 +373,7 @@ const FlightsTab = () => {
             fontWeight: "400",
             alignItems: "center",
             position: "relative",
+       
           }}
         >
           <Button
@@ -500,6 +503,11 @@ const FlightsTab = () => {
               borderRadius: "100px",
               height: "48px",
               width: "135px",
+            
+                position: activeBtn !== "Multi-city" ? { sm: "absolute", md: "relative", lg: "relative" } : "relative",
+            
+              right:0,
+              top:"75%",
               fontSize: "16px",
               marginLeft: "8px",
               "&:hover": { backgroundColor: theme.palette.customGreen.dark },
@@ -508,6 +516,7 @@ const FlightsTab = () => {
             Search{" "}
           </Button>
         </Stack>
+    
         <Popover
           id={id}
           open={open}

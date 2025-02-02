@@ -69,7 +69,7 @@ const Hero = () => {
         sx={{
           height: {
             xs: "240px", // Extra small screens
-      sm: "240px", // Small screens
+      sm: "390px", // Small screens
       md: "390px", // Medium screens
       lg: "544px", 
           },
@@ -96,15 +96,17 @@ const Hero = () => {
               transition: "opacity 0.7s ease",
             }}
           >
+           
             <Stack
               sx={{
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100%",
+               
               }}
             >
               {/* heading for large screens */}
-              <Hidden mdDown>
+          <Hidden smDown>
                 <Typography
                   variant="body1"
                   color="white"
@@ -121,7 +123,7 @@ const Hero = () => {
                   Discover the real value of travel
                 </Typography>
 
-                <Box justifyContent="center" mt={13} sx={{display:{lg:"flex", md:"none"}}}>
+                <Box justifyContent="center" mt={13} sx={{display:{lg:"flex",md:"flex",sm:"flex"}}}>
                   {slides.map((slide, index) => (
                     <Box
                       key={slide.id}
@@ -140,9 +142,9 @@ const Hero = () => {
                     />
                   ))}
                 </Box>
-              </Hidden>
+                </Hidden>
               {/* logo for smaller screens */}
-              <Hidden mdUp>
+              
                 <Box
                  
                   sx={{
@@ -154,11 +156,13 @@ const Hero = () => {
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "50%",
                     backgroundSize: "contain",
-                    marginTop:"-40px"
+                    marginTop:"-40px",
+                    display:{xs:"block", sm:"none", md:"none", lg:"none"}
                   }}
                 />
-              </Hidden>
+           
             </Stack>
+          
           </Box>
         ))}
       </Box>
