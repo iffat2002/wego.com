@@ -76,8 +76,10 @@ console.log("tab",tab)
         <Hidden smDown>
         <BookingNow />
         </Hidden>
+        <Hidden smUp>
         <Destinations />
         <WegoAppResponsive />
+        </Hidden>
         <DealsAndHighlights />
         <Stories />
 
