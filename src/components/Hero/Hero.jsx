@@ -31,7 +31,7 @@ const slides = [
   },
 ];
 
-const Hero = () => {
+const Hero = ({tab , setTab}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const theme = useTheme();
 
@@ -168,7 +168,7 @@ const Hero = () => {
       </Box>
       {/* Hero section content */}
       <Box sx={{ marginTop: {lg:"-14%", xs:"-60px", md:"-130px"},}}>
-        <HeroTabs />
+        <HeroTabs tab={tab} setTab={setTab} />
       </Box>
     </Box>
   );

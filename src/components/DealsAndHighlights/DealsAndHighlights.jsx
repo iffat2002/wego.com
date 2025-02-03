@@ -145,6 +145,7 @@ const DealsAndHighlights = () => {
                   
                     image={card.imageUrl}
                     alt="slider"
+                    
                   />
                   </Link>
                 </Card>

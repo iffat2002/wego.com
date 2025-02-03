@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -47,12 +48,28 @@ function a11yProps(index) {
 }
 
 // hero section content tabs
-export default function HeroTabs() {
-  const [value, setValue] = React.useState(0);
+export default function HeroTabs( {tab, setTab}) {
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    if (tab === "flights") {
+      setValue(0)
+    } else if (tab === "hotels") {
+      setValue(1)
+    } else {
+      setValue(0) // Default to flights
+    
+  }}, [tab])
+  
+
+ 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    {newValue == 0 ?  setTab("flights") :  setTab("hotels")}
+    console.log("new val", newValue)
   };
+ 
 
   return (
     <Container
@@ -78,6 +95,7 @@ export default function HeroTabs() {
           <Stack direction="column" width="100%">
             <Stack direction="row">
               <Stack
+              onClick={()=>setTab("flights")} 
                 direction="column"
                 sx={{
                   width: "50%",
@@ -91,6 +109,7 @@ export default function HeroTabs() {
                   fontSize: "1rem",
                   margin: "0 4px",
                   boxShadow: "0 2px 4px 1px rgba(39,36,44,.12)",
+
                 }}
               >
                 <img
@@ -100,7 +119,7 @@ export default function HeroTabs() {
                   height="48px"
                 ></img>
 
-                <Typography variant="body1" color="initial" paddingTop="10px">
+                <Typography variant="body1"  color="initial" paddingTop="10px">
                   Flights
                 </Typography>
               </Stack>
@@ -120,6 +139,7 @@ export default function HeroTabs() {
                   margin: "0 4px",
                   boxShadow: "0 2px 4px 1px rgba(39,36,44,.12)",
                 }}
+                onClick={()=>setTab("hotels")}
               >
                 <img
                   src="https://zen.wego.com/cdn-cgi/image/width=144,height=144/web/icons/hotels.png"
@@ -243,6 +263,7 @@ export default function HeroTabs() {
                       padding: "0 1rem",
                       flexDirection: { lg: "row", sm: "column", md:"row", sm:"row" },
                     }}
+                    onClick={()=>setTab("flights")}
                   >
                     <Box
                       sx={{
@@ -270,6 +291,7 @@ export default function HeroTabs() {
 
               <Tab
                 disableRipple
+                onClick={()=>setTab("hotels")}
                 label={
                   <Stack direction="row" sx={{ padding: "0 1rem" }}>
                     <Box

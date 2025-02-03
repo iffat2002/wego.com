@@ -29,7 +29,7 @@ import LanguagesMenu from "./LanguagesMenu";
 const Header = ({scroll, tab, setTab}) => {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
-setTab(true)
+
 
 //More menu
 const [anchorMoreEl, setAnchorMoreEl] = useState(null);
@@ -189,8 +189,17 @@ const [drawerlan, setDrawerLan]= useState("English")
           
           {scroll &&
           <Stack direction="row" sx={{gap:"0 2rem", whiteSpace:"no-wrap", height:"100%"}}>
-            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none"}} href="/flights">Flights</Link>
-            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none"}} href="/flights">Hotels</Link>
+           
+            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none", cursor:"pointer",color: tab ==="flights" ? "#44b506" : "inherit"}} onClick={()=>setTab("flights")}>Flights  <Box sx={{height:"100%",
+    width: "100%",
+    borderBottom:tab=== "flights" ? "4px solid #44b506": "0px",
+    position: "absolute"}}></Box></Link>
+          
+            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none",cursor:"pointer",color: tab ==="hotels" ? "#44b506" : "inherit"}} onClick={()=>setTab("hotels")}>Hotels
+            <Box sx={{height:"100%",
+    width: "100%",
+    borderBottom:tab=== "hotels" ? "4px solid #44b506": "0px",
+    position: "absolute"}}></Box></Link>
             <Stack direction="row" onClick={handleMoreClick} sx={{gap:"12px", fontWeight:"600", alignItems:"center", fontSize:"15px", cursor:"pointer", marginRight:"0.5rem"}}>More
             <ArrowDropDownIcon
                   sx={{
