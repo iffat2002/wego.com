@@ -56,7 +56,9 @@ const CategoryPage = () => {
                     <WegoAppResponsive />
                     </Hidden>
                     <PopularStories />
+                    <Hidden smDown>
                     <HotelsInCity />
+                    </Hidden>
                     <HotelsTopCities />
                  
                 </>
