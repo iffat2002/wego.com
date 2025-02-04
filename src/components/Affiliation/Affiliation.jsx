@@ -101,7 +101,7 @@ const travelPartners = [
 ]
 const Affiliation = () => {
   return (
-    <Container sx={{ pb: 4, }}>
+    <Container sx={{ mt:"40px" }}>
       <Box sx={{padding:1}}>
         <Stack direction="row" alignItems="center">
           <Box sx={{ flexShrink: "0", width:{lg:"25%", md:"35%",sm:"35%"}  }}>
@@ -111,7 +111,7 @@ const Affiliation = () => {
                 color: "#1d1d1d",
                 lineHeight: "30px",
                 fontSize: "24px",
-                fontWeight: "500",
+                fontWeight: "600",
               }}
             >
               Popular Airlines in Pakistan
@@ -151,7 +151,7 @@ const Affiliation = () => {
                 color: "#1d1d1d",
                 lineHeight: "30px",
                 fontSize: "24px",
-                fontWeight: "500",
+                fontWeight: "600",
               }}
             >
               Our Travel Partners

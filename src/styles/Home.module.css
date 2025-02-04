@@ -6,3 +6,8 @@
    background-color: #FFFF;
    font-family: inter, sans-serif ; 
 }
+@media (max-width: 600px) {
+    .main {
+    background: #F9F9F9; 
+    }
+}

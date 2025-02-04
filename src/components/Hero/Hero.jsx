@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -31,9 +31,10 @@ const slides = [
   },
 ];
 
-const Hero = ({tab , setTab}) => {
+const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const theme = useTheme();
+
 
   const handleNext = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -123,7 +124,7 @@ const Hero = ({tab , setTab}) => {
                   Discover the real value of travel
                 </Typography>
 
-                <Box justifyContent="center" mt={13} sx={{display:{lg:"flex",md:"flex",sm:"flex"}}}>
+                <Box justifyContent="center" mt={10} sx={{display:{lg:"flex",md:"flex",sm:"flex"}}}>
                   {slides.map((slide, index) => (
                     <Box
                       key={slide.id}
@@ -167,8 +168,8 @@ const Hero = ({tab , setTab}) => {
         ))}
       </Box>
       {/* Hero section content */}
-      <Box sx={{ marginTop: {lg:"-14%", xs:"-60px", md:"-130px"},}}>
-        <HeroTabs tab={tab} setTab={setTab} />
+      <Box sx={{ marginTop: {lg:"-15%", xs:"-60px", md:"-130px"},}}>
+        <HeroTabs   />
       </Box>
     </Box>
   );

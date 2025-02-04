@@ -73,14 +73,14 @@ const Stories = () => {
   };
 
   return (
-    <Container sx={{ mb: 4, padding:0 }}>
+    <Container sx={{mt:"20px", padding:0 }}>
       <Stack
         direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center", mb: 2, padding:"0px 16px" }}
+        sx={{ justifyContent: "space-between", alignItems: "center", mb: 1, px:{lg:"8px", md:"8px", sm:"8px", xs:"16px"} }}
       >
         <Typography
           variant="h5"
-          sx={{ fontSize: {lg:"24px",md:"24px",sm:"24px", xs:"20px"}, fontWeight: "500", color: "black" }}
+          sx={{ fontSize: {lg:"24px",md:"24px",sm:"24px", xs:"20px"}, fontWeight: "600", color: "black" }}
         >
           Stories
         </Typography>
@@ -196,7 +196,7 @@ const Stories = () => {
                           variant="body1"
                           //component="div"
                           sx={{
-                            fontSize: "17px",
+                            fontSize: {lg:"17px", md:"17px", xs:"16px", sm:"17px"},
                             display: "-webkit-box",
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",

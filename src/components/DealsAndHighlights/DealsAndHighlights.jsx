@@ -86,8 +86,8 @@ const DealsAndHighlights = () => {
   };
 
   return (
-    <Container sx={{marginTop: {lg:7, xs:0, sm:7},marginBottom:4, }} >
-      <Box sx={{position:"relative"}}>
+    <Container sx={{marginTop: "40px", background:"white", py:0.1}} >
+      {/* <Box sx={{position:"relative", display:"none", }}>
       <Grid
         item
         xs={9}
@@ -207,7 +207,8 @@ const DealsAndHighlights = () => {
         </IconButton>
 }
 </Hidden>
-</Box>
+</Box> */}
+
 <Stack direction="row" sx={{justifyContent:"space-between", marginTop:5, marginBottom:5, flexWrap:"wrap", gap:"16px 0px"}}>
 {features.map((item) => (
   <Stack direction="column" sx={{width:{lg:"272px", xs:"165px"}, alignItems:"center",  }} key={item.id}>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -48,27 +49,37 @@ function a11yProps(index) {
 }
 
 // hero section content tabs
-export default function HeroTabs( {tab, setTab}) {
-  const [value, setValue] = useState(0)
+export default function HeroTabs( ) {
+  const router = useRouter();
+   
+  const [value, setValue] = useState(() => {
+    if (typeof window !== "undefined") {
+      if (window.location.pathname.includes("/hotels")) return 1;
+      if (window.location.pathname.includes("/flights")) return 0;
+    }
+    return 0;
+  });
 
-  useEffect(() => {
-    if (tab === "flights") {
-      setValue(0)
-    } else if (tab === "hotels") {
-      setValue(1)
-    } else {
-      setValue(0) // Default to flights
-    
-  }}, [tab])
-  
 
- 
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    {newValue == 0 ?  setTab("flights") :  setTab("hotels")}
+    
     console.log("new val", newValue)
   };
+
+  const handleRoute = (tab) => {
+    if (tab === "flights" ) {
+    
+      router.replace('/flights' , undefined, { scroll: false });
+      
+    } else if (tab === "hotels") {
+   
+    router.replace('/hotels' , undefined, { scroll: false });
+      
+    }
+   
+  };
+
  
 
   return (
@@ -95,7 +106,7 @@ export default function HeroTabs( {tab, setTab}) {
           <Stack direction="column" width="100%">
             <Stack direction="row">
               <Stack
-              onClick={()=>setTab("flights")} 
+             // onClick={()=>setTab("flights")} 
                 direction="column"
                 sx={{
                   width: "50%",
@@ -139,7 +150,7 @@ export default function HeroTabs( {tab, setTab}) {
                   margin: "0 4px",
                   boxShadow: "0 2px 4px 1px rgba(39,36,44,.12)",
                 }}
-                onClick={()=>setTab("hotels")}
+               // onClick={()=>setTab("hotels")}
               >
                 <img
                   src="https://zen.wego.com/cdn-cgi/image/width=144,height=144/web/icons/hotels.png"
@@ -263,7 +274,7 @@ export default function HeroTabs( {tab, setTab}) {
                       padding: "0 1rem",
                       flexDirection: { lg: "row", sm: "column", md:"row", sm:"row" },
                     }}
-                    onClick={()=>setTab("flights")}
+                    onClick={()=>handleRoute("flights")}
                   >
                     <Box
                       sx={{
@@ -291,7 +302,7 @@ export default function HeroTabs( {tab, setTab}) {
 
               <Tab
                 disableRipple
-                onClick={()=>setTab("hotels")}
+                onClick={()=>handleRoute("hotels")}
                 label={
                   <Stack direction="row" sx={{ padding: "0 1rem" }}>
                     <Box

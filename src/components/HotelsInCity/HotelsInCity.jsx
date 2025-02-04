@@ -84,7 +84,7 @@ const HotelsInCity = () => {
   };
 
   return (
-    <Container sx={{ mb: 4, padding:0 }}>
+    <Container sx={{mt:"48px", padding:0 }}>
       <Stack
         direction="row"
         sx={{ justifyContent: "space-between", alignItems: "center", mb: 1, px:1 }}

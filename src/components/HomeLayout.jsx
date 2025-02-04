@@ -17,78 +17,67 @@ import WegoAppResponsive from './WegoApp/WegoAppResponsive';
 import HotelsInCity from './HotelsInCity/HotelsInCity';
 import PopularStories from './PopularStories/PopularStories';
 import Affiliation from './Affiliation/Affiliation';
-const HomeLayout = ({ children }) => {
+
+
+
+const HomeLayout = ({ children, heroTab, headerTab }) => {
   const router = useRouter();
   const { category } = router.query;
-   const [scroll, setscroll] = useState(false);
-
-  // const isHome = props.name === 'Homepage' ? true : false;
-  const isHome = true; 
-  
-  
+  const [scroll, setscroll] = useState(false);
   const changeNavBg = () => {
-    console.log(window.scrollY); 
     if (window.scrollY > 1) {
-      setscroll(true);  
+      setscroll(true);
     } else {
       setscroll(false);
     }
   };
-  
+
   useEffect(() => {
-    
+
     if (typeof window !== "undefined") {
-      console.log("Adding event listener");
       window.addEventListener('scroll', changeNavBg);
       return () => {
-        console.log("Removing event listener");
         window.removeEventListener('scroll', changeNavBg);
       };
     }
   }, []);
-  
-const [tab, setTab] = useState(false)
-console.log("tab",tab)
+
+ 
 
 
-useEffect(() => {
-  if (tab === "hotels") {
-    router.push('/hotels');
-  } else if(tab === "flights") {
-    router.replace('/flights');
-  }
-}, [tab]);
-
+ 
   return (
     <div className={styles.main}>
       {/* Common Home Page Components */}
       <Header
-        scroll={isHome && scroll ? true : undefined}
-        tab={tab}
-        setTab={setTab}
+       
+      headerTab={headerTab}
       />
-      <Hero  tab={tab} setTab={setTab} />
+      <Hero />
       <Hidden smDown>
-      <BookingNow />
+        <BookingNow />
       </Hidden>
-      {/* Inject Dynamic Sections */}
-      {children}
       <Hidden smUp>
-                   <Destinations />
-      
-      <WegoAppResponsive />
-      <PopularStories />
+        <Destinations />
+        <WegoAppResponsive />
+        <PopularStories />
       </Hidden>
-      <DealsAndHighlights />
-     
-      <Stories />
-      
-
       <Hidden smDown>
-      <Affiliation />
-      <TripIdeas />
-      
-      <WegoApp />
+        <DealsAndHighlights />
+      </Hidden>
+      <Hidden smDown>
+        <Stories />
+        {/* {tab === "/" && <Affiliation />} */}
+      </Hidden>
+      <Hidden smUp>
+        <Stories />
+      </Hidden>
+      <Hidden smUp><DealsAndHighlights /></Hidden>
+      {/* Inject Dynamic Sections */}
+       {children} 
+      <Hidden smDown>
+        <TripIdeas />
+        <WegoApp />
       </Hidden>
       <FlightsAndHotels />
       <Footer />

@@ -60,14 +60,6 @@ useEffect(() => {
   }
 }, []);
 
-const [tab, setTab] = useState(false)
-console.log("tab",tab)
-
-
-// useEffect(() => {
-//   {tab ? router.('/hotels') : router.replace('/flights'); }
-// }, []);
-
 
   return (
     <>
@@ -80,9 +72,8 @@ console.log("tab",tab)
         <link rel="stylesheet" href="/styles.css" media="print" onLoad="this.media='all'" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-      <HomeLayout>
+      <HomeLayout children={  <Hidden smDown><Affiliation /></Hidden>} />
      
-      </HomeLayout>
       {/* SHOWS ON BOTH TABS */}
       {/* <Header
         scroll={isHome && scroll ? true : undefined}

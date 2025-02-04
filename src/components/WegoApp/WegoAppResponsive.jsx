@@ -3,7 +3,7 @@ import React from 'react'
 
 const WegoAppResponsive = () => {
   return (
-   <Container sx={{mb:4}}>
+   <Container sx={{mb:2.2}}>
    <Box sx={{ padding:"12px 16px",boxShadow:"0 2px 4px 1px #f4f2f7", background:"#fff", borderRadius:"8px"}}>
 <Stack direction="row" sx={{alignItems:"center", }}>
     <Box sx={{height: "48px",

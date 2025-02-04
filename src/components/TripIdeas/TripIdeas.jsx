@@ -103,7 +103,7 @@ export const TripIdeas = () => {
       };
     
   return (
-    <Container sx={{my:1}}>
+    <Container sx={{mt:"48px"}}>
          <Typography
               variant="h4"
               sx={{

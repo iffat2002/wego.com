@@ -92,7 +92,7 @@ const cardData = [
 const HotelsTopCities = () => {
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 3;
+  const itemsPerPage = 6;
   const cardWidth = 176;
 
   const handleNext = () => {
@@ -108,15 +108,15 @@ const HotelsTopCities = () => {
   };
 
   return (
-    <Container sx={{marginTop: {lg:7, xs:0, sm:7}, p:0}} >
+    <Container sx={{marginTop: "48px", p:0}} >
       <Box sx={{position:"relative"}}>
       <Grid
         item
         xs={9}
-        sx={{ position: "relative",padding:{lg:1,sm:1, xs:0},  overflow:"hidden" }}
+        sx={{ position: "relative",  overflow:"hidden" }}
       >
         
-        <Typography sx={{fontSize:"24px", fontWeight:"600",p:"0 16px", color:"#27242c"}}>Hotels In Top Cities</Typography>
+        <Typography sx={{fontSize:"24px", fontWeight:"600",p:"0 8px", color:"#27242c"}}>Hotels In Top Cities</Typography>
         
         <Grid
           container
@@ -125,7 +125,7 @@ const HotelsTopCities = () => {
            // overflow: "hidden",
             display: "flex",
              margin:"auto",
-             py:2,
+             pt:1.2,
         
           }}
         >
@@ -153,7 +153,7 @@ const HotelsTopCities = () => {
                 key={card.id}
                 sx={{
                     flex: {lg:`0 0 ${cardWidth}px`,md:`0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs: "0 0 auto",  }, 
-                      marginLeft: index === 0 ? "16px": "8px",
+                      marginLeft: index === 0 ? "8px": "8px",
                     marginRight: index === cardData.length - 1  ? "30px": "0px"
                   }}
               >
@@ -204,7 +204,7 @@ const HotelsTopCities = () => {
           disabled={currentIndex === 0}
           sx={{
             position: "absolute",
-            top: "50%",
+            top: "56%",
             left: "-20px",
             transform: "translateY(-50%)",
             height:"40px",
@@ -230,7 +230,7 @@ const HotelsTopCities = () => {
             boxShadow: '0 0 8px 2px rgba(0,0,0,.1)',
             cursor: 'pointer',
             position: "absolute",
-            top: "50%",
+            top: "56%",
             zIndex:"100",
             right: "-18px",
             height:"40px",

@@ -94,10 +94,10 @@ const PopularStories = () => {
   };
 
   return (
-    <Container sx={{ mb: 4, padding:0 }}>
+    <Container sx={{ mt:{lg:"48px", xs:"5px", sm:"48px", md:"48px"}, padding:0 }}>
       <Stack
         direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center", mb: 1, px:1 }}
+        sx={{ justifyContent: "space-between", alignItems: "center", mb: 1, px:{lg:"8px", md:"8px", sm:"8px", xs:"16px"} }}
       >
         <Typography
           variant="h5"

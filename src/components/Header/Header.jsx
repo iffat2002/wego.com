@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import CurrencyFlag from "react-currency-flags";
 import Button from "@mui/material/Button";
-
+import { useRouter } from 'next/router';
 import { useTranslation } from "react-i18next";
 import { useTheme, styled } from "@mui/material/styles";
 import {
@@ -26,10 +26,10 @@ import CountryCurrencyFlags from "./CountryCurrencyFlags";
 import CurrencyMenu from "./CurrencyMenu";
 import MenuIcon from "@mui/icons-material/Menu";
 import LanguagesMenu from "./LanguagesMenu";
-const Header = ({scroll, tab, setTab}) => {
+const Header = ({headerTab}) => {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
-
+const router = useRouter();
 
 //More menu
 const [anchorMoreEl, setAnchorMoreEl] = useState(null);
@@ -146,6 +146,13 @@ const [drawerlan, setDrawerLan]= useState("English")
     setSelectedcurrency(selectedFlag);
   }, [selectedFlag]);
 
+  const handleRoute = (tab) => {
+    if (tab === "hotels") {
+      router.replace('/hotels', undefined, { scroll: false });
+    } else if (tab === "flights") {
+      router.replace('/flights', undefined, { scroll: false });
+    }
+  }
 
   const [scrollY, setScrollY] = useState(0);
 
@@ -161,16 +168,30 @@ const [drawerlan, setDrawerLan]= useState("English")
   // Calculate opacity based on scrollY (0 at top, 1 when scrolled 100px or more)
   const opacity = Math.min(scrollY / 50, 1); // Clamped between 0 and 1
   const translateY = Math.max(0 - scrollY / 2, 0); // Starts at 45p
-  const translate = Math.max(0 - scrollY / 2, 0); 
-  const opacity2 = Math.min(Math.max((scrollY - 40) / (100 - 40), 0), 1);
 
+
+  const [scroll, setscroll] = useState(false);
+  const changeNavBg = () => {
+    setscroll(window.scrollY > 1);
+  };
+
+  useEffect(() => {
+
+    if (typeof window !== "undefined") {
+      changeNavBg();
+      window.addEventListener('scroll', changeNavBg);
+      return () => {
+        window.removeEventListener('scroll', changeNavBg);
+      };
+    }
+  }, []);
  
   return (
     <>
     <Hidden smDown>
       <Box
         height="72px"
-        sx={{ width:"100%", position:"fixed", zIndex:3, backgroundColor: scroll ? "white" : "transparent", boxShadow: scroll ? "0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2)" : "none"
+        sx={{ width:"100%", position:"fixed", zIndex:999, backgroundColor: scroll ? "white" : "transparent", boxShadow: scroll ? "0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2)" : "none"
           }}
       > 
         <Container sx={{display:"flex",justifyContent:"space-between", flexDirection:"row", height:"100%", }}>
@@ -190,15 +211,15 @@ const [drawerlan, setDrawerLan]= useState("English")
           {scroll &&
           <Stack direction="row" sx={{gap:"0 2rem", whiteSpace:"no-wrap", height:"100%"}}>
            
-            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none", cursor:"pointer",color: tab ==="flights" ? "#44b506" : "inherit"}} onClick={()=>setTab("flights")}>Flights  <Box sx={{height:"100%",
+            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none", cursor:"pointer",color: headerTab ==="flights" ? "#44b506" : "inherit"}} onClick={()=>handleRoute("flights")} >Flights  <Box sx={{height:"100%",
     width: "100%",
-    borderBottom:tab=== "flights" ? "4px solid #44b506": "0px",
+    borderBottom:headerTab=== "flights" ? "4px solid #44b506": "0px",
     position: "absolute"}}></Box></Link>
           
-            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none",cursor:"pointer",color: tab ==="hotels" ? "#44b506" : "inherit"}} onClick={()=>setTab("hotels")}>Hotels
+            <Link sx={{display:"flex", alignItems:"center", fontSize:"15px",color:"#1d1d1d", fontWeight:"600", height:"100%", lineHeight:"1.6", position:"relative", textDecoration:"none",cursor:"pointer",color: headerTab ==="hotels" ? "#44b506" : "inherit"}} onClick={()=>handleRoute("hotels")} >Hotels
             <Box sx={{height:"100%",
     width: "100%",
-    borderBottom:tab=== "hotels" ? "4px solid #44b506": "0px",
+    borderBottom:headerTab=== "hotels" ? "4px solid #44b506": "0px",
     position: "absolute"}}></Box></Link>
             <Stack direction="row" onClick={handleMoreClick} sx={{gap:"12px", fontWeight:"600", alignItems:"center", fontSize:"15px", cursor:"pointer", marginRight:"0.5rem"}}>More
             <ArrowDropDownIcon
