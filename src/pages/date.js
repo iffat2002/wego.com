@@ -15,8 +15,7 @@ export default function TwoMonthRangePicker() {
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
       <DatePicker
-      shouldCloseOnSelect={true}
-       
+      shouldCloseOnSelect={true}       
         onChange={(update) => setDateRange(update)}
         startDate={startDate}
         endDate={endDate}

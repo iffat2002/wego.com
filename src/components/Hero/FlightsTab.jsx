@@ -41,7 +41,7 @@ const FlightsTab = () => {
   const [booking, setBooking] = useState(false);
   const [anchorbooking, setAnchorbooking] = useState(null);
   const btns = ["One-way", "Round-trip", "Multi-city"];
-  const [activeBtn, setActiveBtn] = useState("Round-trip");
+  const [activeBtn, setActiveBtn] = useState("One-way");
   const [room, setRoom] = useState(0);
   const [adult, setAdult] = useState(1);
   const [child, setChild] = useState(0);

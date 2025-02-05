@@ -89,7 +89,7 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
   const [returns, setreturns] = useState(false);
   const [openToPopper, setOpenToPopper] = useState(false);
   const [anchorElTo, setAnchorElTo] = useState(null);
-  const today = dayjs().startOf("day");
+const today = dayjs().startOf("day").add(3, "day");
   const handleFromClick = (event) => {
     setAnchorElFrom(event.currentTarget);
     setOpenFromPopper((prev) => !prev);
@@ -148,10 +148,14 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
   const handleCalender = (event) => {
     setAnchorCalender(event.currentTarget);
     setCalender(true);
+    if (datePickerRef.current) {
+      datePickerRef.current.setOpen(true); // Programmatically open the calendar
+    }
+
   };
   const [dateValue, setDateValue] = useState([
-    dayjs().startOf("day"),
-    isHotels ? dayjs().add(1, "day").startOf("day") : null,
+    dayjs().startOf("day").add(3, "day"),
+     dayjs().add(4, "day").startOf("day") 
   ]);
 
   const [disable, setdisable] = useState(true);
@@ -188,7 +192,7 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
   };
   const handleDateChange = (newValue) => {
     setDateValue(newValue);
-   
+    setCalender(false);
     console.log(newValue);
   };
   console.log("calender", calender)
@@ -1008,7 +1012,7 @@ const handleClickAway = (event) => {
               <Box width="15%">
                 <Button
                   disableRipple
-                  onClick={() => setDateValue("")}
+                  onClick={() => setDateValue(["",""])}
                   variant="outline"
                   sx={{
                     borderRdius: "4px",
@@ -1150,7 +1154,7 @@ const handleClickAway = (event) => {
                   "&:hover": {
                     border: returns ? "2px solid #44b50c" : "1px solid #9c9c9c",
                   },
-                  borderLeft: returns ? "2px solid #44b50c" : "0px",
+                  borderLeft: returns ? "2px solid #44b50c" : "1px solid transparent",
                 }}
               >
                 <TextField
@@ -1257,7 +1261,7 @@ const handleClickAway = (event) => {
               >
                 <Paper elevation={0}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TwoMonthRangePicker minDate={today}  setCalender={setCalender} calender={calender} value={dateValue} handleChange={handleDateChange}/>
+                    <TwoMonthRangePicker minDate={today}  ref={datePickerRef}  calender={calender} setCalender={setCalender} value={dateValue} handleChange={handleDateChange}/>
                   </LocalizationProvider>
                 </Paper>
               </Paper>
