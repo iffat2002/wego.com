@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../theme/theme";
 import "../styles/globals.css";
+import '../styles/datepicker.css';
 import { useState, useEffect } from "react";
 
 export default function MyApp(props) {

@@ -80,7 +80,7 @@ const PopularStories = () => {
         };
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 3;
+  const itemsPerPage = 4;
   const cardWidth = 272;
   const handleNext = () => {
     if (currentIndex < stories.length - itemsPerPage) {

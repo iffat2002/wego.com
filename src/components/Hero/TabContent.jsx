@@ -40,11 +40,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useEffect, useState, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import CancelIcon from "@mui/icons-material/Cancel";
+import TwoMonthRangePicker from "./TwoMonthRangePicker";
 
 dayjs.extend(localizedFormat);
 
 const TabContent = ({ returnFlight, cities, isHotels }) => {
   const theme = useTheme();
+  const datePickerRef = useRef(null);
   const fromPaperRef = useRef(null);
   const toPaperRef = useRef(null);
   const [from, setfrom] = useState(false);
@@ -169,8 +171,8 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
     }
   };
 
-  const isToday = dateValue[0]?.isSame(today, "day");
-  const isMaxRange = dateValue[1]?.isSame(dateValue[0]);
+  const isToday = dayjs(dateValue[0])?.isSame(dayjs(today), "day");
+  const isMaxRange = dayjs(dateValue[1])?.isSame(dayjs(dateValue[0]), "day");
   const dayadd = (date) => {
     if (date === dateValue[0] && dateValue[0].isBefore(dateValue[1])) {
       setDateValue((prevDate) => [
@@ -186,17 +188,24 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
   };
   const handleDateChange = (newValue) => {
     setDateValue(newValue);
+   
     console.log(newValue);
   };
-  const formatDate = (date) => (date ? date.format("ddd, DD MMM YYYY") : "");
+  console.log("calender", calender)
+console.log("date value",dateValue)
+const formatDate = (date) => (date ? dayjs(date).format("ddd, DD MMM YYYY") : "");
 
-  const handleClickAway = (event) => {
-    if (!anchorCalender?.contains(event.target)) {
-      setreturns(false);
-      setdepart(false);
-      setCalender(false);
-    }
-  };
+
+const handleClickAway = (event) => {
+  // Check if the calendar is open and if the event target is outside the calendar
+  if (anchorCalender && !anchorCalender.contains(event.target)) {
+    // Close the calendar and reset other states
+    setreturns(false);
+    setdepart(false);
+    setCalender(false);
+  }
+};
+
 
   function PopperContent() {
     return (
@@ -1248,12 +1257,7 @@ const TabContent = ({ returnFlight, cities, isHotels }) => {
               >
                 <Paper elevation={0}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateRangeCalendar
-                      value={dateValue}
-                      onChange={handleDateChange}
-                      shouldDisableDate={(date) => date.isBefore(today, "day")}
-                      minDate={today}
-                    />
+                    <TwoMonthRangePicker minDate={today}  setCalender={setCalender} calender={calender} value={dateValue} handleChange={handleDateChange}/>
                   </LocalizationProvider>
                 </Paper>
               </Paper>

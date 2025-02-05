@@ -40,7 +40,7 @@ const isHome = true;
 
 
 const changeNavBg = () => {
-  console.log(window.scrollY); 
+
   if (window.scrollY > 1) {
     setscroll(true);  
   } else {
@@ -51,10 +51,10 @@ const changeNavBg = () => {
 useEffect(() => {
   
   if (typeof window !== "undefined") {
-    console.log("Adding event listener");
+
     window.addEventListener('scroll', changeNavBg);
     return () => {
-      console.log("Removing event listener");
+     
       window.removeEventListener('scroll', changeNavBg);
     };
   }
