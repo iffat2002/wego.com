@@ -4,12 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import enGB from "date-fns/locale/en-GB"; 
 import dayjs from 'dayjs'; // Ensure dayjs is imported
+import { DateRangeCalendar } from "@mui/x-date-pickers-pro";
 
 // Register the locale
 registerLocale("en-GB", enGB);
 
 
- const TwoMonthRangePicker = forwardRef(({ minDate, value, handleChange,  setCalender, calender }, ref) => {
+ const TwoMonthRangePicker = forwardRef(({ minDate, value, handleChange,  setCalender, calender, returns }, ref) => {
   // const [startDate, endDate] = value;
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
@@ -26,14 +27,18 @@ console.log("date range", dateRange)
     if(dateRange[1] != null){
  setCalender(false)
     }
-  }, [dateRange[1]])
+    if(returns === false && dateRange[0] != null){
+      setCalender(false)
+    }
+  }, [dateRange])
   // Convert minDate to a native Date object if it is a valid dayjs object
   const formattedMinDate = minDate && dayjs.isDayjs(minDate) && minDate.isValid() ? minDate.toDate() : null;
 
   const changeFormat = (dates) => {
-    const formattedRange = dates.map(date => 
-      date && dayjs(date).isValid() ? dayjs(date) : null
-    );
+    const formattedRange = Array.isArray(dates) 
+    ? dates.map(date => date && dayjs(date).isValid() ? dayjs(date) : null) 
+    : [dayjs(dates).isValid() ? dayjs(dates) : null]; // Handle single-date case
+  
     setDateRange(formattedRange);
     handleChange(formattedRange);
     setCalender(false);
@@ -42,6 +47,7 @@ console.log("date range", dateRange)
   
 
   console.log("picker date range", dateRange)
+//  const [returns ,setreturns] = useState(true)
   return (
     <>
     {calender &&( 
@@ -52,14 +58,17 @@ console.log("date range", dateRange)
         shouldCloseOnSelect={true}
         minDate={minDate} // Pass formatted minDate
         onChange={(dates) => changeFormat(dates) }
-        selected={dateRange[0]}
+        selected={value[0]}
        // Use the first date of the range
-         startDate={formattedValue[0]} // Set the start date of the range
-        endDate={formattedValue[1]} // Set the end date of the range
+         startDate={returns ? formattedValue[0] : null} // Set the start date of the range
+        endDate={returns ? formattedValue[1] : null} // Set the end date of the range
         locale="en-GB"
         monthsShown={2} // Show two months side by side
         inline
       />
+          {/* <DatePicker selected={dateRange[0]} onChange={(date) => changeFormat(date)} locale="en-GB"
+        monthsShown={2} // Show two months side by side
+        inline /> */}
     </div>)
   
     }

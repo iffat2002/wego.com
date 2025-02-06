@@ -209,6 +209,13 @@ const handleClickAway = (event) => {
     setCalender(false);
   }
 };
+useEffect(() => {
+
+    if(calender === false){
+      setreturns(false);
+      setdepart(false);
+  
+}}, [calender])
 
 
   function PopperContent() {
@@ -984,7 +991,13 @@ const handleClickAway = (event) => {
         <Paper
           elevation={0}
           sx={{
-            width: isHotels && calender ? "150%" : calender ? "120%" : "100%",
+            width: !returnFlight && calender 
+            ? "180%" 
+            : isHotels && calender 
+              ? "150%" 
+              : calender 
+                ? "128%" 
+                : "100%",
             position: calender ? "absolute" : "relative",
             zIndex: calender ? "2" : "1",
             right: isHotels ? "inherit" : "0px",
@@ -1261,7 +1274,7 @@ const handleClickAway = (event) => {
               >
                 <Paper elevation={0}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TwoMonthRangePicker minDate={today}  ref={datePickerRef}  calender={calender} setCalender={setCalender} value={dateValue} handleChange={handleDateChange}/>
+                    <TwoMonthRangePicker minDate={today}  ref={datePickerRef} returns={returnFlight} calender={calender} setCalender={setCalender} value={dateValue} handleChange={handleDateChange}/>
                   </LocalizationProvider>
                 </Paper>
               </Paper>
