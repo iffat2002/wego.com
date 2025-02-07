@@ -80,7 +80,7 @@ export default function HeroTabs( ) {
    
   };
 
- 
+
 
   return (
     <Container
@@ -106,7 +106,7 @@ export default function HeroTabs( ) {
           <Stack direction="column" width="100%">
             <Stack direction="row">
               <Stack
-             onClick={()=> {router.replace('/flights')}} 
+             onClick={()=> {router.push('/flights')}} 
                 direction="column"
                 sx={{
                   width: "50%",

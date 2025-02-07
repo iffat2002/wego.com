@@ -6,10 +6,7 @@ import enGB from "date-fns/locale/en-GB";
 import dayjs from 'dayjs'; // Ensure dayjs is imported
 import { DateRangeCalendar } from "@mui/x-date-pickers-pro";
 
-// Register the locale
 registerLocale("en-GB", enGB);
-
-
  const TwoMonthRangePicker = forwardRef(({ minDate, value, handleChange,  setCalender, calender, returns }, ref) => {
   // const [startDate, endDate] = value;
     const [dateRange, setDateRange] = useState([null, null]);
@@ -47,13 +44,26 @@ console.log("date range", dateRange)
   
 
   console.log("picker date range", dateRange)
-//  const [returns ,setreturns] = useState(true)
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    // Detect screen width and set months to show
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true); // Show 12 months on mobile
+      } 
+    };
+
+    handleResize(); // Initial call
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <>
     {calender &&( 
-    <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+    <div style={{ display: "flex",overflowX:"hidden", justifyContent: "center", marginTop: "20px" }}>
       <DatePicker
        selectsRange
+       formatWeekDay={nameOfDay => isMobile && nameOfDay.substr(0,3)}
         value={value} // Pass the formatted value (array of Date objects)
         shouldCloseOnSelect={true}
         minDate={minDate} // Pass formatted minDate
@@ -63,12 +73,9 @@ console.log("date range", dateRange)
          startDate={returns ? formattedValue[0] : null} // Set the start date of the range
         endDate={returns ? formattedValue[1] : null} // Set the end date of the range
         locale="en-GB"
-        monthsShown={2} // Show two months side by side
+        monthsShown={isMobile ? 12 : 2} // Show two months side by side
         inline
       />
-          {/* <DatePicker selected={dateRange[0]} onChange={(date) => changeFormat(date)} locale="en-GB"
-        monthsShown={2} // Show two months side by side
-        inline /> */}
     </div>)
   
     }
