@@ -380,7 +380,7 @@ const FlightSearch = () => {
             }}
             >
               {activeBtn === "One-way" && "Pick Departure Date"}
-            {activeBtn === "Round-trip" && startDate ?  "Pick Departure Date" : "Pick Return Date"}
+            {activeBtn === "Round-trip" && (selectingStart ?  "Pick Departure Date" : "Pick Return Date")}
               <Typography sx={{
                 color: "#767676",
                 fontSize: ".75rem",
