@@ -6,7 +6,7 @@ import WegoAppResponsive from '@/components/WegoApp/WegoAppResponsive'
 import PopularStories from '@/components/PopularStories/PopularStories'
 import HotelsInCity from '@/components/HotelsInCity/HotelsInCity'
 import HotelsTopCities from '@/components/HotelsTopCities.jsx/HotelsTopCities'
-import HotelSearch from './drawer'
+import HotelSearch from '@/components/ResponsiveMenus/HotelSearch'
 const hotels = () => {
     return (
         <>
