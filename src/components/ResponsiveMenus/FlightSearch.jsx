@@ -116,6 +116,16 @@ const FlightSearch = () => {
       setSelectingStart(true); // Reset after full selection
     }
   };
+  const showData = (data)=>{
+    console.log("showww data", data)
+    if(openTo){
+      setTo(data)
+      return;
+    }else if(openFrom){
+      setFrom(data)
+      return;
+    }
+      }
   return (
     <Box sx={{ maxWidth: 400, mx: "auto", px: 2, bgcolor: "#f8f9fa", borderRadius: 2, backgroundColor: "white" }}>
       {/* header */}
@@ -135,7 +145,7 @@ const FlightSearch = () => {
 
           }}
         ></Link>
-        <Button sx={{ background: "transparent", color: "#44b50c", margin: "10px 0px", border: "2px solid #44b50c", fontSize: "0.875rem", padding: "8px 16px", lineHeight: 1.2, fontWeight: 500, borderRadius: "100px", textTransform: "none" }} >Use App</Button>
+        <Button sx={{ background: "transparent", color: "#44b50c", margin: "10px 0px", border: "2px solid #44b50c", fontSize: "0.875rem", padding: "8px 16px", lineHeight: 1.2, fontWeight: 500, borderRadius: "100px", textTransform: "none", "&:hover":{background:"transparent"} }} >Use App</Button>
       </Stack>
       {/* buttons */}
       <Stack direction="row" py="8px" justifyContent="center" gap="7px">
@@ -257,7 +267,7 @@ const FlightSearch = () => {
 
           </Box>
           {activeBtn === "Round-trip" &&
-          <Box onClick={togglePicker(true, "end")} sx={{width:"50%", minHeight:"62px", padding:"12px 16px", borderLeft:"1px solid #f4f4f4"}}>
+          <Box onClick={togglePicker(true)} sx={{width:"50%", minHeight:"62px", padding:"12px 16px", borderLeft:"1px solid #f4f4f4"}}>
             <Stack direction="column" height="100%" justifyContent="center">
                           <Typography sx={{ color: "#767676", fontSize: "12px", lineHeight: "16px", }}>Return Date</Typography>
                           <Typography sx={{ color: "#1d1d1d", fontSize: "14px", lineHeight: "16px", fontWeight: "600" }}>{endDate ? endDate.toLocaleDateString("en-US", { weekday: "short", day: "numeric", month: "short"}) : null}
@@ -358,7 +368,7 @@ const FlightSearch = () => {
       
       }
       {/* menus */}
-      <LocationDrawer cities={cities} destinations={destinations} setFrom={setFrom} openFrom={openFrom} openTo={openTo} setTo={setTo} setOpenTo={setOpenTo} setOpen={setOpen} />
+      <LocationDrawer showBtn={openTo ? false : true} locations={openTo ? destinations: cities} open={openTo ? openTo : openFrom} placeholder={openTo ? "Where To?" :"Select Departure"} handleData={showData} setOpen={openTo ? setOpenTo : setOpen} />
       {/* date picker drawer */}
       <Drawer
         anchor="bottom"
@@ -393,7 +403,6 @@ const FlightSearch = () => {
             <svg width="24" height="24" viewBox="0 0 24 24" data-pw="datePicker_applyBtn" class="P_mQV7owp-OZQYkW2HerG"><path d="M20.262 4.357a.96.96 0 011.396-.104c.413.374.458 1.027.1 1.459L10.502 19.286a1.92 1.92 0 01-2.792.209 2.024 2.024 0 01-.194-.201l-5.271-6.297a1.067 1.067 0 01.093-1.46.96.96 0 011.397.098l5.271 6.296L20.262 4.357z"></path></svg>
           </Button>
         </Box>
-
         {activeBtn === "Round-trip" &&
         <Box sx={{display:"flex", px:1, mt:2, borderBottom:"1px solid #f4f4f4", }}>
         <Typography  onClick={() => setSelectingStart(true)} width="50%" sx={{pb:1, borderBottom: selectingStart ? "0.25rem solid #44b50c" : "0px", color: selectingStart ? "#181719":"#828086", fontWeight:"700", fontSize:"0.75rem", textAlign:"center", textTransform:"uppercase"}}>DEPARTURE DATE</Typography>
@@ -411,7 +420,6 @@ const FlightSearch = () => {
           returns={activeBtn === "Round-trip" ? true : false}
           selectingStart={selectingStart}
           setSelectingStart={setSelectingStart}
-  
         />
         :
         <Box sx={{mt:"20px"}}>
@@ -419,6 +427,7 @@ const FlightSearch = () => {
            shouldCloseOnSelect={true}
                 selected={selectingStart ? startDate : endDate}
                 monthsShown={12}
+                minDate={new Date()}
                 onChange={(date) => {
                   if (selectingStart) {
                     setStartDate(date);

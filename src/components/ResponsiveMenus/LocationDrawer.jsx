@@ -14,27 +14,19 @@ import {
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 
-export default function LocationDrawer({openFrom,setOpen, openTo, cities,destinations,setTo, setOpenTo,  setFrom}) {
-     const toggleDrawer = (city) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-          return;
-        }
-     console.log(city)
-        if(openFrom){
-        setFrom(`${city.name} (${city.code})`)
-        setOpen(false);
-        } else if(openTo){
-        setTo(`${city.city} (${city.code})`)
-        setOpenTo(false);
-        }
+export default function LocationDrawer({open,locations, placeholder, setOpen,handleData, showBtn}) {
+     const toggleDrawer = (data) => () => {
+
+     const text = `${data.name || data.city } (${data.code})`;
+        handleData(text);
+      setOpen(false);
       };
-      const data = openFrom ? cities : destinations;
-      const placeholder = openFrom ? "Select Departure" : "Where To?";
+
   return (
       <Drawer
         anchor="bottom"
-        open={openFrom || openTo}
-        onClose={()=>{setOpen(false); setOpenTo(false)}}
+        open={open}
+        onClose={()=>{setOpen(false)}}
         sx={{
           '& .MuiDrawer-paper': {
             height: '100vh',
@@ -45,11 +37,11 @@ export default function LocationDrawer({openFrom,setOpen, openTo, cities,destina
         <Box>
           {/* search bar */}
           <Box sx={{ height: "56px", px: 2, width: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
-            <svg onClick={()=>{setOpen(false); setOpenTo(false)}} width="24" height="24" viewBox="0 0 24 24" class="YkKs3oigaIW99gvfW6L3c"><path d="M12 13.414l-7.293 7.293a1 1 0 01-1.414-1.414L10.586 12 3.293 4.707a1 1 0 011.414-1.414L12 10.586l7.293-7.293a1 1 0 111.414 1.414L13.414 12l7.293 7.293a1 1 0 01-1.414 1.414L12 13.414z"></path></svg>
+            <svg onClick={()=>{setOpen(false)}} width="24" height="24" viewBox="0 0 24 24"><path d="M12 13.414l-7.293 7.293a1 1 0 01-1.414-1.414L10.586 12 3.293 4.707a1 1 0 011.414-1.414L12 10.586l7.293-7.293a1 1 0 111.414 1.414L13.414 12l7.293 7.293a1 1 0 01-1.414 1.414L12 13.414z"></path></svg>
             <Input disableUnderline sx={{ height: "100%", width: "100%", ml: 2 }} placeholder={placeholder} />
           </Box>
           {/* location btn */}
-          {openFrom ? (
+          {showBtn ? (
           <Button
             fullWidth
             sx={{
@@ -80,7 +72,7 @@ export default function LocationDrawer({openFrom,setOpen, openTo, cities,destina
               </ListSubheader>
             }
           >
-            {data.map((city) => (
+            {locations.map((city) => (
               <ListItem
                 button
                 key={city.code}
@@ -89,12 +81,12 @@ export default function LocationDrawer({openFrom,setOpen, openTo, cities,destina
                 <svg width="24" height="24" viewBox="0 0 24 24"><path fill-rule="evenodd" fill="#767676" d="M12.5 20.644C17.085 16.357 19 12.689 19 9.58 19 5.926 16.078 3 12.5 3S6 5.926 6 9.58c0 3.11 1.915 6.777 6.5 11.064zM21 9.58C21 4.84 17.201 1 12.5 1 7.799 1 4 4.84 4 9.58c0 3.941 2.407 8.105 7.134 12.525a2 2 0 002.732 0C18.593 17.685 21 13.52 21 9.58zM12.5 8a1.5 1.5 0 10.001 3.001A1.5 1.5 0 0012.5 8zM9 9.5a3.5 3.5 0 117.001.001A3.5 3.5 0 019 9.5z"></path></svg>
                 <ListItemText
                 sx={{ml:2}}
-                  primary={city.name}
+                  primary={city.name || city.city}
                   secondary={city.country}
                   primaryTypographyProps={{ fontSize: '14px', color:"#181719" }}
                   secondaryTypographyProps={{ fontSize: '12px' }}
                 />
-                <Typography sx={{fontSize:"12px",p:".063rem .375rem",lineHeight:"1.125rem", backgroundColor:"#f4f4f4",minWidth:"2.625rem", borderRadius:".25rem"}}>({city.code})</Typography>
+                <Typography sx={{fontSize:"12px",p:".063rem .375rem",lineHeight:"1.125rem", backgroundColor:"#f4f4f4",minWidth:"2.625rem", borderRadius:".25rem"}}>({city.code || city.hotels})</Typography>
               </ListItem>
             ))}
           </List>

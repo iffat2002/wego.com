@@ -150,7 +150,7 @@ export default function HeroTabs( ) {
                   margin: "0 4px",
                   boxShadow: "0 2px 4px 1px rgba(39,36,44,.12)",
                 }}
-               // onClick={()=>setTab("hotels")}
+                onClick={()=> {router.push('/hotels')}}
               >
                 <img
                   src="https://zen.wego.com/cdn-cgi/image/width=144,height=144/web/icons/hotels.png"
