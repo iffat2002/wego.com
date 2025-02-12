@@ -5,6 +5,7 @@ import Head from "next/head";
 import { AppCacheProvider } from "@mui/material-nextjs/v14-pagesRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import {GlobalStyles} from "@mui/material"
 import theme from "../theme/theme";
 import "../styles/globals.css";
 import '../styles/datepicker.css';
@@ -36,6 +37,10 @@ export default function MyApp(props) {
   
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <GlobalStyles styles={{
+        "*": { WebkitTapHighlightColor: "transparent" }, // Removes blue tap highlight on mobile
+        "*:focus, *:focus-visible": { outline: "none" }, // Disables focus outline
+      }} />
         <Component {...pageProps} />
       </ThemeProvider>
     </AppCacheProvider>

@@ -30,9 +30,9 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: `${inter.style.fontFamily}, "Geeza Pro", sans-serif`,
+    fontFamily:  `"Inter", "Geeza Pro", sans-serif`,
     button: {
-      fontFamily: `${inter.style.fontFamily}, "Geeza Pro", sans-serif`, 
+      fontFamily:  `"Inter", "Geeza Pro", sans-serif`, 
     },
   },
   tabpanel: {
@@ -46,7 +46,7 @@ theme.components = {
   MuiButton: {
     styleOverrides: {
       root: {
-       
+       fontFamily: `"Inter", "Geeza Pro", sans-serif`,
         boxShadow: 'none', 
         borderRadius: '0px',
           '&:hover': {

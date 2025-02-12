@@ -4,7 +4,7 @@
     overflow-x:hidden;
    /* background: #F9F9F9; */
    background-color: #FFFF;
-   font-family: inter, sans-serif ; 
+   font-family:  "Inter", "Geeza Pro", sans-serif; 
 }
 @media (max-width: 600px) {
     .main {

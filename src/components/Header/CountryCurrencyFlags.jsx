@@ -69,15 +69,16 @@ console.log("language code", lan)
       {countries
       .sort((a, b) => (a.currencyCode === flag ? -1 : 1)) 
       .map((item, index) => (
-        <Box  onClick={()=>{updateState(item)}} 
+        <Box   onClick={()=>{updateState(item)}} 
           key={index}
           sx={{
             width: "150px",
             height: "44px",
             display: "flex",
+             WebkitTapHighlightColor: "transparent",
             alignItems: "center",
             marginRight: "30px",
-            "&:hover": { backgroundColor: "#f4f4f4" },
+            "&:hover": { backgroundColor: {lg: "#f4f4f4", md:"#f4f4f4", sm:"#f4f4f4", xs:"transparent"} },
             padding: "0px 11px",
             cursor: "pointer",
           }}

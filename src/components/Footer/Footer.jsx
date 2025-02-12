@@ -24,7 +24,7 @@ const Footer = () => {
         <Grid container spacing={2} sx={{p:1}}>
           {/* Column 1 */}
           <Grid item xs={12} sm={6} md={3}>
-            <Typography onClick={() => toggleList(1)} variant="body1" sx={{ mb: 2,display:"flex", alignItems:"center", fontSize:"16px", fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
+            <Typography onClick={() => toggleList(1)} variant="body1" sx={{ mb: 2,display:"flex", alignItems:"center", fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               COMPANY
               <Hidden smUp>
                 <IconButton size="small" color="inherit">
@@ -33,16 +33,16 @@ const Footer = () => {
               </Hidden>
             </Typography>
             <Box sx={{display:{ xs: openSections[1] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 About Wego
               </Link>
-              <Link href="#" sx={{mt:2}}  color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}}  color="inherit" underline="none" display="block">
                 Press
               </Link>
-              <Link href="#"  sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#"  sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Careers
               </Link>
-              <Link href="#"  sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#"  sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Contact Us
               </Link>
             </Box>
@@ -50,7 +50,7 @@ const Footer = () => {
 
           {/* Column 2 */}
           <Grid item xs={12} sm={6} md={3}>
-            <Typography onClick={() => toggleList(2)}  variant="body1" sx={{ mb: 2, display:"flex", alignItems:"center", fontSize:"16px", fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
+            <Typography onClick={() => toggleList(2)}  variant="body1" sx={{ mb: 2, display:"flex", alignItems:"center",fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               LEARN MORE
               <Hidden smUp>
                 <IconButton size="small" color="inherit">
@@ -59,10 +59,10 @@ const Footer = () => {
               </Hidden>
             </Typography>
             <Box sx={{display:{ xs: openSections[2] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
-              <Link href="#"sx={{mt:2}}  color="inherit" underline="none" display="block">
+              <Link href="#"sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}}  color="inherit" underline="none" display="block">
                 Book on Wego
               </Link>
-              <Link href="#" sx={{mt:2,  alignItems: 'center', }} color="inherit" underline="none" display="flex">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},  alignItems: 'center',fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" } }} color="inherit" underline="none" display="flex">
                <strong style={{ marginRight: "4px" }}> WegoPro </strong> Business Travel{' '}
                 <Box
                   component="span"
@@ -82,19 +82,19 @@ const Footer = () => {
                   NEW
                 </Box>
               </Link>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Affiliates
               </Link>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Advertise
               </Link>
-              <Link href="#"sx={{mt:2}}  color="inherit" underline="none" display="block">
+              <Link href="#"sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}}  color="inherit" underline="none" display="block">
                 Hoteliers
               </Link>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Data Privacy Policy
               </Link>
-              <Link href="#"sx={{mt:2}}  color="inherit" underline="none" display="block">
+              <Link href="#"sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}}  color="inherit" underline="none" display="block">
                 Terms
               </Link>
             </Box>
@@ -102,7 +102,7 @@ const Footer = () => {
 
           {/* Column 3 */}
           <Grid item xs={12} sm={6} md={3}>
-            <Typography onClick={() => toggleList(3)}  variant="body1" sx={{ mb: 2,display:"flex", alignItems:"center", fontSize:"16px", fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
+            <Typography onClick={() => toggleList(3)}  variant="body1" sx={{ mb: 2,display:"flex", alignItems:"center",fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               EXPLORE
               <Hidden smUp>
                 <IconButton size="small" color="inherit">
@@ -111,16 +111,16 @@ const Footer = () => {
               </Hidden>
             </Typography>
             <Box sx={{display:{ xs: openSections[3] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Airport Directory
               </Link>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Airlines Directory
               </Link>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Flight Schedules
               </Link>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Hotel Chains
               </Link>
             </Box>
@@ -129,7 +129,7 @@ const Footer = () => {
           {/* Column 4 */}
           <Hidden smDown>
           <Grid item xs={12} sm={6} md={3}>
-            <Typography onClick={() => toggleList(4)}  variant="body1" sx={{ mb: 2, display:"flex", alignItems:"center", fontSize:"16px", fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
+            <Typography onClick={() => toggleList(4)}  variant="body1" sx={{ mb: 2, display:"flex", alignItems:"center", fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               DOWNLOAD
               <Hidden smUp>
                 <IconButton size="small" color="inherit">
@@ -138,10 +138,10 @@ const Footer = () => {
               </Hidden>
             </Typography>
             <Box sx={{display:{ xs: openSections[4] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Wego App (iOS)
               </Link>
-              <Link href="#" sx={{mt:2}} color="inherit" underline="none" display="block">
+              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Wego App (Android)
               </Link>
             </Box>

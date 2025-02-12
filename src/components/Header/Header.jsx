@@ -545,7 +545,7 @@ const [drawerlan, setDrawerLan]= useState("English")
             disableRipple
             sx={{
 
-              padding: "0px 18px",
+              padding: "0px 16px",
               height: "32px",
               backgroundColor: scroll ? "white" : theme.palette.customTransparent.gray,
               color: scroll ? "#1d1d1d" :"white",
@@ -571,6 +571,7 @@ const [drawerlan, setDrawerLan]= useState("English")
               backgroundColor: theme.palette.customGreen.main,
               textTransform: "uppercase",
               borderRadius: "100px",
+              padding:"0px 16px",
               height: "32px",
               marginLeft: "8px",
               "&:hover": { backgroundColor: theme.palette.customGreen.dark },
@@ -690,14 +691,14 @@ const [drawerlan, setDrawerLan]= useState("English")
             <Box sx={{ margin: "7px 0px" }}>
               
             <Box sx={{padding:"8px 0px", borderBottom:"1px solid #e5e3e8"}}>
-            <Stack direction="row" sx={{position:"relative", height:"48px", color:"#27242c", fontSize:"14px", textDecoraion:"none", alignItems:"center"}}>
+            <Stack onClick={()=> router.push("/flights")} direction="row" sx={{position:"relative", height:"48px", color:"#27242c", fontSize:"14px", textDecoraion:"none", alignItems:"center"}}>
                 <Box sx={{backgroundPosition:"-48px -72px", width:"24px", height:"24px", backgroundImage:"url(/drawer_icons.webp)", backgroundSize:"72px 120px", margin:"0 16px", flexShrink:0}}></Box>
                 Search Flights</Stack>
-                <Stack direction="row" sx={{position:"relative", height:"48px", color:"#27242c", fontSize:"14px", textDecoraion:"none", alignItems:"center"}}>
-                <Box sx={{backgroundPosition:"0 -96px", width:"24px", height:"24px", backgroundImage:"url(/drawer_icons.webp)", backgroundSize:"72px 120px", margin:"0 16px", flexShrink:0}}></Box>
+                <Stack  onClick={()=> router.push("/hotels")} direction="row" sx={{position:"relative", height:"48px", color:"#27242c", fontSize:"14px", textDecoraion:"none", alignItems:"center"}}>
+                <Box  sx={{backgroundPosition:"0 -96px", width:"24px", height:"24px", backgroundImage:"url(/drawer_icons.webp)", backgroundSize:"72px 120px", margin:"0 16px", flexShrink:0}}></Box>
                 Search Hotels</Stack>
-                <Stack direction="row" sx={{position:"relative", justifyContent:"space-between", height:"48px", color:"#27242c", fontSize:"14px", textDecoraion:"none", alignItems:"center"}}>
-                  <Stack direction="row" sx={{alignContent:"CENTER"}}>
+                <Stack direction="row"  alignItems="center" sx={{position:"relative", justifyContent:"space-between", height:"48px", color:"#27242c", fontSize:"14px", textDecoraion:"none", alignItems:"center"}}>
+                  <Stack direction="row" alignItems="center" sx={{alignContent:"CENTER"}}>
                   <Box sx={{width:"24px", height:"24px", margin:"0 16px", flexShrink:0}}>
                   <svg viewBox="0 0 24 24"><g opacity="0.8"><path d="M10.647 12.055l-1.691 2.823H2.83A2.836 2.836 0 010 12.046c0-.786.316-1.493.832-2a2.821 2.821 0 012-.833h6.114l1.701 2.842zM24 12.046c0 .786-.316 1.493-.832 1.998a2.804 2.804 0 01-2 .834H15.56l.94-1.565a2.472 2.472 0 000-2.526l-.94-1.574h5.608A2.83 2.83 0 0124 12.045" fill="#1686F7"></path><path d="M16.5 13.313l-.94 1.565H8.956l1.691-2.823-1.7-2.842h6.613l.94 1.575c.462.779.462 1.745 0 2.525z" fill="#0169E6"></path><path d="M15.56 14.878l-1.61 2.686-1.593 2.659A2.815 2.815 0 019.924 21.6c-.498 0-.995-.128-1.448-.4a2.837 2.837 0 01-.976-3.889l1.456-2.433h6.604zM15.56 9.213H8.947L7.5 6.79a2.829 2.829 0 01.976-3.88A2.831 2.831 0 019.933 2.5c.96 0 1.9.498 2.424 1.385l1.593 2.651 1.61 2.677z" fill="#10C8ED"></path></g></svg>
                     </Box>   
