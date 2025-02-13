@@ -1,13 +1,17 @@
 "use client"
 import { Inter} from 'next/font/google';
-import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import { createTheme, ThemeProvider } from "@mui/material";
+const inter = Inter({ 
+  subsets: ["latin"], 
+  weight: ["300","400", "500", "600", "700"] // Add desired font weights
+});
 
 
-const inter = Inter({ subsets: ['latin'], display: 'swap', })
 
 // Create a theme instance.
 const theme = createTheme({
+
   palette: {
     mode: "light",
     customGreen: {
@@ -33,6 +37,7 @@ const theme = createTheme({
     fontFamily:  `"Inter", "Geeza Pro", sans-serif`,
     button: {
       fontFamily:  `"Inter", "Geeza Pro", sans-serif`, 
+
     },
   },
   tabpanel: {

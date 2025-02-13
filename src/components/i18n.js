@@ -6,19 +6,28 @@ import { initReactI18next } from 'react-i18next';
   EN: {
     translation: {
      loginbtn: "login",
-      signupbtn: "get started"
+      signupbtn: "get started",
+      more: "More",
+      hotels: "Hotels",
+      flights:"Flights",
+      heroHeading:"Discover the real value of travel"
     }
   },
   FR: {
     translation: {
-      loginbtn: "se connecter",
-      signupbtn: "commencer"
+      loginbtn: "se Connecter",
+      signupbtn: "commencer",
+ heroHeading:"Découvrez la valeur réelle du voyage"
     }
   },
   AR: {
     translation: {
       loginbtn: "تسجيل الدخول",
-      signupbtn: "ابدأ"
+      signupbtn: "ابدأ",
+      more: "أكثر",
+      hotels: "الفنادق",
+      flights:"رحلات",
+       heroHeading:"اكتشف القيمة الحقيقية للسفر"
     }
   },
 DE: {
@@ -147,7 +156,19 @@ DE: {
       interpolation: {
         escapeValue: false, // not needed for react as it escapes by default
       },
+     
     });
+
+    const rtlLanguages = ["AR"];
+  
+  // ✅ Safe check: Ensure `lng` is a valid string before calling `toUpperCase()`
+  i18n.dir = (lng) => {
+    if (!lng || typeof lng !== "string") {
+      console.warn("⚠️ Warning: Invalid language code received in i18n.dir:", lng);
+      return "ltr"; // Default to LTR if invalid
+    }
+    return rtlLanguages.includes(lng.toUpperCase()) ? "rtl" : "ltr";
+  };
 }
 
 export default i18n;

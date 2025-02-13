@@ -12,6 +12,7 @@ import Header from "../Header/Header";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import HeroTabs from "./HeroTabs";
 import styles from "@/styles/Home.module.css";
+import { useTranslation } from "react-i18next";
 
 const slides = [
   {
@@ -34,6 +35,7 @@ const slides = [
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const theme = useTheme();
+   const { t, i18n } = useTranslation();
 
 
   const handleNext = () => {
@@ -121,7 +123,7 @@ const Hero = () => {
                     top: {lg:"174px", md:"144px"},
                   }}
                 >
-                  Discover the real value of travel
+                   {t("heroHeading")}
                 </Typography>
 
                 <Box justifyContent="center" mt={10} sx={{display:{lg:"flex",md:"flex",sm:"flex"}}}>

@@ -13,7 +13,6 @@ import { useState, useEffect } from "react";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
-
   const [isReady, setIsReady] = useState(false);
 
   // Use useEffect to handle hydration, ensuring the page is fully loaded
@@ -28,6 +27,8 @@ export default function MyApp(props) {
       <div></div> // Replace this with a spinner or loading component if you prefer
     );
   }
+
+  
 
   return (
     <AppCacheProvider {...props}>

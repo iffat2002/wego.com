@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { useTranslation } from "react-i18next";
 import { Box, Link, Stack, Container, Hidden, Typography } from "@mui/material";
 import FlightsTab from "./FlightsTab";
 import HotelsTab from "./HotelsTab";
 
+  
 function CustomTabPanel(props) {
+  const dir = document.documentElement.dir;
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -24,7 +26,7 @@ function CustomTabPanel(props) {
           sx={{
             p: 3,
             backgroundColor: "white",
-            borderRadius: "0 8px 8px 8px",
+            borderRadius: dir === "ltr" ? "0 8px 8px 8px" : "8px 0px 8px 8px",
             boxShadow: "0 0 24px 2px rgba(0,0,0,.2)",
           }}
         >
@@ -51,7 +53,8 @@ function a11yProps(index) {
 // hero section content tabs
 export default function HeroTabs( ) {
   const router = useRouter();
-   
+  const dir = document.documentElement.dir;
+  const { t, i18n } = useTranslation();
   const [value, setValue] = useState(() => {
     if (typeof window !== "undefined") {
       if (window.location.pathname.includes("/hotels")) return 1;
@@ -285,16 +288,19 @@ export default function HeroTabs( ) {
                         backgroundSize: "99px 149px",
                         backgroundPosition:
                           value == 0 ? "-75px -50px" : "0px -75px",
-                        marginRight: 1,
+                        marginRight: dir === "ltr" ?  1 : 0,
+                        marginLeft: dir === "ltr" ?  0 : 1,
+                   
+                       
                       }}
                     ></Box>
-                    Flights
+                     {t("flights")}
                   </Stack>
                 }
                 sx={{
                   backdropFilter: "blur(8px)",
                   backgroundColor: "rgba(0, 0, 0, .24)",
-                  borderRadius: "8px 0 0 0",
+                  borderRadius: dir === "ltr" ?  "8px 0 0 0" : "0px 8px 0 0",
                   //width:{lg:"auto" , sm:"50% !important"}
                 }}
                 {...a11yProps(0)}
@@ -314,17 +320,19 @@ export default function HeroTabs( ) {
                         backgroundSize: "99px 149px",
                         backgroundPosition:
                           value == 1 ? "-75px -75px" : "0px -100px",
-                        marginRight: 1,
+                          marginRight: dir === "ltr" ?  1 : 0,
+                          marginLeft: dir === "ltr" ?  0 : 1,
                       }}
                     ></Box>
-                    Hotels
+                    {t("hotels")}
                   </Stack>
                 }
                 sx={{
                   backdropFilter: "blur(8px)",
                   backgroundColor: "rgba(0, 0, 0, .24)",
-                  marginRight: "4px",
-                  borderRadius: "0px 8px 0 0",
+                  marginRight: dir === "ltr" ?  "4px" : 0,
+                  marginLeft: dir === "ltr" ?  "0" : "4px",
+                  borderRadius: dir === "ltr" ? "0px 8px 0 0" :"8px 0 0 0" ,
                 }}
                 {...a11yProps(1)}
               />
@@ -339,6 +347,7 @@ export default function HeroTabs( ) {
                         alignItems: "center",
                         color: "white",
                         cursor: "pointer",
+                        gap:"4px"
                       }}
                     >
                       <Box
@@ -349,10 +358,11 @@ export default function HeroTabs( ) {
                           width: "30px",
                           height: "30px",
                           backgroundRepeat: "no-repeat",
-                          marginRight: 1,
+                          marginRight: dir === "ltr" ?  1 : 0,
+                        
                         }}
                       ></Box>
-                      <strong style={{ marginRight: "4px" }}>WegoPro </strong>{" "}
+                      <strong >WegoPro </strong>{" "}
                       Business Travel
                       <Box
                         sx={{

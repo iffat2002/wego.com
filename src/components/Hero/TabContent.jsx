@@ -404,6 +404,7 @@ useEffect(() => {
     );
   };
   ////
+  const dir = document.documentElement.dir;
   return (
     <Stack
       mt={2}
@@ -491,6 +492,8 @@ useEffect(() => {
                         left: 0,
                         position: "absolute",
                         color: "#767676",
+                        marginLeft: dir === "rtl" && "84% !important",
+                        width:"100%" 
                       },
                     },
                   }}
@@ -554,6 +557,9 @@ useEffect(() => {
                     "& .MuiFormLabel-root": {
                       paddingLeft: "20px",
                       paddingTop: "14px",
+                      marginLeft: dir === "rtl" ? "84% !important": 0,
+                      right:0,
+                      position:"absolute"
                     },
                     "& .MuiInputLabel-root.Mui-focused": {
                       color: "rgba(0, 0, 0, 0.6)",
@@ -700,6 +706,8 @@ useEffect(() => {
                         "& .MuiFormLabel-root": {
                           paddingLeft: "20px",
                           paddingTop: "14px",
+                          marginLeft: dir === "rtl" && "84% !important",
+                          
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
                           color: "rgba(0, 0, 0, 0.6)",
@@ -718,7 +726,9 @@ useEffect(() => {
                       borderRadius: "50%",
                       height: "40px",
                       position: "absolute",
-                      right: "-24px",
+                     
+                      right: dir === "ltr" && "-24px",
+                      left: dir === "ltr" ? "auto" : "-24px",
                       width: from ? "0px" : "40px",
                     }}
                   ></Box>
@@ -904,10 +914,9 @@ useEffect(() => {
                       borderRadius: "50%",
                       height: "40px",
                       position: "absolute",
-
                       width: to ? "0px" : "40px",
-                      left: "-24px",
-                      right: "auto",
+                      left: dir === "ltr" && "-24px",
+                      right: dir === "ltr" ? "auto" : "-24px",
                     }}
                   ></Box>
                 </Box>
@@ -1133,6 +1142,7 @@ useEffect(() => {
                   "& .MuiFormLabel-root": {
                     paddingTop: "12px",
                     paddingLeft: "24px",
+                    marginLeft: dir === "rtl" && "84% !important",
                   },
                   "& .MuiInputBase-input": {
                     fontWeight: "600",
@@ -1239,6 +1249,7 @@ useEffect(() => {
                     "& .MuiFormLabel-root": {
                       paddingTop: "12px",
                       paddingLeft: "24px",
+                      marginLeft: dir === "rtl" && "84% !important",
                     },
                     "& .MuiInputBase-input": {
                       fontWeight: "600",

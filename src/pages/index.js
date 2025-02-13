@@ -24,9 +24,11 @@ import HomeLayout from "@/components/HomeLayout";
 
 import { useRouter } from 'next/router';
 
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-
+const inter = Inter({ 
+  subsets: ["latin"], 
+  variable: "--font-inter",
+  weight: ["300","400", "500", "600", "700"] // Add desired font weights
+});
 
 
 export default function Home() {

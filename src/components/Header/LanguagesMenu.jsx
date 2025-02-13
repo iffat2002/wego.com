@@ -40,6 +40,7 @@ const LanguagesMenu = ({ onStateChange, lang }) => {
 
   const [lan, setlan] = useState("");
   console.log("language code", lan);
+  
   return (
     <Box
       sx={{
