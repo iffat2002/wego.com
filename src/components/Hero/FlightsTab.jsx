@@ -219,7 +219,7 @@ const FlightsTab = () => {
     { id: 15, fullName: "Turbat, Pakistan (TUK)", title: "Turbat" },
     { id: 16, fullName: "Gwadar, Pakistan (GWD)", title: "Gwadar" },
   ];
-
+  const dir = document.documentElement.dir;
   return (
     <Box sx={{ position: "relative" }}>
       <Stack direction="row" height="40px" gap="7px">
@@ -280,7 +280,8 @@ const FlightsTab = () => {
               },
               position: "absolute",
               zIndex: "5",
-              right: "0",
+              right: dir=== "ltr" && 0 ,
+              left: dir=== "rtl" && 0 ,
               top: "0",
               border:
                 flights.length === 6
@@ -352,7 +353,8 @@ const FlightsTab = () => {
                     transition: "all 225ms cubic-bezier(.4,0,.2,1) 0ms",
                     height: "24px",
                     width: "24px",
-                    marginRight: "10px",
+                    marginRight: dir === "ltr" && "10px",
+                    marginLeft: dir === "rtl" && "10px",
                     "& .MuiTypography-root": { fontSize: "15px" },
 
                     "& .MuiSvgIcon-root": { fontSize: 32 },
@@ -381,12 +383,19 @@ const FlightsTab = () => {
             variant="text"
             onClick={handleBooking}
             sx={{
+              "& .MuiButton-endIcon":{
+                marginRight:"0px !important",
+                marginLeft:"0px !important",
+              },
               textTransform: "none",
               borderRadius: "8px",
+              gap:0.5,
               alignItems: "center",
               height: "48px",
               fontWeight: "400",
               fontSize: "16px",
+              display:"flex",
+            
               color: "inherit",
               "&:hover": {
                 background: theme.palette.customTransparent.lightgray,
@@ -397,6 +406,8 @@ const FlightsTab = () => {
                 sx={{
                   width: "28px",
                   height: "29px",
+             
+                 
                 }}
               />
             }
@@ -417,6 +428,7 @@ const FlightsTab = () => {
               gap: "8px 0px",
               borderRadius: "8px",
               justifyContent: "center",
+          
             }}
           >
             <Select
@@ -430,17 +442,23 @@ const FlightsTab = () => {
                 "& .MuiSelect-icon": {
                   fontSize: 28,
                   color: "black",
+                  left: dir === "rtl" && 0, 
+                  right: "unset",
                 },
+                direction: "rtl",
+                textAlign: "right",
                 fontSize: "16px",
                 "& .MuiInput-input": {
                   marginRight: "8px",
+                  padding: dir === "rtl" && "4px 30px 3px"
+
                 },
               }}
               MenuProps={{
                 PaperProps: {
                   sx: {
                     borderRadius: "16px",
-
+                      direction:"rtl",
                     "& .MuiMenuItem-root.Mui-selected": {
                       backgroundColor: "transparent",
                       color: theme.palette.customGreen.dark,
@@ -471,10 +489,14 @@ const FlightsTab = () => {
                 sx={{
                   width: "28px",
                   height: "29px",
+                  mr:  dir === "rtl" && 1
                 }}
               />
             }
             sx={{
+              "& .MuiButton-endIcon":{
+                margin:0
+              },
               fontWeight: "400",
               padding: "0 12px",
               "&:hover": {
@@ -488,7 +510,7 @@ const FlightsTab = () => {
               justifyContent: "center",
               textTransform: "none",
               alignItems: "center",
-              mr: 2,
+              mr:2,
             }}
             onClick={handleButtonClick}
           >

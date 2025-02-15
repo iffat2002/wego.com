@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState,useRef, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import CurrencyFlag from "react-currency-flags";
 import Button from "@mui/material/Button";
@@ -32,6 +32,53 @@ const Header = ({ headerTab }) => {
   const theme = useTheme();
   const { t, i18n } = useTranslation();
   const router = useRouter();
+ const countryRef = useRef(null);
+ const countryBtnRef = useRef(null);
+ const [openCountryPopper, setOpenCountryPopper] = useState(false);
+ const [openCurrencyPopper, setOpenCurrencyPopper] = useState(false);
+ const [openLanPopper, setOpenLanPopper] = useState(false);
+ const langRef = useRef(null);
+ const langBtnRef = useRef(null);
+ const currencyRef = useRef(null);
+ const currencyBtnRef = useRef(null);
+
+ 
+ const handleClickOutside = (event) => {
+  if (
+    countryRef.current &&
+    !countryRef.current.contains(event.target) &&
+    countryBtnRef.current &&
+    !countryBtnRef.current.contains(event.target)
+  ) {
+    setOpenCountryPopper(false);
+  } else if (
+    langRef.current &&
+    !langRef.current.contains(event.target) &&
+    langBtnRef.current &&
+    !langBtnRef.current.contains(event.target)
+  ){
+    setOpenLanPopper(false)
+  } else if (
+    currencyRef.current &&
+    !currencyRef.current.contains(event.target) &&
+    currencyBtnRef.current &&
+    !currencyBtnRef.current.contains(event.target)
+  ){
+    setOpenCurrencyPopper(false)
+  }
+ 
+};
+
+  useEffect(() => {
+    if (openCountryPopper || openLanPopper || openCurrencyPopper) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openCountryPopper, openLanPopper, openCurrencyPopper]);
 
   //More menu
   const [anchorMoreEl, setAnchorMoreEl] = useState(null);
@@ -82,16 +129,15 @@ const Header = ({ headerTab }) => {
   }));
 
   // State for poppers
-  const [openCountryPopper, setOpenCountryPopper] = useState(false);
-  const [openCurrencyPopper, setOpenCurrencyPopper] = useState(false);
-  const [openLanPopper, setOpenLanPopper] = useState(false);
+  
+
   const [anchorElCountry, setAnchorElCountry] = useState(null);
   const [anchorElCurrency, setAnchorElCurrency] = useState(null);
   const [anchorElLan, setAnchorElLan] = useState(null);
   const [selectedFlag, setSelectedFlag] = useState("PKR");
   const [selectedCurrency, setSelectedcurrency] = useState(selectedFlag);
   const handleCountryClick = (event) => {
-    setAnchorElCountry(event.currentTarget);
+     setAnchorElCountry(event.currentTarget);
     setOpenCountryPopper((prev) => !prev);
     setOpenCurrencyPopper(false); // Close the currency popper
     setOpenLanPopper(false);
@@ -107,7 +153,6 @@ const Header = ({ headerTab }) => {
   const handleLanClick = (event) => {
     setAnchorElLan(event.currentTarget);
     setOpenLanPopper((prev) => !prev);
-
     setOpenCountryPopper(false);
     setOpenCurrencyPopper(false);
   };
@@ -132,15 +177,42 @@ const Header = ({ headerTab }) => {
     setLan(selected.code);
     setDrawerLan(selected.name)
     console.log(selected, "language")
-    try {
-      i18n.changeLanguage(selected.code); // Centralized language update
-      console.log("i18n Language:", i18n.language);
-      console.log("i18n Direction:", i18n.dir(selected.code));
-      document.documentElement.dir = i18n.dir(selected.code);
-    } catch (error) {
-      console.error("Error changing language:", error); // Centralized error handling
+    const langCode = selected.code;
+    const newUrl = `${window.location.pathname}?lang=${langCode}`;
+  
+    // Save the language to localStorage (to persist across reload)
+    localStorage.setItem("selectedLang", langCode);
+  
+    // Update the URL and reload the page
+    if (langCode === "EN") {
+      // If English is selected, remove "lang" from the URL
+      window.location.href = window.location.pathname; 
+    } else {
+      // Otherwise, update the URL with ?lang=selectedLanguage
+      window.location.href = `${window.location.pathname}?lang=${langCode}`;
     }
+    // try {
+    //   i18n.changeLanguage(selected.code); // Centralized language update
+    //   console.log("i18n Language:", i18n.language);
+    //   console.log("i18n Direction:", i18n.dir(selected.code));
+    //   document.documentElement.dir = i18n.dir(selected.code);
+      
+      
+
+    // } catch (error) {
+    //   console.error("Error changing language:", error); // Centralized error handling
+    // }
   };
+useEffect(() => {
+    const queryLang = router.query.lang;
+    const storedLang = localStorage.getItem("selectedLang");
+
+    let languageToSet = queryLang || storedLang || "en"; // Default to English
+
+    i18n.changeLanguage(languageToSet);
+    document.documentElement.dir = i18n.dir(languageToSet);
+    setLan(queryLang || "EN");
+  }, [router.query.lang]); // Runs when URL changes
 
 
   useEffect(() => {
@@ -314,11 +386,13 @@ const Header = ({ headerTab }) => {
                     }
                   }}
                   aria-describedby={countryId}
+                  ref={countryBtnRef}
                   onClick={handleCountryClick}
                 ></Button>
                 <Popper
                   onClick={() => setOpenCountryPopper(false)}
                   id={countryId}
+                  ref={countryRef}
                   sx={{
                     width: "778px",
                     direction: "ltr",
@@ -326,6 +400,7 @@ const Header = ({ headerTab }) => {
                     boxShadow: "0 0 24px 2px rgba(0,0,0,.08)",
                     right: "0px",
                     zIndex: "9999",
+                    borderRadius:"16px"
                   }}
                   open={openCountryPopper}
                   anchorEl={anchorElCountry}
@@ -375,6 +450,7 @@ const Header = ({ headerTab }) => {
                 <Button
                   variant="contained"
                   disableRipple
+                  ref={langBtnRef}
                   aria-describedby={lanId}
                   onClick={handleLanClick}
                   startIcon={
@@ -417,6 +493,7 @@ const Header = ({ headerTab }) => {
                   }}
                 ></Button>
                 <Popper
+                ref={langRef}
                   onClick={() => setOpenLanPopper(false)}
                   id={lanId}
                   sx={{
@@ -468,6 +545,7 @@ const Header = ({ headerTab }) => {
 
                 {/* select currency */}
                 <Button
+                ref={currencyBtnRef}
                   variant="contained"
                   disableRipple
                   onClick={handleCurrencyClick}
@@ -516,6 +594,7 @@ const Header = ({ headerTab }) => {
                 <Popper
                   onClick={() => setOpenCurrencyPopper(false)}
                   id={currencyId}
+                  ref={currencyRef}
                   sx={{
                     width: "778px",
                     direction: "ltr",
@@ -802,7 +881,7 @@ const Header = ({ headerTab }) => {
             <Box sx={{ padding: "8px 0", borderBottom: "1px solid #e5e3e8" }}>
               <Typography sx={{ fontSize: "12px", color: "#828086", margin: "8px 16px" }}>Settings</Typography>
               {/* country */}
-              <Stack aria-describedby={countryId}
+              <Stack aria-describedby={countryId} ref={countryBtnRef}
                 onClick={handleCountryClick} direction="row" sx={{
                   m: 0, p: 0, position: "relative", height: " 48px",
                   display: "flex",
@@ -817,7 +896,8 @@ const Header = ({ headerTab }) => {
                   <Typography variant="span" sx={{ fontSize: "12px", color: "#afadb4", mt: "2px" }}>{countryName}</Typography>
                 </Box>
               </Stack>
-              <Popper placement="top"
+              <Popper placement="top" 
+              ref={countryRef}
                 onClick={() => setOpenCountryPopper(false)}
                 id={countryId}
                 sx={{
@@ -860,7 +940,7 @@ const Header = ({ headerTab }) => {
               </Popper>
 
               {/* currency */}
-              <Stack onClick={handleCurrencyClick}
+              <Stack onClick={handleCurrencyClick} ref={currencyBtnRef}
                 aria-describedby={currencyId} direction="row" sx={{
                   m: 0, p: 0, position: "relative", height: " 48px",
                   display: "flex",
@@ -878,6 +958,7 @@ const Header = ({ headerTab }) => {
               <Popper placement="top"
                 onClick={() => setOpenCurrencyPopper(false)}
                 id={currencyId}
+                ref={currencyRef}
                 sx={{
                   width: "70%",
                   height: "270px",
@@ -918,10 +999,9 @@ const Header = ({ headerTab }) => {
                 )}
               </Popper>
 
-
-
               {/* language */}
-              <Stack aria-describedby={lanId}
+              <Stack aria-describedby={lanId} 
+              ref={langBtnRef}
                 onClick={handleLanClick} direction="row" sx={{
                   m: 0, p: 0, position: "relative", height: " 48px",
                   display: "flex",
@@ -939,6 +1019,7 @@ const Header = ({ headerTab }) => {
               <Popper
                 onClick={() => setOpenLanPopper(false)}
                 id={lanId}
+                ref={langRef}
                 placement="top"
                 sx={{
                   width: "70%",

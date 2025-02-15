@@ -78,6 +78,7 @@ const HotelsTab = () => {
     },
     { id: 20, fullName: "Phuket, Thailand", title: "Phuket" },
   ];
+  const dir = document.documentElement.dir;
 
   return (
     <Box>
@@ -90,8 +91,9 @@ const HotelsTab = () => {
         <Box>
           <FormControlLabel
             sx={{
-              "& .MuiTypography-root": { fontSize: "16px" },
+              "& .MuiTypography-root": { fontSize: "16px", marginRight: dir === "rtl" && "12px" },
               marginLeft: "0px",
+            
             }}
             control={
               <Checkbox

@@ -57,21 +57,37 @@ const stories = [
 ];
 
 const Stories = () => {
+  const dir = document.documentElement.dir;
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
   const cardWidth = 368;
+  
+  
   const handleNext = () => {
-    if (currentIndex < stories.length - itemsPerPage) {
-      setCurrentIndex(currentIndex + 1);
+    if (dir === "rtl") {
+      if (currentIndex > 0) {
+        setCurrentIndex(currentIndex - 1); // Move left in RTL
+      }
+    } else {
+      if (currentIndex < stories.length - itemsPerPage) {
+        setCurrentIndex(currentIndex + 1); // Move right in LTR
+      }
     }
   };
+  
   const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+    if (dir === "rtl") {
+      if (currentIndex < stories.length - itemsPerPage) {
+        setCurrentIndex(currentIndex + 1); // Move right in RTL
+      }
+    } else {
+      if (currentIndex > 0) {
+        setCurrentIndex(currentIndex - 1); // Move left in LTR
+      }
     }
   };
-
+  
   return (
     <Container sx={{mt:"20px", padding:0 }}>
       <Stack
@@ -80,7 +96,7 @@ const Stories = () => {
       >
         <Typography
           variant="h5"
-          sx={{ fontSize: {lg:"24px",md:"24px",sm:"24px", xs:"20px"}, fontWeight: "600", color: "black" }}
+          sx={{ fontSize: {lg:"24px",md:"24px",sm:"24px", xs:"20px"}, fontWeight: "600", color: "black", }}
         >
           Stories
         </Typography>
@@ -89,7 +105,7 @@ const Stories = () => {
           href="https://blog.wego.com/"
           target="_blank"
           rel="noopener noreferrer"
-          sx={{ textDecoration: "none" }}
+          sx={{ textDecoration: "none", display:"flex", alignItems:"center"}}
         >
           {" "}
           <Typography
@@ -99,6 +115,7 @@ const Stories = () => {
               fontSize: "17px",
               color: "#44b50c",
               lineHeight: "24px",
+         
             }}
           >
             See all stories
@@ -107,14 +124,17 @@ const Stories = () => {
             disableRipple
             edge="end"
             sx={{
-              marginLeft: "2px",
+              marginLeft: dir === "ltr" ? "2px": "-10px",
               width: "8px",
               height: "8px",
+                   mr: dir === "rtl" ? "8px" : "0px",
+              transform: dir === "rtl" ? "rotate(180deg) !important" :"none"
             }}
           >
             <KeyboardArrowRightIcon
               sx={{
                 color: "#44b50c",
+               
               }}
             />
           </IconButton>
@@ -145,7 +165,10 @@ const Stories = () => {
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
-                transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`,
+                transform: dir === "rtl"
+                ? `translateX(${currentIndex * (cardWidth + 16)}px)`
+                : `translateX(-${currentIndex * (cardWidth + 16)}px)`,
+              
                 transition: "transform 0.5s ease-in-out",
                 width: `${stories.length * (cardWidth + 16) + 16}px`,
                 overflowX: { lg: "visible",md: "visible",sm:"visible" , xs: "scroll" },
@@ -153,7 +176,7 @@ const Stories = () => {
                 "&::-webkit-scrollbar": {
                   display: "none",
                 },
-                paddingRight: "26px", // Add padding to prevent cropping
+                paddingRight: dir === "ltr" ? "26px" : "0px",
               }}
             >
               {stories.map((card) => (
@@ -239,18 +262,18 @@ const Stories = () => {
           </Grid>
         </Grid>
         <Hidden smDown>
-          {currentIndex != 0 && (
+          {(dir === "ltr" && currentIndex != 0 ) || (dir === "rtl" &&  currentIndex != stories.length - itemsPerPage) ? (
             <IconButton
               disableRipple
               onClick={handlePrevious}
-              disabled={currentIndex === 0}
+            
               sx={{
                 position: "absolute",
                 top: "50%",
                 left: "-20px",
                 transform: "translateY(-50%)",
-                height: "40px",
                 width: "40px",
+                height:"40px",
                 transform: "translateY(-50%)",
                 backgroundColor: "#fff",
                 color: "#44b50c",
@@ -263,12 +286,12 @@ const Stories = () => {
             >
               <ArrowBackIosIcon sx={{ width: "15px", height: "15px" }} />
             </IconButton>
-          )}
-          {currentIndex != stories.length - itemsPerPage && (
+          ) : null}
+          {(dir === "ltr" && (currentIndex != stories.length - itemsPerPage)) ||  (dir === "rtl" && currentIndex !== 0) ? (
             <IconButton
               disableRipple
               onClick={handleNext}
-              disabled={currentIndex >= stories.length - itemsPerPage}
+              //disabled={dir === "ltr" ? currentIndex >= stories.length - itemsPerPage : currentIndex === stories.length - itemsPerPage}
               sx={{
                 boxShadow: "0 0 8px 2px rgba(0,0,0,.1)",
                 cursor: "pointer",
@@ -276,6 +299,7 @@ const Stories = () => {
                 top: "50%",
                 zIndex: "100",
                 right: "-18px",
+              
                 height: "40px",
                 width: "40px",
                 transform: "translateY(-50%)",
@@ -286,9 +310,9 @@ const Stories = () => {
                 },
               }}
             >
-              <ArrowForwardIosIcon sx={{ width: "15px", height: "15px" }} />
+              <ArrowForwardIosIcon sx={{ width: "15px", height: "15px",  }} />
             </IconButton>
-          )}
+          ) : null}
         </Hidden>
       </Box>
     </Container>

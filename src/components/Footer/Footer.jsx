@@ -8,6 +8,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 const Footer = () => {
+  const dir = document.documentElement.dir;
    const [openSections, setOpenSections] = React.useState({1: true, 
     2: true, 
     3: true,
@@ -62,8 +63,8 @@ const Footer = () => {
               <Link href="#"sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}}  color="inherit" underline="none" display="block">
                 Book on Wego
               </Link>
-              <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},  alignItems: 'center',fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" } }} color="inherit" underline="none" display="flex">
-               <strong style={{ marginRight: "4px" }}> WegoPro </strong> Business Travel{' '}
+              <Link href="#" sx={{gap:"4px",mt:{lg:2, md:2, sm:2,xs:1},  alignItems: 'center',fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" } }} color="inherit" underline="none" display="flex">
+               <strong style={{  }}> WegoPro </strong> Business Travel{' '}
                 <Box
                   component="span"
                   sx={{
@@ -73,7 +74,8 @@ const Footer = () => {
                 fontWeight:"600",
                     p: "0 .375rem",
                     width:"2.5rem",
-                    ml: 1,
+                    ml: dir === "ltr" && 1,
+                    mr: dir === "rtl" && 1,
                     lineHeight:"1.25rem",
                     fontSize: '12px',
                     display:"inline-block"

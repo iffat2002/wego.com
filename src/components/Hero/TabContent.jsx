@@ -175,10 +175,15 @@ const today = dayjs().startOf("day").add(3, "day");
     }
   };
 
-  const isToday = dayjs(dateValue[0])?.isSame(dayjs(today), "day");
+  const isToday = dayjs(dateValue[0])?.isSame(dayjs(dayjs().startOf("day")), "day");
   const isMaxRange = dayjs(dateValue[1])?.isSame(dayjs(dateValue[0]), "day");
   const dayadd = (date) => {
-    if (date === dateValue[0] && dateValue[0].isBefore(dateValue[1])) {
+    if(date === dateValue[0] && !returnFlight){
+      setDateValue((prevDate) => [
+        dayjs(prevDate[0]).add(1, "day").startOf("day"),
+        prevDate[1],
+      ]);
+    }else if (date === dateValue[0] && dateValue[0].isBefore(dateValue[1])) {
       setDateValue((prevDate) => [
         dayjs(prevDate[0]).add(1, "day").startOf("day"),
         prevDate[1],
@@ -492,11 +497,13 @@ useEffect(() => {
                         left: 0,
                         position: "absolute",
                         color: "#767676",
-                        marginLeft: dir === "rtl" && "84% !important",
-                        width:"100%" 
+                        // marginLeft: dir === "rtl" && "84% !important",
+                
+                    width:"100%"
                       },
                     },
                   }}
+                  
                   InputProps={{
                     endAdornment: from && (
                       <InputAdornment position="end">
@@ -533,7 +540,7 @@ useEffect(() => {
                   }}
                   sx={{
                     width: "100%",
-                    padding: "27px 40px 11px 16px",
+                    padding: dir === "ltr" ? "27px 40px 11px 16px":"27px 15px 11px 16px",
 
                     borderRadius: "8px",
                     cursor: "pointer",
@@ -555,10 +562,12 @@ useEffect(() => {
                       borderBottom: "none !important",
                     },
                     "& .MuiFormLabel-root": {
-                      paddingLeft: "20px",
+                      paddingLeft: dir === "ltr" && "20px",
+                      paddingRight: dir === "rtl" && "20px",
                       paddingTop: "14px",
-                      marginLeft: dir === "rtl" ? "84% !important": 0,
-                      right:0,
+                   width:"133%",
+                      right: dir === "ltr" && 0,
+                      left: dir === "rtl" && 0,
                       position:"absolute"
                     },
                     "& .MuiInputLabel-root.Mui-focused": {
@@ -680,7 +689,7 @@ useEffect(() => {
                       }}
                       sx={{
                         width: "100%",
-                        padding: "27px 40px 11px 16px",
+                          padding: dir === "ltr" ? "27px 40px 11px 16px":"27px 16px 11px 16px",
 
                         borderRadius: "8px",
                         cursor: "pointer",
@@ -706,7 +715,8 @@ useEffect(() => {
                         "& .MuiFormLabel-root": {
                           paddingLeft: "20px",
                           paddingTop: "14px",
-                          marginLeft: dir === "rtl" && "84% !important",
+                          paddingRight: dir === "rtl" && "27px",
+                          width: "133%",
                           
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
@@ -862,7 +872,6 @@ useEffect(() => {
                                   viewBox="0 0 24 24"
                                   width="18"
                                   fill="#fff"
-                                  class="P4rKBkFmrKv8JqDfjjOS"
                                 >
                                   <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
                                 </svg>
@@ -873,7 +882,8 @@ useEffect(() => {
                       }}
                       sx={{
                         width: "100%",
-                        padding: "27px 35px 11px 35px",
+                        padding: dir === "ltr" ? "27px 40px 11px 16px":"27px 27px 11px 16px",
+                    
                         borderRadius: "8px",
                         cursor: "pointer",
                         "& .MuiInput-underline:before": {
@@ -881,11 +891,13 @@ useEffect(() => {
                         },
                         "& .MuiInputBase-root": {
                           marginTop: "0px",
+                          
                         },
 
                         "& .MuiInputBase-input": {
                           fontWeight: "600",
                           paddingBottom: "0px",
+                      
                           textOverflow: "ellipsis",
                           cursor: "pointer",
                           whiteSpace: "nowrap",
@@ -896,6 +908,8 @@ useEffect(() => {
                         "& .MuiFormLabel-root": {
                           paddingLeft: "45px",
                           paddingTop: "14px",
+                          paddingRight: dir === "rtl" && "32px",
+                          width: "133%",
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
                           color: "rgba(0, 0, 0, 0.6)",
@@ -904,6 +918,7 @@ useEffect(() => {
                         "& .MuiInput-root::after": {
                           borderBottom: "none",
                         },
+                      
                       }}
                     />
                   </Box>
@@ -915,8 +930,10 @@ useEffect(() => {
                       height: "40px",
                       position: "absolute",
                       width: to ? "0px" : "40px",
-                      left: dir === "ltr" && "-24px",
-                      right: dir === "ltr" ? "auto" : "-24px",
+                      left: dir === "ltr" && "-24px" ,
+                        right: dir === "rtl" && "-24px" ,
+                   
+                     
                     }}
                   ></Box>
                 </Box>
@@ -944,6 +961,7 @@ useEffect(() => {
                         fontSize: "16px",
                         color: "#1d1d1d",
                         marginBottom: "10px",
+                      
                       }}
                     >
                       Popular cities
@@ -1058,7 +1076,8 @@ useEffect(() => {
                 margin: 0,
                 width: returnFlight ? "50%" : "100%",
                 height: "100%",
-                borderRadius: "8px 0px 0px 8px",
+                borderRadius:  returnFlight ? dir === "rtl" ? "0px 8px 8px 0px" : "8px 0px 0px 8px" : "8px",
+
                 border: depart ? "2px solid #44b50c" : "1px solid #dfdfdf",
                 "&:hover": {
                   border: depart ? "2px solid #44b50c" : "1px solid #9c9c9c",
@@ -1090,7 +1109,9 @@ useEffect(() => {
                             paddingRight: "30px",
                             width: "22px",
                             position: "absolute",
-                            right: "2px",
+                            right: dir === "ltr" && "2px",
+                            left: dir === "rtl" && "30px",
+
                             color: theme.palette.customGreen.dark,
                             bottom: "-2px",
                             "&:hover": { background: "transparent" },
@@ -1100,12 +1121,14 @@ useEffect(() => {
                             onClick={() => dayminus(dateValue[0])}
                             sx={{
                               color: isToday ? "#bdbdbd" : "inherit",
+                                transform: dir === "rtl" && "rotate(180deg)"
                             }}
                           />
                           <KeyboardArrowRightIcon
                             onClick={() => dayadd(dateValue[0])}
                             sx={{
-                              color: isMaxRange ? "#bdbdbd" : "inherit",
+                              color: returnFlight && isMaxRange ? "#bdbdbd" : "inherit",
+                                transform: dir === "rtl" && "rotate(180deg)"
                             }}
                           />
                         </IconButton>
@@ -1131,7 +1154,7 @@ useEffect(() => {
                 sx={{
                   height: "100%",
                   width: "100%",
-                  padding: "10px 8px 0px 20px",
+                  padding: dir === "ltr" ?  "10px 8px 0px 20px" :"10px 20px 0px 0px",
                   cursor: "pointer",
                   "& .MuiInput-underline:before": {
                     borderBottom: "none",
@@ -1141,8 +1164,9 @@ useEffect(() => {
                   },
                   "& .MuiFormLabel-root": {
                     paddingTop: "12px",
-                    paddingLeft: "24px",
-                    marginLeft: dir === "rtl" && "84% !important",
+                    paddingLeft: dir === "ltr" && "24px",
+                    paddingRight: dir === "rtl" && "27px",
+                    width: "133%",
                   },
                   "& .MuiInputBase-input": {
                     fontWeight: "600",
@@ -1172,12 +1196,13 @@ useEffect(() => {
                   margin: 0,
                   width: "50%",
                   height: "100%",
-                  borderRadius: "0px 8px 8px 0px",
+                  borderRadius: dir === "ltr" ? "0px 8px 8px 0px" : "8px 0px 0px 8px",
                   border: returns ? "2px solid #44b50c" : "1px solid #dfdfdf",
                   "&:hover": {
                     border: returns ? "2px solid #44b50c" : "1px solid #9c9c9c",
                   },
-                  borderLeft: returns ? "2px solid #44b50c" : "1px solid transparent",
+                  borderLeft: returns ? "2px solid #44b50c" : dir === "ltr" ? "1px solid transparent": "1px solid #dfdfdf",
+                  borderRight: dir === "rtl" && "0px"
                 }}
               >
                 <TextField
@@ -1217,7 +1242,9 @@ useEffect(() => {
                               paddingRight: "30px",
                               width: "22px",
                               position: "absolute",
-                              right: "2px",
+                              right: dir === "ltr" ? "2px": "auto",
+                              left: dir === "rtl" &&  "10px",
+                              
                               color: theme.palette.customGreen.dark,
                               bottom: "-2px",
                               "&:hover": { background: "transparent" },
@@ -1227,10 +1254,13 @@ useEffect(() => {
                               onClick={() => dayminus(dateValue[1])}
                               sx={{
                                 color: isMaxRange ? "#bdbdbd" : "inherit",
+                                transform: dir === "rtl" && "rotate(180deg)"
                               }}
                             />
                             <KeyboardArrowRightIcon
                               onClick={() => dayadd(dateValue[1])}
+                                sx={{  transform: dir === "rtl" && "rotate(180deg)"}}
+                              
                             />
                           </IconButton>
                         </InputAdornment>
@@ -1249,7 +1279,8 @@ useEffect(() => {
                     "& .MuiFormLabel-root": {
                       paddingTop: "12px",
                       paddingLeft: "24px",
-                      marginLeft: dir === "rtl" && "84% !important",
+                      paddingRight: dir === "rtl" && "27px",
+                    width: "133%",
                     },
                     "& .MuiInputBase-input": {
                       fontWeight: "600",
@@ -1257,6 +1288,7 @@ useEffect(() => {
                       cursor: "pointer",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
+                      paddingRight: dir === "rtl" && "10px",
                     },
                     "& .MuiInput-underline:hover:before": {
                       borderBottom: "none !important",
@@ -1327,15 +1359,23 @@ useEffect(() => {
                 "& .MuiInputBase-input": {
                   fontWeight: "600",
                   cursor: "pointer",
+                  pr: dir === "rtl" && 1
+                },
+                ".MuiFormLabel-root":{
+                  right: dir === "rtl" && "-54px",
+                  width:"133%",
+             
                 },
                 "& .MuiInputLabel-root.Mui-focused": {
                   color: "rgba(0, 0, 0, 0.6)",
+             
                 },
                 "& .MuiInput-underline:hover:before": {
                   borderBottom: "none !important",
                 },
                 "& .MuiInput-root::after": {
                   borderBottom: "none",
+                  
                 },
               }}
             />
