@@ -94,17 +94,7 @@ const Header = ({ headerTab }) => {
   const [bookingHistory, setBookingHistory] = useState(false)
   //mobile toggle drawer
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const drawerItems = [
-    { title: "Search Flights", position: "-48px -72px" },
-    { title: "Search Hotels", position: "0 -96px" },
-    {
-      img: "wegopro.svg",
-      title: "Business Travel",
-      subtitle: "WegoPro",
-      imgUrl: "/fly.png",
-      tag: "New",
-    },
-  ];
+ 
   const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -126,6 +116,13 @@ const Header = ({ headerTab }) => {
     top: "-5px",
     left: left || "44%",
     transform: "translateX(-50%)",
+    [theme.breakpoints.down("lg")]: {
+      left: "65%",
+    },
+    [theme.breakpoints.down("md")]: {
+      left: "60%", // Centered for small screens
+    },
+   
   }));
 
   // State for poppers
@@ -271,6 +268,8 @@ useEffect(() => {
     }
   }, []);
 
+
+   
   return (
     <>
     {/* desktop header */}
@@ -326,6 +325,8 @@ useEffect(() => {
                     />
                   </Stack>
                   <Menu
+                
+                  disableScrollLock
                     disableAutoFocusItem
                     id="basic-menu"
                     anchorEl={anchorMoreEl}
@@ -394,25 +395,51 @@ useEffect(() => {
                   id={countryId}
                   ref={countryRef}
                   sx={{
-                    width: "778px",
+                    maxWidth: "90vw", // Prevents it from going beyond the screen width
+                    width: "min(778px, 90vw)", // Ensures it fits on small screens,
+                  
                     direction: "ltr",
                     height: "512px",
                     boxShadow: "0 0 24px 2px rgba(0,0,0,.08)",
-                    right: "0px",
+                    right: "auto",
                     zIndex: "9999",
-                    borderRadius:"16px"
+                    borderRadius:"16px",
+                    transform: {lg: "translate(477px, 62px) !important", md:"auto"}
                   }}
                   open={openCountryPopper}
                   anchorEl={anchorElCountry}
                   transition
-                  modifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [50, 10],
-                      },
-                    },
-                  ]}
+                  // modifiers={[
+                  //   {
+                  //     name: "offset",
+                  //     options: {
+                  //       offset: [50, 10],
+                  //     },
+                  //   },
+                  // ]}
+
+                  disablePortal={true} // Keeps it inside the container
+  modifiers={[
+    {
+      name: "preventOverflow",
+      options: {
+        boundary: "clippingParents",
+        padding: 20, // Adds space from screen edges
+      },
+    },
+    {
+      name: "flip",
+      options: {
+        fallbackPlacements: ["top-start", "bottom-start"], // Repositions when necessary
+      },
+    },
+    {
+      name: "offset",
+      options: {
+        offset: [10, 10], // Adjusts spacing from anchor
+      },
+    },
+  ]}
                 >
                   {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={350}>
@@ -423,6 +450,7 @@ useEffect(() => {
                           borderRadius: "16px",
                           overflow: "hidden",
                           height: "100%",
+          
                         }}
                       >
                         <Arrow className="arrow" left="44%" />
@@ -767,11 +795,11 @@ useEffect(() => {
             top: "56px", transition: "transform 0.3s ease-in-out, opacity 0.3s ease-in-out", transform: `translateY(${Math.min(0, scrollY - 106)}px)`, alignItems: "center", boxShadow: "0 2px 4px 1px rgba(39, 36, 44, .12)", height: "48px", position: "fixed", zIndex: "15", background: "white"
           }}>
             <Link sx={{ display: "flex", fontSize: "14px", alignItems: "center", justifyContent: "center", width: "50%", height: "100%", textDecoration: "none", color: "#27242c" }} href="/flights">
-              <Box sx={{ backgroundPosition: "0 -24px", m: 0, p: 0, height: "24px", width: "24px", mr: "8px", background: "no-repeat", backgroundImage: "url(mweb-homepage.png)", backgroundSize: "48px 48px" }}>
+              <Box sx={{ backgroundPosition: "0 -24px", m: 0, p: 0, height: "24px", width: "24px", mr: dir === "ltr" && "8px", ml: dir ==="rtl" && "8px", backgroundRepeat: "no-repeat", backgroundImage: "url(mweb-homepage.png)", backgroundSize: "48px 48px" }}>
               </Box> {t("flights")}</Link>
             <Box sx={{ height: "25px", m: 0, p: 0, borderLeft: "2px solid #d9d9d9" }}></Box>
             <Link sx={{ display: "flex", fontSize: "14px", alignItems: "center", justifyContent: "center", width: "50%", height: "100%", textDecoration: "none", color: "#27242c" }} href="/hotels">
-              <Box sx={{ backgroundPosition: "-24px -24px", m: 0, p: 0, height: "24px", width: "24px", mr: "8px", background: "no-repeat", backgroundImage: "url(mweb-homepage.png)", backgroundSize: "48px 48px" }}></Box>
+              <Box sx={{ backgroundPosition: "-24px -24px", m: 0, p: 0, height: "24px", width: "24px", mr: dir === "ltr" && "8px", ml: dir === "rtl" && "8px", backgroundRepeat: "no-repeat", backgroundImage: "url(mweb-homepage.png)", backgroundSize: "48px 48px" }}></Box>
               {t("hotels")}</Link>
 
           </Box>
@@ -780,7 +808,7 @@ useEffect(() => {
 
       <div style={{ width: "100%" }}>
         <Drawer
-          anchor="left"
+          anchor={dir === "ltr" ? "left" : "right"}
           open={drawerOpen}
           onClose={toggleDrawer(false)}
           sx={{ width: "75%", "& .MuiPaper-root": { width: "75%" } }}
@@ -834,7 +862,8 @@ useEffect(() => {
                       color: "white",
                       fontWeight: "500",
                       position: "absolute",
-                      right: "10px",
+                      right: dir === "ltr" && "10px",
+                      left: dir === "rtl" && "5px",
                       margin: "0 16px",
                       fontSize: "0.75rem",
                     }}
@@ -866,10 +895,10 @@ useEffect(() => {
               </Stack>
 
               {bookingHistory && (<>
-                <Link sx={{ height: "48px", m: 0, p: 0, display: "flex", alignItems: "center", color: "#27242c", fontSize: "14px", ml: "58px", textDecoration: "none" }} href="/hotels/booking/history">
-                  <Box>Hotels</Box>
+                <Link sx={{ height: "48px", m: 0, p: 0, display: "flex", alignItems: "center", color: "#27242c", fontSize: "14px", ml: dir === "ltr" && "58px",mr: dir === "rtl" && "58px",textDecoration: "none" }} href="/hotels/booking/history">
+                  <Box>{t("hotels")}</Box>
                 </Link>
-                <Link sx={{ height: "48px", m: 0, p: 0, display: "flex", alignItems: "center", color: "#27242c", fontSize: "14px", ml: "58px", textDecoration: "none" }} href="/hotels/booking/history">
+                <Link sx={{ height: "48px", m: 0, p: 0, display: "flex", alignItems: "center", color: "#27242c", fontSize: "14px", ml: dir === "ltr" && "58px",mr: dir === "rtl" && "58px", textDecoration: "none" }} href="/hotels/booking/history">
                   <Box> {t("flights")}</Box>
                 </Link>
               </>

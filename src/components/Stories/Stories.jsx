@@ -168,7 +168,6 @@ const Stories = () => {
                 transform: dir === "rtl"
                 ? `translateX(${currentIndex * (cardWidth + 16)}px)`
                 : `translateX(-${currentIndex * (cardWidth + 16)}px)`,
-              
                 transition: "transform 0.5s ease-in-out",
                 width: `${stories.length * (cardWidth + 16) + 16}px`,
                 overflowX: { lg: "visible",md: "visible",sm:"visible" , xs: "scroll" },

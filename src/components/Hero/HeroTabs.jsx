@@ -177,7 +177,9 @@ export default function HeroTabs( ) {
                         cursor: "pointer",
                         width:"100%",
                         height:"100%",
-                        color:"black"
+                        color:"black",
+                        gap:"4px"
+
 
                       }}
                     >
@@ -189,11 +191,11 @@ export default function HeroTabs( ) {
                           width: "30px",
                           height: "30px",
                           backgroundRepeat: "no-repeat",
-                          marginRight: 1,
+                          marginRight:dir === "ltr" && 1,
                         }}
                       ></Box>
-                      <strong style={{ marginRight: "4px" }}>WegoPro </strong>{" "}
-                     Business Travel
+                      <strong style={{ marginRight: dir === "ltr" && "4px", ml: dir === "rtl" && "4px"  }}>WegoPro </strong>{" "}
+                   <span>  Business Travel</span>
                       <Box
                         sx={{
                           width: "2.5rem",

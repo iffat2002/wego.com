@@ -10,7 +10,7 @@ import HotelSearch from '@/components/ResponsiveMenus/HotelSearch'
 const hotels = () => {
     return (
         <>
-        <Box sx={{m:0, p:0, display:{lg:"block", md:"block", sm:"bock", xs:"none"}}}>
+        <Box sx={{m:0, p:0, display:{lg:"block", md:"block", sm:"block", xs:"none"}}}>
         <HomeLayout
             headerTab={"hotels"}
             children={<>

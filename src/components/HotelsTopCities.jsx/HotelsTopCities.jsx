@@ -90,21 +90,34 @@ const cardData = [
 ];
 
 const HotelsTopCities = () => {
+  const dir = document.documentElement.dir;
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 6;
   const cardWidth = 176;
 
   const handleNext = () => {
+    if (dir === "rtl") {
+      if (currentIndex > 0) {
+        setCurrentIndex(currentIndex - 1); // Move left in RTL
+      }
+    } else{
     if (currentIndex < cardData.length - itemsPerPage) {
       setCurrentIndex(currentIndex + 1);
     }
+  }
   };
 
   const handlePrevious = () => {
+    if (dir === "rtl") {
+      if (currentIndex < cardData.length - itemsPerPage) {
+        setCurrentIndex(currentIndex + 1); // Move right in RTL
+      }
+    } else {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
+  }
   };
 
   return (
@@ -135,7 +148,9 @@ const HotelsTopCities = () => {
                 justifyContent: "flex-start", 
                // margin: "auto",
                // gap:{lg:"16px",md:"16px", xs:"-16px"},
-                transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`, 
+               transform: dir === "rtl"
+               ? `translateX(${currentIndex * (cardWidth + 16)}px)`
+               : `translateX(-${currentIndex * (cardWidth + 16)}px)`,
                 gap:"8px",
                 transition: "transform 0.5s ease-in-out",
                 width: `${cardData.length * (cardWidth + 16) + 16}px`, 
@@ -198,10 +213,10 @@ const HotelsTopCities = () => {
 
       </Grid>
       <Hidden smDown>
-      {currentIndex !=0 && 
+      {(dir === "ltr" && currentIndex != 0 ) || (dir === "rtl" &&  currentIndex != cardData.length - itemsPerPage) ? ( 
         <IconButton disableRipple
           onClick={handlePrevious}
-          disabled={currentIndex === 0}
+        //  disabled={currentIndex === 0}
           sx={{
             position: "absolute",
             top: "56%",
@@ -221,11 +236,12 @@ const HotelsTopCities = () => {
         >
           <ArrowBackIosIcon sx={{width:"15px", height:"15px"}} />
         </IconButton>
-}
-{currentIndex != cardData.length - itemsPerPage  &&
-        <IconButton disableRipple
+) : null}
+{(dir === "ltr" && (currentIndex != cardData.length - itemsPerPage)) ||  (dir === "rtl" && currentIndex !== 0) ?
+    (
+    <IconButton disableRipple
           onClick={handleNext}
-          disabled={currentIndex >= cardData.length - itemsPerPage}
+        //  disabled={currentIndex >= cardData.length - itemsPerPage}
           sx={{
             boxShadow: '0 0 8px 2px rgba(0,0,0,.1)',
             cursor: 'pointer',
@@ -245,7 +261,7 @@ const HotelsTopCities = () => {
         >
           <ArrowForwardIosIcon  sx={{width:"15px", height:"15px"}}/>
         </IconButton>
-}
+) : null}
 </Hidden>
 </Box>
 

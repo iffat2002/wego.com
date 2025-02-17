@@ -78,6 +78,7 @@ const CurrencyMenu = ({onStateChange, currency}) => {
 
             color: item.currencyCode === currency ? theme.palette.customGreen.main : 'inherit',
             fontWeight: item.currencyCode === currency ? '600' : 'inherit',
+            pb:"30px"
           }}
        
         >

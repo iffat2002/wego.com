@@ -56,6 +56,7 @@ const cardData = [
 ];
 
 const Destinations = () => {
+  const dir = document.documentElement.dir;
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
@@ -118,20 +119,20 @@ const Destinations = () => {
                 key={card.id}
                 sx={{
                     flex: {lg:`0 0 ${cardWidth}px`,md:`0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs: "0 0 auto",  }, 
-                      marginLeft: index === 0 ? "16px": "8px",
-                    marginRight: index === cardData.length - 1  ? "30px": "0px"
+                      marginLeft: index === 0  &&  dir === "ltr" ? "16px" :  dir === "rtl" && index === cardData.length - 1 ? "30px" : "0px",
+                    marginRight: index === cardData.length - 1 && dir === "ltr"  ? "30px": dir === "rtl" && index === 0  ? "16px" : "8px"
                   }}
               >
                 <Card
                   sx={{
                     borderRadius: "0.5rem",
                     height: "100%",
-                   boxShadow:"none"
-                  
+                   boxShadow:"none",
+                  background:"transparent"
                    
                   }}
                 >
-                  <Link href={card.imageUrl} sx={{ borderRadius:"0.5rem", textDecoration:"none" }} target="_blank" rel="noopener noreferrer">
+                  <Link href={card.imageUrl} sx={{ borderRadius:"0.5rem", textDecoration:"none",backgroundColor:"transparent" }} target="_blank" rel="noopener noreferrer">
                   <CardMedia
                     component="div"
                     sx={{
@@ -149,7 +150,7 @@ const Destinations = () => {
                   <Typography sx={{whiteSpace:"nowrap", fontSize:"1rem", fontWeight:"500", overflow:"hidden", textOverflow:"ellipsis"}}>{card.city}</Typography>
                   <Typography sx={{whiteSpace:"nowrap", fontSize:"12px",lineHeight:"16px", overflow:"hidden", textOverflow:"ellipsis"}}>{card.country}</Typography>
                   </Box></CardMedia>
-                  <Box sx={{p:1, }}>
+                  <Box sx={{p:1, backgroundColor:"transparent"}}>
                     <Typography sx={{color:"rgba(60,60,67,.6)", textDecoration:"none", fontSize:"0.75rem"}}>Price not yet available</Typography>
                     <Typography sx={{color:"#44b50c", fontWeight:"500", fontSize:"1rem"}}>Check fares</Typography>
                   </Box>

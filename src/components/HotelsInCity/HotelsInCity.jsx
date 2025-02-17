@@ -67,20 +67,32 @@ const stories = [
 
 const HotelsInCity = () => {
     
-       
+  const dir = document.documentElement.dir;
   const theme = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 3;
+  const itemsPerPage = 4;
   const cardWidth = 272;
   const handleNext = () => {
+    if (dir === "rtl") {
+      if (currentIndex > 0) {
+        setCurrentIndex(currentIndex - 1); // Move left in RTL
+      }
+    }else{
     if (currentIndex < stories.length - itemsPerPage) {
       setCurrentIndex(currentIndex + 1);
     }
+  }
   };
   const handlePrevious = () => {
+    if (dir === "rtl") {
+      if (currentIndex < stories.length - itemsPerPage) {
+        setCurrentIndex(currentIndex + 1); // Move right in RTL
+      }
+    } else {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
+  }
   };
 
   return (
@@ -121,7 +133,9 @@ const HotelsInCity = () => {
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
-                transform: `translateX(-${currentIndex * (cardWidth + 16)}px)`,
+                transform: dir === "rtl"
+                ? `translateX(${currentIndex * (cardWidth + 16)}px)`
+                : `translateX(-${currentIndex * (cardWidth + 16)}px)`,
                 transition: "transform 0.5s ease-in-out",
                 width: `${stories.length * (cardWidth + 16) + 16}px`,
                 overflowX: { lg: "visible",md: "visible",sm:"visible" , xs: "scroll" },
@@ -129,7 +143,7 @@ const HotelsInCity = () => {
                 "&::-webkit-scrollbar": {
                   display: "none",
                 },
-                paddingRight: "26px", // Add padding to prevent cropping
+                paddingRight: dir === "ltr" ? "26px" : "0px",
               }}
             >
               {stories.map((card) => (
@@ -199,11 +213,11 @@ flexDirection:"column"                      }}
           </Grid>
         </Grid>
         <Hidden smDown>
-          {currentIndex != 0 && (
+          {(dir === "ltr" && currentIndex != 0 ) || (dir === "rtl" &&  currentIndex != stories.length - itemsPerPage) ?(
             <IconButton
               disableRipple
               onClick={handlePrevious}
-              disabled={currentIndex === 0}
+             // disabled={currentIndex === 0}
               sx={{
                 position: "absolute",
                 top: "50%",
@@ -223,8 +237,8 @@ flexDirection:"column"                      }}
             >
               <ArrowBackIosIcon sx={{ width: "15px", height: "15px" }} />
             </IconButton>
-          )}
-          {currentIndex != stories.length - itemsPerPage && (
+          ) : null}
+          {(dir === "ltr" && (currentIndex != stories.length - itemsPerPage)) ||  (dir === "rtl" && currentIndex !== 0) ? (
             <IconButton
               disableRipple
               onClick={handleNext}
@@ -248,7 +262,7 @@ flexDirection:"column"                      }}
             >
               <ArrowForwardIosIcon sx={{ width: "15px", height: "15px" }} />
             </IconButton>
-          )}
+          ): null}
         </Hidden>
       </Box>
     </Container>

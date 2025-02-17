@@ -20,9 +20,9 @@ const Footer = () => {
         [sectionIndex]: !prev[sectionIndex],
       }));}
   return (
-    <Box sx={{ backgroundColor: '#1d1d1d', color: '#fff', py: 5 }}>
+    <Box sx={{ backgroundColor: '#1d1d1d', color: '#fff', pt: {xs: "26px", lg: 5, md:4, sm:2} , pb:5}}>
       <Container>
-        <Grid container spacing={2} sx={{p:1}}>
+        <Grid container spacing={2} sx={{px:1}}>
           {/* Column 1 */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography onClick={() => toggleList(1)} variant="body1" sx={{ mb: 2,display:"flex", alignItems:"center", fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>

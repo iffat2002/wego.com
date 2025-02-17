@@ -6,6 +6,7 @@
   .react-datepicker__month-container{
     font-family: "Inter", sans-serif;   
     margin-right: 12px;
+    width:47%
   } 
   .react-datepicker-popper{
     z-index: 999 !important;
@@ -74,7 +75,14 @@ font-weight: 600  !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   margin:0px !important;
-  width: 290px;
+  width: 100%;
+  }
+  @media (max-width: 610px) {
+    .react-datepicker__month, .react-datepicker__month-container {
+      width: 100%;
+     
+    }
+
   }
   .react-datepicker__week{
     width: 100%;
@@ -170,4 +178,7 @@ font-weight: 600 !important;
       .react-datepicker__month-container{
         margin-bottom: 25px;
       }
+    }
+    .react-datepicker{
+      width:100%
     }

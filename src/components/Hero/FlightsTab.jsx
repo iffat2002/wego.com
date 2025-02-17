@@ -301,9 +301,10 @@ const FlightsTab = () => {
           {flights.map((flight) => (
             <Box key={flight.id} display="flex" alignItems="center">
               <TabContent
-                returnFlight={true}
+                returnFlight={false}
                 isHotels={false}
                 cities={cities}
+                multicity={true} 
               />
               <IconButton
                 disableRipple
@@ -337,11 +338,12 @@ const FlightsTab = () => {
         }}
       >
         {activeBtn != "Multi-city" && (
-          <Box>
+         
+          <Box sx={{display:"flex"}}>
             <FormControlLabel
               sx={{
                 "& .MuiTypography-root": { fontSize: "16px" },
-                marginLeft: "0px",
+                marginLeft: "0px", mr: dir ==="rtl" && "0px"
               }}
               control={
                 <Checkbox
@@ -526,19 +528,19 @@ const FlightsTab = () => {
               height: "48px",
               width: "135px",
             
-                position: activeBtn !== "Multi-city" ? { sm: "absolute", md: "relative", lg: "relative" } : "relative",
+                position: activeBtn !== "Multi-city" ? { xs: "absolute",sm:"absolute", md: "relative", lg: "relative" } : "relative",
             
-              right:0,
-              top:"75%",
+              right:dir === "ltr" && 0,
+              left: dir === "rtl" && 0, 
+               top:{xs:"75%", lg:"unset"},
               fontSize: "16px",
-              marginLeft: "8px",
+              marginLeft: dir === "ltr" && "8px",
               "&:hover": { backgroundColor: theme.palette.customGreen.dark },
             }}
           >
             Search{" "}
           </Button>
         </Stack>
-    
         <Popover
           id={id}
           open={open}

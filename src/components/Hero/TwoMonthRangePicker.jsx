@@ -48,7 +48,7 @@ console.log("date range", dateRange)
   useEffect(() => {
     // Detect screen width and set months to show
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 610) {
         setIsMobile(true); // Show 12 months on mobile
       } 
     };
@@ -63,7 +63,7 @@ console.log("date range", dateRange)
     <div style={{ display: "flex",overflowX:"hidden", justifyContent: "center", marginTop: "20px" }}>
       <DatePicker
        selectsRange
-       formatWeekDay={nameOfDay => isMobile && nameOfDay.substr(0,3)}
+       formatWeekDay={nameOfDay => isMobile ? nameOfDay.substr(0,3): nameOfDay.substr(0,2)}
         value={value} // Pass the formatted value (array of Date objects)
         shouldCloseOnSelect={true}
         minDate={minDate} // Pass formatted minDate

@@ -44,7 +44,7 @@ import TwoMonthRangePicker from "./TwoMonthRangePicker";
 
 dayjs.extend(localizedFormat);
 
-const TabContent = ({ returnFlight, cities, isHotels }) => {
+const TabContent = ({ returnFlight, cities, isHotels, multicity }) => {
   const theme = useTheme();
   const datePickerRef = useRef(null);
   const fromPaperRef = useRef(null);
@@ -213,14 +213,11 @@ const handleClickAway = (event) => {
     setdepart(false);
     setCalender(false);
   }
+  else if (anchorbooking && !anchorbooking.contains(event.target)) {
+    setBooking(false)
+  }
 };
-useEffect(() => {
 
-    if(calender === false){
-      setreturns(false);
-      setdepart(false);
-  
-}}, [calender])
 
 
   function PopperContent() {
@@ -296,7 +293,24 @@ useEffect(() => {
   }
   const [booking, setBooking] = useState(false);
   const [anchorbooking, setAnchorbooking] = useState(null);
-
+  useEffect(() => {
+    
+        if(calender === false){
+          setreturns(false);
+          setdepart(false);
+      
+    }
+  
+    if (calender || booking) {
+      document.addEventListener("mousedown",  handleClickAway);
+    } else {
+      document.removeEventListener("mousedown",  handleClickAway);
+    }
+    return () => {
+      document.removeEventListener("mousedown",  handleClickAway);
+    };
+  
+  }, [calender, booking])
   const handleBooking = (event) => {
     setAnchorbooking(event.currentTarget);
     setBooking((previousOpen) => !previousOpen);
@@ -416,10 +430,10 @@ useEffect(() => {
       sx={{
         alignItems: "center",
         width: "100%",
-        gap: { lg: "0 8px", md: "8px 0", sm:"8px 0" },
+        gap: { lg: "0 8px", md: "0px 8px", sm: multicity ? "0px 8px" : "8px 0" },
         flexDirection: {
-          md: "col",
-          sm:"col",
+          md: "row",
+          sm: multicity ? "row" : "col",
           xs: "col",
           lg: "row",
         },
@@ -434,7 +448,7 @@ useEffect(() => {
           alignItems: "center",
           width: {
             lg: returnFlight ? "50%" : "100%",
-            md: returnFlight ? "100%" : "100%",
+            md: returnFlight ? "50%" : "100%",
             sm: returnFlight ? "100%" : "100%",
           },
         }}
@@ -453,7 +467,7 @@ useEffect(() => {
               ref={fromPaperRef}
               elevation={0}
               sx={{
-                width: from ? "120%" : "100%",
+                width: from ? {lg:"120%", md:"120%", sm:"100%"} : "100%",
                 position: from ? "absolute" : "relative",
                 zIndex: from ? "2" : "1",
                 p: from ? 2 : 0,
@@ -598,9 +612,9 @@ useEffect(() => {
                 ref={fromPaperRef}
                 elevation={0}
                 sx={{
-                  width: from ? "200%" : "100%",
+                  width: from ? {lg:"576px", md:"400px", sm:"400px"} : "100%",
                   position: from ? "absolute" : "relative",
-                  zIndex: from ? "2" : "1",
+                  zIndex: from ? "3" : "1",
                   p: from ? 2 : 0,
                   marginTop: from ? -2 : 0,
                   minHeight: "64px",
@@ -795,8 +809,10 @@ useEffect(() => {
               <Paper
                 elevation={0}
                 ref={toPaperRef}
+                 placement="bottom-end"
+                 
                 sx={{
-                  width: to ? "200%" : "100%",
+                  width: to ? {lg:"560px", md:"400px", sm:"400px"} : "100%",
                   position: to ? "absolute" : "relative",
                   p: to ? 2 : 0,
                   marginTop: to ? -2 : 0,
@@ -804,7 +820,9 @@ useEffect(() => {
                   zIndex: to ? "2" : "1",
                   boxShadow: to ? "0 0 24px 2px rgba(0,0,0,.08)" : "none",
                   borderRadius: "16px",
+                  transformOrigin: "right",
                   transition: "width 0.3s ease",
+                  right: {lg:"unset", md:"unset" ,sm: !multicity && 0},
                 }}
               >
                 <Box
@@ -939,6 +957,7 @@ useEffect(() => {
                 </Box>
                 {to && (
                   <Paper
+              
                     onClick={() => {
                       setTo(false);
                       setclose(false);
@@ -1011,23 +1030,27 @@ useEffect(() => {
           </>
         )}
       </Stack>
-      <Box
+      {/* depart and return calender */}
+      <Stack sx={{flexDirection:"row" , gap: "0 8px", width: { md: isHotels ? "65%" : "50%", sm: multicity ? "50%" : "100%", lg: "50%" }}}>
+      <Box 
         position="relative"
-        sx={{ p: 0, minHeight: "64px", width: { md: "100%",sm:"100%", lg: "50%" } }}
+        sx={{ p: 0, minHeight: "64px",width: isHotels ? "65%": "100%" }}
       >
         <Paper
           elevation={0}
           sx={{
-            width: !returnFlight && calender 
-            ? "180%" 
+            width: !isHotels && calender 
+            ? {lg:"656px", md:"100%" , sm: multicity ? "498px" :"100%"  }
             : isHotels && calender 
-              ? "150%" 
+              ? "616px" 
               : calender 
-                ? "128%" 
+                ? "656px" 
                 : "100%",
+          //width: calender ? {lg:"656px",md:"calc(100% + 62px)"} : "100%",
             position: calender ? "absolute" : "relative",
-            zIndex: calender ? "2" : "1",
-            right: isHotels ? "inherit" : "0px",
+            zIndex: calender ? "3" : "1",
+            right: isHotels ? "0px" : "0px",
+            left: isHotels && {lg:"unset", md:"0px", sm:"0px"} ,
             p: calender ? 2 : 0,
             paddingBottom: "0px",
             marginTop: calender ? -2 : 0,
@@ -1048,7 +1071,7 @@ useEffect(() => {
               display: "flex",
             }}
           >
-            {calender && !isHotels && (
+          {calender && !isHotels && (
               <Box width="15%">
                 <Button
                   disableRipple
@@ -1174,6 +1197,9 @@ useEffect(() => {
                     textOverflow: "ellipsis",
                     cursor: "pointer",
                     whiteSpace: "nowrap",
+                    width: multicity && "84%",
+                    
+
                   },
                   "& .MuiInput-underline:hover:before": {
                     borderBottom: "none !important",
@@ -1326,7 +1352,7 @@ useEffect(() => {
         </Paper>
       </Box>
       {isHotels && (
-        <Box position="relative" sx={{ width: { md: "100%",sm: "100%", lg: "25%" } }}>
+        <Box position="relative" sx={{width:"35%"}}>
           <Box
             position="relative"
             onClick={handleBooking}
@@ -1390,7 +1416,8 @@ useEffect(() => {
                   position: "absolute",
                   top: "-10px",
                   borderRadius: "12px",
-                  right: "0px",
+                  left: dir === "rtl"&& "0px",
+                  right: dir === "ltr"&& "0px",
                   zIndex: "5",
                   "& .MuiPaper-root": {
                     borderRadius: "15px",
@@ -1722,6 +1749,7 @@ useEffect(() => {
           )}
         </Box>
       )}
+      </Stack>
     </Stack>
   );
 };
