@@ -55,14 +55,14 @@ const stories = [
   },
   {
     id: 5,
-    title:"Your Ultimate Guide to Solo Travel in Europe: Tips, Destinations, and Itinerary",
+    title:"Your Ultimate Guide to Solons, and Itinerary",
     rating:4,
     points:"7.8",
     imageUrl: "https://blog.wego.com/wp-content/uploads/solo-travel-europe-featured-480x320.webp",
   },
   {
     id: 6,
-    title:"Your Ultimate Guide to Solo Travel in Thailand: Tips, Destinations, and Itinerary",
+    title:"You: Tips, Destinations, and Itinerary",
     rating:4,
     points:"4.8",
     imageUrl:
@@ -166,7 +166,9 @@ const PopularStories = () => {
                     padding: {lg: "8px", md:"8px",sm:"8px", xs: dir === "ltr" ? "0px 0px 8px 14px" : "0px 16px 0px 0px"},
                     boxSizing:"content-box",
                     width:{xs:"206px"},
-                    height:{xs:"257px",lg:"auto", md:"auto", sm:"auto"},
+                    mb:1,
+                    height:"auto",
+                    // height:{xs:"257px",lg:"auto", md:"auto", sm:"auto"},
                     pb:0,
                   
                   }}
@@ -196,7 +198,7 @@ const PopularStories = () => {
                         alt={card.title}
                       />
                       <CardContent
-                     sx={{height: "calc(100% - 245px)", display:"flex",flexDirection:"column", paddingBottom:"16px !important"}}
+                     sx={{height: {lg:"calc(100% - 245px)", xs:"125px"}, display:"flex",flexDirection:"column", paddingBottom:"16px !important"}}
                       >
                         <Typography
                           variant="body1"
