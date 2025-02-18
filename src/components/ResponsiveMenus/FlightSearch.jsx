@@ -15,14 +15,16 @@ dayjs.extend(localizedFormat);
 const FlightSearch = () => {
   const dir = document.documentElement.dir;
   const departureDate = dayjs().startOf("day").add(3, "day");
-  const [startDate, setStartDate]= useState(null);
-  const [endDate, setEndDate]= useState(null);
+  const [startDate, setStartDate]= useState(dayjs().startOf("day").add(3, "day"));
+  const [endDate, setEndDate]= useState(dayjs().startOf("day").add(4, "day"));
   
   console.log("end date", endDate)
   const [dateRange, setDateRange] = useState([departureDate, null]);
   const formattedDateRange = dateRange.map(date =>
     date ? dayjs(date).format("ddd, D MMM") : ""
   );
+  const formattedStartDate = startDate ? dayjs(startDate).format("ddd, D MMM") : "";
+  const formattedEndDate = endDate ? dayjs(endDate).format("ddd, D MMM") : "";
 
   const [calender, setCalender] = useState(false);
   const togglePicker = (isOpen) => () => {
@@ -131,9 +133,9 @@ const FlightSearch = () => {
     <Box sx={{ maxWidth: 400, mx: "auto", px: 2, bgcolor: "#f8f9fa", borderRadius: 2, backgroundColor: "white" }}>
       {/* header */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
-        <a href="/">
+        <Link href="/" sx={{ rotate: dir === "rtl" && "180deg"}}>
           <svg height="24" width="24" viewBox="0 0 24 24" ><path d="M5.414 11H21a1 1 0 110 2H5.414l7.293 7.293a1 1 0 01-1.414 1.414l-9-9a1 1 0 010-1.414l9-9a1 1 0 111.414 1.414L5.414 11z"></path></svg>
-        </a>
+        </Link>
         <Link
           href="/"
           sx={{
@@ -257,22 +259,20 @@ const FlightSearch = () => {
               <Typography sx={{ color: "#767676", fontSize: "12px", lineHeight: "18px", }}>Departure Date</Typography>
               <Typography sx={{ color: "#1d1d1d", fontSize: "14px", lineHeight: "20px", fontWeight: "600" }}>
   {activeBtn === "One-way"
-    ? formattedDateRange[0]
-    : startDate
-    ? startDate.toLocaleDateString("en-US", {
-        weekday: "short",
-        day: "numeric",
-        month: "short",
-      })
-    : null}
+    && formattedDateRange[0]
+  } {activeBtn === "Round-trip"
+   
+    && formattedStartDate
+      }
+  
 </Typography>            </Stack>
 
           </Box>
           {activeBtn === "Round-trip" &&
-          <Box onClick={togglePicker(true)} sx={{width:"50%", minHeight:"62px", padding:"12px 16px", borderLeft:"1px solid #f4f4f4"}}>
+          <Box onClick={togglePicker(true)} sx={{width:"50%", minHeight:"62px", padding:"12px 16px", borderLeft: dir === "ltr" && "1px solid #f4f4f4", borderRight: dir === "rtl" && "1px solid #f4f4f4", }}>
             <Stack direction="column" height="100%" justifyContent="center">
                           <Typography sx={{ color: "#767676", fontSize: "12px", lineHeight: "18px", }}>Return Date</Typography>
-                          <Typography sx={{ color: "#1d1d1d", fontSize: "14px", lineHeight: "20px", fontWeight: "600" }}>{endDate ? endDate.toLocaleDateString("en-US", { weekday: "short", day: "numeric", month: "short"}) : null}
+                          <Typography sx={{ color: "#1d1d1d", fontSize: "14px", lineHeight: "20px", fontWeight: "600" }}>{formattedEndDate}
                           </Typography>
                           </Stack>
           </Box>
@@ -397,8 +397,9 @@ const FlightSearch = () => {
                 color: "#767676",
                 fontSize: ".75rem",
                 lineHeight: "1.125rem",
+                textAlign: dir === "rtl" && "right"
               }}
-              >Fri, 14 Feb</Typography>
+              >{activeBtn === "One-way" && formattedDateRange[0]}{activeBtn === "Round-trip" && `${formattedStartDate} - ${formattedEndDate}`}</Typography>
             </Typography>
           </Stack>
           <Button onClick={togglePicker(false)} sx={{ "&:hover": { background: "transparent" } }}>

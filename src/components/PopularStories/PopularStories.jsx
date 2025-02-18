@@ -128,7 +128,7 @@ const PopularStories = () => {
             position: "relative",
             // padding: { lg: 1, xs: 0 },
             overflow: "hidden",
-            px: dir === "rtl" && 2
+            // px: dir === "rtl" && 2
           }}
         >
           <Grid
@@ -155,18 +155,20 @@ const PopularStories = () => {
                   display: "none",
                 },
                 paddingRight: dir === "ltr" ? "26px" : "0px",
+                paddingLeft: dir === "rtl" ? "30px" : "0px",
               }}
             >
-              {stories.map((card) => (
+              {stories.map((card,index) => (
                 <Box
                   key={card.id}
                   sx={{
                     flex: { lg: `0 0 ${cardWidth}px`,md: `0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs: "none" },
-                    padding: {lg: "8px", md:"8px",sm:"8px", xs: "0px 0px 8px 14px"},
+                    padding: {lg: "8px", md:"8px",sm:"8px", xs: dir === "ltr" ? "0px 0px 8px 14px" : "0px 16px 0px 0px"},
                     boxSizing:"content-box",
                     width:{xs:"206px"},
                     height:{xs:"257px",lg:"auto", md:"auto", sm:"auto"},
-                    pb:0
+                    pb:0,
+                  
                   }}
                 >
                   <Link

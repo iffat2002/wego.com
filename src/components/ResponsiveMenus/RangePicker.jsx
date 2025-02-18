@@ -1,18 +1,17 @@
 import React, {useState} from 'react'
 import DatePicker from "react-datepicker";
+import dayjs from "dayjs";
 import "react-datepicker/dist/react-datepicker.css"
 import {Box,Drawer, Stack, Typography, Link, Button,Divider} from "@mui/material"
 
 const RangePicker = ({open, setOpen, handleDate, hotels}) => {
-     //calender
-     const threeDaysLater = new Date();
-threeDaysLater.setDate(threeDaysLater.getDate() + 3);
-
-const fourDaysLater = new Date();
-fourDaysLater.setDate(fourDaysLater.getDate() + 4);
-
-        const [startDate, setStartDate]= useState(threeDaysLater);
-        const [endDate, setEndDate]= useState(fourDaysLater);
+     const dir = document.documentElement.dir;
+        const [startDate, setStartDate]= useState(dayjs().startOf("day").add(3, "day"));
+        const [endDate, setEndDate]= useState(dayjs().startOf("day").add(4, "day"));
+    
+       const formattedStartDate = startDate ? dayjs(startDate).format("ddd, D MMM") : "";
+       const formattedEndDate = endDate ? dayjs(endDate).format("ddd, D MMM") : "";
+       
        const [selectingStart, setSelectingStart] = useState(true);
         const handleDateChange = (dates) => {
           const [start, end] = dates;
@@ -43,7 +42,7 @@ fourDaysLater.setDate(fourDaysLater.getDate() + 4);
   >
     <Box sx={{ textAlign: "center", height: "56px", display: "flex", width: "100%", justifyContent: "space-between", flexDirection: "row" }}>
       <Stack direction="row" alignItems="center" >
-        <Button sx={{ display: "flex", p: 0, minWidth: "56px", "&:hover": { background: "transparent" } }} onClick={togglePicker(false)}>
+        <Button disableRipple sx={{ display: "flex", p: 0, minWidth: "56px", "&:hover": { background: "transparent" } }} onClick={togglePicker(false)}>
           <svg height="24" width="24" viewBox="0 0 24 24"><path d="M12 13.414l-7.293 7.293a1 1 0 01-1.414-1.414L10.586 12 3.293 4.707a1 1 0 011.414-1.414L12 10.586l7.293-7.293a1 1 0 111.414 1.414L13.414 12l7.293 7.293a1 1 0 01-1.414 1.414L12 13.414z"></path></svg>
         </Button>
         <Typography sx={{
@@ -60,8 +59,9 @@ fourDaysLater.setDate(fourDaysLater.getDate() + 4);
             color: "#767676",
             fontSize: ".75rem",
             lineHeight: "1.125rem",
+            textAlign: dir === "rtl" && "right"
           }}
-          >Fri, 14 Feb</Typography>
+          >{formattedStartDate} - {formattedEndDate}</Typography>
         </Typography>
       </Stack>
       <Button onClick={togglePicker(false)} sx={{ "&:hover": { background: "transparent" } }}>

@@ -20,11 +20,11 @@ const Footer = () => {
         [sectionIndex]: !prev[sectionIndex],
       }));}
   return (
-    <Box sx={{ backgroundColor: '#1d1d1d', color: '#fff', pt: {xs: "26px", lg: 5, md:4, sm:2} , pb:5}}>
+    <Box sx={{ backgroundColor: '#1d1d1d', color: '#fff', pt: {xs: "26px", lg: 5, md:5, sm:5} , pb:5}}>
       <Container>
         <Grid container spacing={2} sx={{px:1}}>
           {/* Column 1 */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={3} md={3}>
             <Typography onClick={() => toggleList(1)} variant="body1" sx={{ mb: 2,display:"flex", alignItems:"center", fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               COMPANY
               <Hidden smUp>
@@ -33,7 +33,7 @@ const Footer = () => {
                 </IconButton>
               </Hidden>
             </Typography>
-            <Box sx={{display:{ xs: openSections[1] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
+            <Box sx={{display:{ xs: openSections[1] ? "block" : "none", md:"block",sm:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white",sm:"white", md:"white", xl:"white"}}}>
               <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 About Wego
               </Link>
@@ -50,7 +50,7 @@ const Footer = () => {
           </Grid>
 
           {/* Column 2 */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={3} md={3}>
             <Typography onClick={() => toggleList(2)}  variant="body1" sx={{ mb: 2, display:"flex", alignItems:"center",fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               LEARN MORE
               <Hidden smUp>
@@ -59,7 +59,8 @@ const Footer = () => {
                 </IconButton>
               </Hidden>
             </Typography>
-            <Box sx={{display:{ xs: openSections[2] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
+            <Box sx={{display:{ xs: openSections[2] ? "block" : "none", md:"block",sm:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white",sm:"white", md:"white", xl:"white"}}}>
+
               <Link href="#"sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}}  color="inherit" underline="none" display="block">
                 Book on Wego
               </Link>
@@ -103,7 +104,7 @@ const Footer = () => {
           </Grid>
 
           {/* Column 3 */}
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={3} md={3}>
             <Typography onClick={() => toggleList(3)}  variant="body1" sx={{ mb: 2,display:"flex", alignItems:"center",fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               EXPLORE
               <Hidden smUp>
@@ -112,7 +113,8 @@ const Footer = () => {
                 </IconButton>
               </Hidden>
             </Typography>
-            <Box sx={{display:{ xs: openSections[3] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
+            <Box sx={{display:{ xs: openSections[3] ? "block" : "none", md:"block",sm:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white",sm:"white", md:"white", xl:"white"}}}>
+
               <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Airport Directory
               </Link>
@@ -130,7 +132,7 @@ const Footer = () => {
 
           {/* Column 4 */}
           <Hidden smDown>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={3} md={3}>
             <Typography onClick={() => toggleList(4)}  variant="body1" sx={{ mb: 2, display:"flex", alignItems:"center", fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }, fontWeight:"600",fontFamily: "Inter, sans-serif" }}>
               DOWNLOAD
               <Hidden smUp>
@@ -139,7 +141,8 @@ const Footer = () => {
                 </IconButton>
               </Hidden>
             </Typography>
-            <Box sx={{display:{ xs: openSections[4] ? "block" : "none", md:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white", md:"white", xl:"white"}}}>
+            <Box sx={{display:{ xs: openSections[4] ? "block" : "none", md:"block",sm:"block", lg:"block", xl:"block"}, color:{xs:"#44b50c", lg:"white",sm:"white", md:"white", xl:"white"}}}>
+
               <Link href="#" sx={{mt:{lg:2, md:2, sm:2,xs:1},fontSize:{lg:"16px", md:"16px", sm:"16px", xs:"14px" }}} color="inherit" underline="none" display="block">
                 Wego App (iOS)
               </Link>
@@ -152,8 +155,8 @@ const Footer = () => {
         </Grid>
 
         {/* Footer Bottom */}
-        <Box sx={{ mt: {xs:0, lg:3, xl:3, md:3}, borderTop: {lg:'1px solid #444',xs:"0px",xl:"1px solid #444", md:"1px solid #444"}, pt: 2, pb:2 }}>
-            <Stack direction="row" sx={{flexDirection: {xs:"column", lg:"row", xl:"row", md:"row"},color:{xs:"rgba(235,235,245,.6)",lg:"white",xl:"white", md:"white"}, justifyContent: "space-between", alignItems:"center"}}>
+        <Box sx={{ mt: {xs:0, lg:3, xl:3,sm:3, md:3}, borderTop: {lg:'1px solid #444',xs:"0px",xl:"1px solid #444", md:"1px solid #444", sm:"1px solid #444"}, pt: 2, pb:2 }}>
+            <Stack direction="row" sx={{flexDirection: {xs:"column", lg:"row",sm:"row", xl:"row", md:"row"},color:{xs:"rgba(235,235,245,.6)",lg:"white",xl:"white",sm:"white", md:"white"}, justifyContent: "space-between", alignItems:"center"}}>
         <Box>
           <Typography variant="body1" fontSize="14px" >
             Copyright ©2024 Wego Pte Ltd. All Rights Reserved
@@ -162,7 +165,7 @@ const Footer = () => {
             Site Operator: Wego Pte. Ltd. Travel License No. 03513
           </Typography>
           </Box>
-          <Box sx={{ display: 'flex',alignItems:"center", justifyContent: 'center',width:{xs:"100%", md:"auto", lg:"auto", xl:"auto"}, mt: {xs:2, lg:0, md:0, xl:0}, gap: 2 , borderTop: {xs:'1px solid #444',lg:0, md:0, xl:0},pt:2}}>
+          <Box sx={{ display: 'flex',alignItems:"center", justifyContent: 'center',width:{xs:"100%", md:"auto", lg:"auto",sm:"auto", xl:"auto"}, mt: {xs:2, lg:0, md:0,sm:0, xl:0}, gap: 2 , borderTop: {xs:'1px solid #444',lg:0, md:0,sm:0, xl:0},pt:2}}>
             <Link href="#" color="inherit">
               <FacebookIcon sx={{fontSize:{xs:"32px", lg:"26px", md:"26px", xl:"26px"}}} />
             </Link>

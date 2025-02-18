@@ -114,13 +114,13 @@ const Header = ({ headerTab }) => {
     borderRight: "10px solid transparent",
     borderBottom: `10px solid ${theme.palette.background.paper}`,
     top: "-5px",
-    left: left || "44%",
+    left: dir === "ltr" ? left || "44%" : left || "50%",
     transform: "translateX(-50%)",
     [theme.breakpoints.down("lg")]: {
-      left: "65%",
+      left: dir === "ltr" ? "65%" :"21%",
     },
     [theme.breakpoints.down("md")]: {
-      left: "60%", // Centered for small screens
+      left: dir === "ltr" ? "60%" :"30%",// Centered for small screens
     },
    
   }));
@@ -369,10 +369,10 @@ useEffect(() => {
                     backgroundColor: scroll ? "white" : theme.palette.customTransparent.gray,
                     color: scroll ? "#767676" : "white",
                     border: scroll ? "1px solid #dfdfdf" : "none",
-                    borderRadius:  dir === "ltr" ?  {lg: "100px 0 0 100px", md: "100px", sm: "100px"} : {lg:"0px 100px 100px 0px"},
+                    borderRadius:  dir === "ltr" ?  {lg: "100px 0 0 100px", md: "100px", sm: "100px"} : {lg:"0px 100px 100px 0px", md:"100px", sm:"100px"},
                     height: "32px",
                     width: "75px",
-                    borderWidth: dir === "ltr" ? "1px 0px 1px 1px" : "1px 1px 1px 0px",
+                    borderWidth: dir === "ltr" ? "1px 0px 1px 1px" : {lg:"1px 1px 1px 0px", md:"1px", sm:"1px"},
                     padding: "0px 16px",
                     display: "flex",
                     alignItems: "center",
@@ -404,7 +404,7 @@ useEffect(() => {
                     right: "auto",
                     zIndex: "9999",
                     borderRadius:"16px",
-                    transform: {lg: "translate(477px, 62px) !important", md:"auto"}
+                    transform: {lg: dir === "ltr" && "translate(477px, 62px) !important", md: dir === "ltr" ? "auto" : "translate(80px, 62px) !important"}
                   }}
                   open={openCountryPopper}
                   anchorEl={anchorElCountry}
@@ -453,7 +453,7 @@ useEffect(() => {
           
                         }}
                       >
-                        <Arrow className="arrow" left="44%" />
+                        <Arrow className="arrow" left={dir === "ltr" ? "44%" :"50%"} />
                         <Typography
                           variant="h7"
                           sx={{
@@ -654,7 +654,7 @@ useEffect(() => {
                           height: "100%",
                         }}
                       >
-                        <Arrow className="arrow" left={dir === "ltr" ? "63%" : "30%"} />
+                        <Arrow className="arrow" left={dir === "ltr" ? "63%" : "25%"} />
                         <Typography
                           variant="h7"
                           sx={{

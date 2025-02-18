@@ -457,10 +457,12 @@ const FlightsTab = () => {
                 },
               }}
               MenuProps={{
+                disableScrollLock: true,
+                autoFocus: false, 
                 PaperProps: {
                   sx: {
                     borderRadius: "16px",
-                      direction:"rtl",
+                      // direction:"ltr",
                     "& .MuiMenuItem-root.Mui-selected": {
                       backgroundColor: "transparent",
                       color: theme.palette.customGreen.dark,
@@ -469,6 +471,7 @@ const FlightsTab = () => {
                       },
                     },
                   },
+                  
                 },
               }}
             >
@@ -542,6 +545,7 @@ const FlightsTab = () => {
           </Button>
         </Stack>
         <Popover
+        disableScrollLock={true}
           id={id}
           open={open}
           anchorEl={anchorEl}
@@ -559,6 +563,7 @@ const FlightsTab = () => {
               borderRadius: "16px",
             },
           }}
+          
         >
           <Box sx={{ padding: "24px 24px 18px", width: "400px" }}>
             <Typography
@@ -641,9 +646,18 @@ const FlightsTab = () => {
         </Popover>
 
         <Popper
+       modifiers={[
+        
+        {
+          name: "offset",
+          options: {
+            offset: [0, -40], // Moves popper **upward**, hiding the bottom of anchor
+          },
+        },
+      ]}
           open={booking}
           anchorEl={anchorbooking}
-          placement="bottom-start"
+          placement="bottom-end"
           sx={{
             width: "245px",
             zIndex: "5",
@@ -653,7 +667,7 @@ const FlightsTab = () => {
             },
           }}
         >
-          {" "}
+           <ClickAwayListener onClickAway={() => setBooking(false)}>
           <Card>
             <CardContent sx={{ paddingBottom: "0px" }}>
               {roombooking.map((option) => (
@@ -780,6 +794,7 @@ const FlightsTab = () => {
               </Button>
             </CardActions>
           </Card>
+          </ClickAwayListener>
         </Popper>
       </Stack>
     </Box>

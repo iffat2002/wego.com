@@ -133,6 +133,7 @@ font-weight: 600 !important;
   /* border-radius: 12px !important; */
   border-color: transparent !important;
   border:0px;
+  direction:ltr;
   font-family: var(--font-inter), "Geeza Pro", sans-serif;
     }
     .react-datepicker__navigation{

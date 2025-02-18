@@ -54,34 +54,34 @@ const cardData = [
     country:"Saudia Arabia"
   },
   {
-    id: 1,
+    id: 6,
     imageUrl:
       "https://zen.wego.com/cdn-cgi/image/width=480/destinations/cities/JED.jpg",
     city:"Jeddah",
     country:"Saudia Arabia"
   },
   {
-    id: 2,
+    id: 7,
     imageUrl: "https://zen.wego.com/cdn-cgi/image/width=480/destinations/cities/RUH.jpg",
     city:"Riyadh",
     country:"Saudia Arabia"
   },
   {
-    id: 3,
+    id: 8,
     imageUrl:
       "https://zen.wego.com/cdn-cgi/image/width=480/destinations/cities/ISB.jpg",
   city:"Islamabad",
     country:"Pakistan"
     },
   {
-    id: 4,
+    id: 9,
     imageUrl:
       "https://zen.wego.com/cdn-cgi/image/width=480/destinations/cities/JED.jpg",
     city:"Jeddah",
     country:"Saudia Arabia"
   },
   {
-    id: 5,
+    id: 10,
     imageUrl:
       "https://zen.wego.com/cdn-cgi/image/width=480/destinations/cities/JED.jpg",
     city:"Jeddah",
@@ -169,7 +169,7 @@ const HotelsTopCities = () => {
                 sx={{
                     flex: {lg:`0 0 ${cardWidth}px`,md:`0 0 ${cardWidth}px`,sm:`0 0 ${cardWidth}px`, xs: "0 0 auto",  }, 
                       marginLeft: index === 0 ? "8px": "8px",
-                    marginRight: index === cardData.length - 1  ? "30px": "0px"
+                    marginRight: index === cardData.length - 1 && dir === "ltr"  ? "30px": "0px"
                   }}
               >
                 <Card

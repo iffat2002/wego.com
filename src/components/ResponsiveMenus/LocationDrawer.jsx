@@ -16,12 +16,12 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export default function LocationDrawer({open,locations, placeholder, setOpen,handleData, showBtn}) {
      const toggleDrawer = (data) => () => {
-
+ 
      const text = `${data.name || data.city } (${data.code})`;
         handleData(text);
       setOpen(false);
       };
-
+      const dir = document.documentElement.dir;
   return (
       <Drawer
         anchor="bottom"
@@ -38,7 +38,7 @@ export default function LocationDrawer({open,locations, placeholder, setOpen,han
           {/* search bar */}
           <Box sx={{ height: "56px", px: 2, width: "100%", display: "flex", flexDirection: "row", alignItems: "center" }}>
             <svg onClick={()=>{setOpen(false)}} width="24" height="24" viewBox="0 0 24 24"><path d="M12 13.414l-7.293 7.293a1 1 0 01-1.414-1.414L10.586 12 3.293 4.707a1 1 0 011.414-1.414L12 10.586l7.293-7.293a1 1 0 111.414 1.414L13.414 12l7.293 7.293a1 1 0 01-1.414 1.414L12 13.414z"></path></svg>
-            <Input disableUnderline sx={{ height: "100%", width: "100%", ml: 2 }} placeholder={placeholder} />
+            <Input disableUnderline sx={{ height: "100%", width: "100%", ml: dir === "ltr" && 2,mr: dir === "rtl" && 2 }} placeholder={placeholder} />
           </Box>
           {/* location btn */}
           {showBtn ? (
@@ -55,8 +55,8 @@ export default function LocationDrawer({open,locations, placeholder, setOpen,han
               "&:hover":{background:"transparent"}
             }}
           >
-            <svg style={{ marginRight: "14px" }} width="24" height="24" viewBox="0 0 24 24"><path fill='#767676' d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"></path></svg>
-            Use current location
+            <svg  width="24" height="24" viewBox="0 0 24 24"><path fill='#767676' d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"></path></svg>
+            <Typography sx={{ marginLeft: dir === "ltr" && "14px", marginRight: dir === "rtl" && "14px" }}>Use current location</Typography>
           </Button>
           ) : <Divider  sx={{borderColor:"#f4f4f4"}} />}
           <List

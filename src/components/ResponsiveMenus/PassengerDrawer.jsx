@@ -91,7 +91,8 @@ const [clas,setClas]=useState("Economy")
    handleCount(passengerText,clas)
  }, [passengerText,clas])
  
-  
+  const dir = document.documentElement.dir;
+
   return (
     <>
       <Drawer
@@ -160,7 +161,8 @@ const [clas,setClas]=useState("Economy")
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "99px 149px",
                         backgroundPosition: option.position,
-                        marginRight: 1,
+                        marginRight: dir === "ltr" && 1,
+                        marginLeft: dir === "rtl" && 1,
                         p: 0,
                       }}
                     ></Box>

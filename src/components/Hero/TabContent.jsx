@@ -822,7 +822,8 @@ const handleClickAway = (event) => {
                   borderRadius: "16px",
                   transformOrigin: "right",
                   transition: "width 0.3s ease",
-                  right: {lg:"unset", md:"unset" ,sm: !multicity && 0},
+                  right: dir === "ltr" && {lg:"unset", md:"unset" ,sm: !multicity && 0},
+                  left: {sm: dir === "rtl" && "0px"}
                 }}
               >
                 <Box
@@ -1034,13 +1035,14 @@ const handleClickAway = (event) => {
       <Stack sx={{flexDirection:"row" , gap: "0 8px", width: { md: isHotels ? "65%" : "50%", sm: multicity ? "50%" : "100%", lg: "50%" }}}>
       <Box 
         position="relative"
-        sx={{ p: 0, minHeight: "64px",width: isHotels ? "65%": "100%" }}
-      >
+        sx={{ p: 0, minHeight: "64px", width:  isHotels ? "65%" : "100%" }}> 
+      
         <Paper
           elevation={0}
+          placement="bottom-left"
           sx={{
             width: !isHotels && calender 
-            ? {lg:"656px", md:"100%" , sm: multicity ? "498px" :"100%"  }
+            ? {lg:"656px", md:"656px" , sm: multicity ? "498px" :"100%"  }
             : isHotels && calender 
               ? "616px" 
               : calender 
@@ -1049,8 +1051,10 @@ const handleClickAway = (event) => {
           //width: calender ? {lg:"656px",md:"calc(100% + 62px)"} : "100%",
             position: calender ? "absolute" : "relative",
             zIndex: calender ? "3" : "1",
-            right: isHotels ? "0px" : "0px",
-            left: isHotels && {lg:"unset", md:"0px", sm:"0px"} ,
+            right: dir === "ltr" && !isHotels ? 0  : isHotels && dir === "rtl" ? {sm: "0px",md:"unset", lg:"unset"} : isHotels && dir === "ltr" ? {lg:"0", md:"0", sm:"unset"}: "unset" ,
+            // left: isHotels && {lg:"unset", md:"0px", sm:"0px"} ,
+            left:dir === "rtl"  ? 0 : "unset",
+            
             p: calender ? 2 : 0,
             paddingBottom: "0px",
             marginTop: calender ? -2 : 0,
@@ -1084,6 +1088,7 @@ const handleClickAway = (event) => {
                     height: "48px",
                     width: "70px",
                     textTransform: "none",
+                   
                     "&:hover": {
                       backgroundColor: "#f4f4f4",
                     },
@@ -1228,7 +1233,7 @@ const handleClickAway = (event) => {
                     border: returns ? "2px solid #44b50c" : "1px solid #9c9c9c",
                   },
                   borderLeft: returns ? "2px solid #44b50c" : dir === "ltr" ? "1px solid transparent": "1px solid #dfdfdf",
-                  borderRight: dir === "rtl" && "0px"
+                 
                 }}
               >
                 <TextField
@@ -1335,11 +1340,12 @@ const handleClickAway = (event) => {
           {calender && (
             <ClickAwayListener onClickAway={handleClickAway}>
               <Paper
+              
                 elevation={0}
                 open={calender}
                 anchorEl={anchorCalender}
-                placement="bottom-start"
-                sx={{ border: "none" }}
+                placement="bottom-end"
+                sx={{ border: "none", right:0 }}
               >
                 <Paper elevation={0}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1351,6 +1357,7 @@ const handleClickAway = (event) => {
           )}
         </Paper>
       </Box>
+
       {isHotels && (
         <Box position="relative" sx={{width:"35%"}}>
           <Box

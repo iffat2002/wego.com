@@ -49,6 +49,9 @@ const theme = createTheme({
 
 theme.components = {
   MuiButton: {
+    defaultProps: {
+      disableRipple: true, 
+    },
     styleOverrides: {
       root: {
        fontFamily: `"Inter", "Geeza Pro", sans-serif`,
