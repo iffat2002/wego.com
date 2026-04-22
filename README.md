@@ -32,7 +32,7 @@ This project focuses on UI/UX, layout structure, and internationalization rather
 ## ⚙️ Installation & Setup
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/iffat2002/wego.com
+cd wegp.com
 npm install
 npm run dev
